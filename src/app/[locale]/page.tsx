@@ -7,7 +7,7 @@ import { parseStep } from '@/features/donation/lib/step';
 import { createServerI18n } from '@/i18n/server';
 import { defaultLocale, isLocale } from '@/i18n/settings';
 import { DonationForm } from './DonationForm';
-import { Column, Photo } from './page.styles';
+import { Column, Page, Photo } from './page.styles';
 
 // Each step gets its own title and description. The step is in the query string, so
 // the server can read it and a shared link describes the step it points at.
@@ -30,26 +30,28 @@ export default async function DonationPage({ searchParams }: PageProps<'/[locale
   const { step } = await searchParams;
 
   return (
-    <Container>
-      <SplitLayout
-        media={
-          <Photo>
-            <Image
-              src="/images/hero.jpg"
-              alt=""
-              width={602}
-              height={984}
-              priority
-              sizes="(min-width: 1200px) 602px, 100vw"
-            />
-          </Photo>
-        }
-      >
-        <Column>
-          <DonationForm initialStep={parseStep(step)} />
-          <Footer />
-        </Column>
-      </SplitLayout>
-    </Container>
+    <Page>
+      <Container>
+        <SplitLayout
+          media={
+            <Photo>
+              <Image
+                src="/images/hero.jpg"
+                alt=""
+                width={602}
+                height={984}
+                priority
+                sizes="(min-width: 1200px) 602px, 100vw"
+              />
+            </Photo>
+          }
+        >
+          <Column>
+            <DonationForm initialStep={parseStep(step)} />
+            <Footer />
+          </Column>
+        </SplitLayout>
+      </Container>
+    </Page>
   );
 }

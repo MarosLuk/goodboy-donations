@@ -13,6 +13,7 @@ const StyledLink = styled(Link)`
   font-size: ${({ theme }) => theme.text.md.fontSize};
   line-height: ${({ theme }) => theme.text.md.lineHeight};
   font-weight: ${({ theme }) => theme.font.weight.medium};
+  text-decoration: none;
 
   &:hover {
     color: ${({ theme }) => theme.color.action.primary.hover};

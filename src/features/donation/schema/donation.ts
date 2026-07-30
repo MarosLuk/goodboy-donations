@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
-export const HELP_TYPES = ['foundation', 'shelter'] as const;
+// Order follows the design: one shelter on the left, the whole foundation on the right.
+export const HELP_TYPES = ['shelter', 'foundation'] as const;
 export const PHONE_PREFIXES = ['+421', '+420'] as const;
 export const AMOUNT_PRESETS = [5, 10, 20, 30, 50, 100] as const;
 

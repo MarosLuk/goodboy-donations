@@ -2,11 +2,20 @@
 
 import styled from 'styled-components';
 
+// The breathing room belongs to the page, not to one column: with it on the content
+// only, the photo ran into the top edge of the window.
+export const Page = styled.div`
+  padding: ${({ theme }) => `${theme.space[24]} 0`};
+
+  @media (min-width: ${({ theme }) => theme.breakpoint.tablet}) {
+    padding: ${({ theme }) => `${theme.space[48]} 0`};
+  }
+`;
+
 export const Column = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.space[48]};
-  padding: ${({ theme }) => `${theme.space[48]} 0`};
 `;
 
 // The photo is decorative, so it carries an empty alt and never becomes taller than

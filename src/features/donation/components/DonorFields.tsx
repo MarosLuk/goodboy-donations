@@ -34,12 +34,18 @@ const NameRow = styled.div`
   }
 `;
 
-// The prefix keeps its 80 from the design at every width; only the number grows.
+// The design notes 80 for the prefix, which fits a flag and a chevron but cuts the dial
+// code in half. Measured in the browser until "+421" reads in full beside the flag;
+// only the number grows from there.
 const PhoneRow = styled.div`
   display: grid;
-  gap: ${({ theme }) => theme.space[16]};
-  grid-template-columns: 80px minmax(0, 1fr);
-  align-items: end;
+  gap: ${({ theme }) => theme.space[12]};
+  grid-template-columns: 116px minmax(0, 1fr);
+`;
+
+const PrefixSelect = styled(Select)`
+  padding-left: ${({ theme }) => theme.space[12]};
+  padding-right: ${({ theme }) => theme.space[32]};
 `;
 
 export function DonorFields({ index }: { index: number }) {
@@ -72,24 +78,26 @@ export function DonorFields({ index }: { index: number }) {
         {(field) => <TextInput {...field} type="email" {...register(`donors.${index}.email`)} />}
       </Field>
 
-      <PhoneRow>
-        <Select
-          aria-label={t('donation.donor.phonePrefix')}
-          {...register(`donors.${index}.phonePrefix`)}
-        >
-          {PHONE_PREFIXES.map((prefix) => (
-            <option key={prefix} value={prefix}>
-              {PREFIX_FLAGS[prefix]} {prefix}
-            </option>
-          ))}
-        </Select>
+      {/* One field around both controls, so the label sits above the row rather than
+          indented to the number, and points at the input a donor types into. */}
+      <Field
+        label={t('donation.donor.phone')}
+        hint={t('common.optional')}
+        error={message(donorErrors?.phone?.message)}
+      >
+        {(field) => (
+          <PhoneRow>
+            <PrefixSelect
+              aria-label={t('donation.donor.phonePrefix')}
+              {...register(`donors.${index}.phonePrefix`)}
+            >
+              {PHONE_PREFIXES.map((prefix) => (
+                <option key={prefix} value={prefix}>
+                  {PREFIX_FLAGS[prefix]} {prefix}
+                </option>
+              ))}
+            </PrefixSelect>
 
-        <Field
-          label={t('donation.donor.phone')}
-          hint={t('common.optional')}
-          error={message(donorErrors?.phone?.message)}
-        >
-          {(field) => (
             <TextInput
               {...field}
               type="tel"
@@ -97,9 +105,9 @@ export function DonorFields({ index }: { index: number }) {
               autoComplete="tel-national"
               {...register(`donors.${index}.phone`)}
             />
-          )}
-        </Field>
-      </PhoneRow>
+          </PhoneRow>
+        )}
+      </Field>
     </Rows>
   );
 }
