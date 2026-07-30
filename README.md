@@ -23,3 +23,4 @@ The app runs at http://localhost:3000.
 | `npm run format`       | Prettier — write           |
 | `npm run format:check` | Prettier — check only      |
 | `npm run typecheck`    | `tsc --noEmit`             |
+| `npm test`             | Vitest                     |
