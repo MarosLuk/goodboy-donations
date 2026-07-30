@@ -82,7 +82,7 @@ describe('AmountPicker', () => {
   it('ties a validation message to the field', () => {
     const onChange = vi.fn();
     renderWithProviders(
-      <AmountPicker value={0} onChange={onChange} error="donation.errors.amountMin" />,
+      <AmountPicker value={0} onChange={onChange} error="Najmenšia suma je 1 €" />,
     );
 
     const input = screen.getByLabelText('Suma, ktorou chcem prispieť');

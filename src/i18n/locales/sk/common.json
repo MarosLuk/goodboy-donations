@@ -10,6 +10,11 @@
     "loading": "Načítavam…"
   },
   "donation": {
+    "about": "O projekte",
+    "actions": {
+      "continue": "Pokračovať",
+      "submit": "Darovať"
+    },
     "amount": {
       "label": "Suma, ktorou chcem prispieť",
       "presets": "Preddefinované sumy"
@@ -17,19 +22,19 @@
     "consent": {
       "label": "Súhlasím so spracovaním osobných údajov na účely spracovania môjho daru."
     },
-    "donors": {
-      "title": "Darca {{number}}",
-      "add": "Pridať ďalšieho darcu",
-      "remove": "Odstrániť",
-      "removeLabel": "Odstrániť darcu {{number}}",
-      "sharedAmount": "Suma sa počíta raz za celý príspevok, nie za každého darcu."
-    },
     "donor": {
       "firstName": "Meno",
       "lastName": "Priezvisko",
       "email": "E-mail",
       "phone": "Telefón",
       "phonePrefix": "Predvoľba"
+    },
+    "donors": {
+      "title": "Darca {{number}}",
+      "add": "Pridať ďalšieho darcu",
+      "remove": "Odstrániť",
+      "removeLabel": "Odstrániť darcu {{number}}",
+      "sharedAmount": "Suma sa počíta raz za celý príspevok, nie za každého darcu."
     },
     "errors": {
       "nameLength": "Zadajte 2 až 20 znakov",
@@ -42,6 +47,28 @@
       "amountMin": "Najmenšia suma je 1 €",
       "donorsRequired": "Pridajte aspoň jedného darcu",
       "consent": "Bez súhlasu dar nemôžeme spracovať"
+    },
+    "headline": {
+      "1": "Vyberte si možnosť, ako chcete pomôcť",
+      "2": "Komu za dar poďakovať",
+      "3": "Skontrolujte a potvrďte dar"
+    },
+    "helpType": {
+      "foundation": "Prispieť celej nadácii",
+      "shelter": "Prispieť konkrétnemu útulku"
+    },
+    "steps": {
+      "label": "Kroky formulára",
+      "1": "Výber útulku",
+      "2": "Osobné údaje",
+      "3": "Potvrdenie"
+    },
+    "summary": {
+      "helpType": "Forma pomoci",
+      "shelter": "Útulok",
+      "amount": "Suma",
+      "donor": "Darca {{number}}",
+      "wholeFoundation": "Celá nadácia"
     }
   },
   "results": {

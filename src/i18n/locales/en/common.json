@@ -10,6 +10,11 @@
     "loading": "Loading…"
   },
   "donation": {
+    "about": "About the project",
+    "actions": {
+      "continue": "Continue",
+      "submit": "Donate"
+    },
     "amount": {
       "label": "The amount I want to give",
       "presets": "Preset amounts"
@@ -17,19 +22,19 @@
     "consent": {
       "label": "I agree to my personal data being processed in order to handle my donation."
     },
-    "donors": {
-      "title": "Donor {{number}}",
-      "add": "Add another donor",
-      "remove": "Remove",
-      "removeLabel": "Remove donor {{number}}",
-      "sharedAmount": "The amount is counted once for the whole contribution, not per donor."
-    },
     "donor": {
       "firstName": "First name",
       "lastName": "Surname",
       "email": "Email",
       "phone": "Phone",
       "phonePrefix": "Country code"
+    },
+    "donors": {
+      "title": "Donor {{number}}",
+      "add": "Add another donor",
+      "remove": "Remove",
+      "removeLabel": "Remove donor {{number}}",
+      "sharedAmount": "The amount is counted once for the whole contribution, not per donor."
     },
     "errors": {
       "nameLength": "Use between 2 and 20 characters",
@@ -42,6 +47,28 @@
       "amountMin": "The smallest amount is 1 €",
       "donorsRequired": "Add at least one donor",
       "consent": "We cannot process the donation without your consent"
+    },
+    "headline": {
+      "1": "Choose how you would like to help",
+      "2": "Who should we thank for the gift",
+      "3": "Check and confirm your donation"
+    },
+    "helpType": {
+      "foundation": "Give to the whole foundation",
+      "shelter": "Give to one shelter"
+    },
+    "steps": {
+      "label": "Form steps",
+      "1": "Shelter",
+      "2": "Your details",
+      "3": "Confirmation"
+    },
+    "summary": {
+      "helpType": "Form of help",
+      "shelter": "Shelter",
+      "amount": "Amount",
+      "donor": "Donor {{number}}",
+      "wholeFoundation": "The whole foundation"
     }
   },
   "results": {

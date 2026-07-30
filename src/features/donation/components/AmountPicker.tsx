@@ -33,6 +33,7 @@ const Centered = styled.div`
 type AmountPickerProps = {
   value: number;
   onChange: (value: number) => void;
+  /** Already translated, like every other field: the step that owns the form translates. */
   error?: string;
 };
 
@@ -56,7 +57,7 @@ export function AmountPicker({ value, onChange, error }: AmountPickerProps) {
 
         {error ? (
           <FieldError id={errorId} role="alert">
-            {t(error)}
+            {error}
           </FieldError>
         ) : null}
       </Centered>
