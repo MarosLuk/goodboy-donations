@@ -5,7 +5,15 @@
     "description": "Podporte slovenské útulky pre psov darom pre nadáciu GoodBoy."
   },
   "common": {
-    "back": "Späť"
+    "back": "Späť",
+    "optional": "(Nepovinné)",
+    "loading": "Načítavam…"
+  },
+  "shelters": {
+    "label": "Útulok",
+    "placeholder": "Vyberte útulok zo zoznamu",
+    "noResults": "Žiadny útulok sa nenašiel",
+    "loadFailed": "Útulky sa nepodarilo načítať"
   },
   "footer": {
     "links": "Odkazy v pätičke",

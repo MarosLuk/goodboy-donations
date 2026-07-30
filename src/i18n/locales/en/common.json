@@ -5,7 +5,15 @@
     "description": "Support Slovak dog shelters with a donation to the GoodBoy Foundation."
   },
   "common": {
-    "back": "Back"
+    "back": "Back",
+    "optional": "(Optional)",
+    "loading": "Loading…"
+  },
+  "shelters": {
+    "label": "Shelter",
+    "placeholder": "Pick a shelter from the list",
+    "noResults": "No shelter found",
+    "loadFailed": "Could not load the shelters"
   },
   "footer": {
     "links": "Footer links",
