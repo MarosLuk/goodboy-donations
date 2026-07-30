@@ -2,6 +2,9 @@
   "name": "goodboy-donations",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -13,6 +16,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
+    "validate": "npm run typecheck && npm run lint && npm run test",
     "prepare": "husky"
   },
   "dependencies": {

@@ -24,9 +24,12 @@ The app runs at http://localhost:3000.
 | `npm run format:check` | Prettier — check only      |
 | `npm run typecheck`    | `tsc --noEmit`             |
 | `npm test`             | Vitest                     |
+| `npm run validate`     | Typecheck + lint + tests   |
 
 ## Quality gates
 
 `husky` runs `lint-staged` (ESLint + Prettier) before every commit and `commitlint`
 on every commit message — the history follows
 [Conventional Commits](https://www.conventionalcommits.org/).
+GitHub Actions runs typecheck, lint, format check, tests and a production build on
+every push and pull request.
