@@ -8,11 +8,6 @@ import { InstagramIcon } from '@/components/icons/InstagramIcon';
 import { defaultLocale } from '@/i18n/settings';
 import { Logo } from './Logo';
 
-const socials = [
-  { key: 'facebook', href: 'https://www.facebook.com/goodrequest', Icon: FacebookIcon },
-  { key: 'instagram', href: 'https://www.instagram.com/goodrequest', Icon: InstagramIcon },
-];
-
 const Wrapper = styled.footer`
   display: flex;
   flex-direction: column;
@@ -33,19 +28,11 @@ const Side = styled.div`
   gap: ${({ theme }) => theme.space[32]};
 `;
 
-const Socials = styled.ul`
+const Socials = styled.div`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.space[16]};
-`;
-
-const SocialLink = styled.a`
-  display: block;
   color: ${({ theme }) => theme.color.content.tertiary};
-
-  &:hover {
-    color: ${({ theme }) => theme.color.content.primary};
-  }
 `;
 
 const Nav = styled.nav`
@@ -73,24 +60,16 @@ export function Footer() {
       <Logo />
 
       <Side>
-        <Socials>
-          {socials.map(({ key, href, Icon }) => (
-            <li key={key}>
-              <SocialLink
-                href={href}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={t(`footer.${key}`)}
-              >
-                <Icon width={20} height={20} />
-              </SocialLink>
-            </li>
-          ))}
+        {/* The foundation's profiles have no addresses, so these stay pictures
+            instead of links to nowhere. aria-hidden keeps a screen reader from
+            announcing something that cannot be acted on. */}
+        <Socials aria-hidden="true">
+          <FacebookIcon width={20} height={20} />
+          <InstagramIcon width={20} height={20} />
         </Socials>
 
         <Nav aria-label={t('footer.links')}>
           <NavLink href={`/${locale}/contact`}>{t('footer.contact')}</NavLink>
-          <NavLink href={`/${locale}/about`}>{t('footer.about')}</NavLink>
         </Nav>
       </Side>
     </Wrapper>
