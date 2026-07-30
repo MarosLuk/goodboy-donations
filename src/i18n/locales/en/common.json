@@ -1,6 +1,17 @@
 {
   "app": {
+    "brand": "Good boy",
     "title": "GoodBoy Foundation",
     "description": "Support Slovak dog shelters with a donation to the GoodBoy Foundation."
+  },
+  "common": {
+    "back": "Back"
+  },
+  "footer": {
+    "links": "Footer links",
+    "contact": "Contact",
+    "about": "About the project",
+    "facebook": "Facebook",
+    "instagram": "Instagram"
   }
 }

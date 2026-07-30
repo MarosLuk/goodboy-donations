@@ -1,0 +1,24 @@
+import type { ComponentPropsWithoutRef } from 'react';
+
+// Path from the design export. The exported #9ca3af became currentColor so the two
+// social icons cannot end up different shades, which they were in the export.
+export function FacebookIcon(props: ComponentPropsWithoutRef<'svg'>) {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 23.8542"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+      {...props}
+    >
+      <path
+        d="M17.5938 4.71094L17.3857 4.67578L17.3848 4.6748C17.384 4.67467 17.3823 4.67504 17.3809 4.6748C17.3781 4.67434 17.3742 4.67368 17.3691 4.67285C17.3583 4.67106 17.3418 4.66832 17.3213 4.66504C17.2802 4.65848 17.2201 4.64882 17.1445 4.6377C16.9931 4.61542 16.7779 4.58625 16.5215 4.55664C16.0091 4.49748 15.3268 4.4375 14.6572 4.4375C13.2364 4.43757 12.034 4.86953 11.1865 5.71777C10.3389 6.56633 9.875 7.80293 9.875 9.35645V11.75H6.82812V15.7188H9.875V23.5547C4.4004 22.5544 0.25 17.7633 0.25 12C0.25 5.51065 5.51065 0.25 12 0.25C18.4894 0.25 23.75 5.51065 23.75 12C23.75 17.7633 19.5996 22.5544 14.125 23.5547V15.7188H16.8857L16.918 15.5068L17.4502 12.0381L17.4941 11.75H14.125V9.75C14.125 9.31134 14.2332 8.9095 14.4834 8.62012C14.7277 8.33754 15.1401 8.125 15.8311 8.125H17.5938V4.71094Z"
+        fill="currentColor"
+        stroke="currentColor"
+        strokeWidth="0.5"
+      />
+    </svg>
+  );
+}

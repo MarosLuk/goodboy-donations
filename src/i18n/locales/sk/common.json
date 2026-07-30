@@ -1,6 +1,17 @@
 {
   "app": {
+    "brand": "Good boy",
     "title": "Nadácia GoodBoy",
     "description": "Podporte slovenské útulky pre psov darom pre nadáciu GoodBoy."
+  },
+  "common": {
+    "back": "Späť"
+  },
+  "footer": {
+    "links": "Odkazy v pätičke",
+    "contact": "Kontakt",
+    "about": "O projekte",
+    "facebook": "Facebook",
+    "instagram": "Instagram"
   }
 }
