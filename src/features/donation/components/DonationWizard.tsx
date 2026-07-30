@@ -2,6 +2,8 @@
 
 import type { ReactNode } from 'react';
 import styled from 'styled-components';
+import { useStepInUrl } from '../hooks/useStepInUrl';
+import type { Step } from '../lib/step';
 import { useWizard } from '../store/wizard';
 import type { ShelterFieldProps } from './StepOne';
 import { StepOne } from './StepOne';
@@ -17,10 +19,14 @@ const Wrapper = styled.div`
 
 export function DonationWizard({
   renderShelterField,
+  initialStep = 1,
 }: {
   renderShelterField: (props: ShelterFieldProps) => ReactNode;
+  initialStep?: Step;
 }) {
   const step = useWizard((state) => state.step);
+
+  useStepInUrl(initialStep);
 
   return (
     <Wrapper>

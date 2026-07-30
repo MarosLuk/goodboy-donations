@@ -2,8 +2,8 @@
 
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import type { Step } from '../store/wizard';
-import { STEPS } from '../store/wizard';
+import type { Step } from '../lib/step';
+import { STEPS } from '../lib/step';
 
 const List = styled.ol`
   display: flex;

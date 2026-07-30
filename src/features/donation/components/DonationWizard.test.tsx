@@ -34,6 +34,7 @@ function fillDonor() {
 describe('DonationWizard', () => {
   beforeEach(() => {
     useWizard.getState().reset();
+    window.history.replaceState(null, '', '/sk');
   });
 
   it('opens on the first step', () => {
@@ -97,6 +98,30 @@ describe('DonationWizard', () => {
     expect(screen.getByText('Celá nadácia')).toBeInTheDocument();
     expect(screen.getByText('Maroš Lukáč')).toBeInTheDocument();
     expect(screen.getByText('maros@example.com')).toBeInTheDocument();
+  });
+
+  it('writes the step into the address bar and leaves the first one out', async () => {
+    renderWizard();
+
+    expect(window.location.search).toBe('');
+
+    fireEvent.change(amountInput(), { target: { value: '20' } });
+    fireEvent.click(continueButton());
+
+    await waitFor(() => expect(window.location.search).toBe('?step=2'));
+
+    fireEvent.click(screen.getByRole('button', { name: /Späť/ }));
+
+    await waitFor(() => expect(window.location.search).toBe(''));
+  });
+
+  it('lands a link to a later step on the first one', async () => {
+    renderWithProviders(<DonationWizard initialStep={3} renderShelterField={() => null} />);
+
+    await waitFor(() => expect(useWizard.getState().step).toBe(1));
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+      'Vyberte si možnosť, ako chcete pomôcť',
+    );
   });
 
   it('brings the typed values back when stepping backwards', async () => {

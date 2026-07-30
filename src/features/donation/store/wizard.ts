@@ -1,12 +1,10 @@
 'use client';
 
 import { create } from 'zustand';
+import type { Step } from '../lib/step';
+import { STEPS } from '../lib/step';
 import type { Donor, HelpType } from '../schema/donation';
 import { emptyDonor } from '../schema/donation';
-
-export const STEPS = [1, 2, 3] as const;
-
-export type Step = (typeof STEPS)[number];
 
 export type DonationDraft = {
   helpType: HelpType;

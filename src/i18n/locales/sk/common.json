@@ -57,6 +57,20 @@
       "foundation": "Prispieť celej nadácii",
       "shelter": "Prispieť konkrétnemu útulku"
     },
+    "meta": {
+      "1": {
+        "title": "Vyberte sumu daru — Nadácia GoodBoy",
+        "description": "Prispejte celej nadácii alebo konkrétnemu útulku a vyberte sumu daru."
+      },
+      "2": {
+        "title": "Údaje darcu — Nadácia GoodBoy",
+        "description": "Zadajte údaje darcu. Prispieť môže aj viac ľudí jedným darom."
+      },
+      "3": {
+        "title": "Potvrdenie daru — Nadácia GoodBoy",
+        "description": "Skontrolujte údaje a potvrďte dar pre slovenské útulky pre psov."
+      }
+    },
     "steps": {
       "label": "Kroky formulára",
       "1": "Výber útulku",

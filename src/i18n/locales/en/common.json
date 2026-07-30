@@ -57,6 +57,20 @@
       "foundation": "Give to the whole foundation",
       "shelter": "Give to one shelter"
     },
+    "meta": {
+      "1": {
+        "title": "Choose your donation — GoodBoy Foundation",
+        "description": "Give to the whole foundation or to one shelter, and choose the amount."
+      },
+      "2": {
+        "title": "Donor details — GoodBoy Foundation",
+        "description": "Fill in the donor details. Several people can give as one contribution."
+      },
+      "3": {
+        "title": "Confirm your donation — GoodBoy Foundation",
+        "description": "Check the details and confirm your donation to Slovak dog shelters."
+      }
+    },
     "steps": {
       "label": "Form steps",
       "1": "Shelter",
