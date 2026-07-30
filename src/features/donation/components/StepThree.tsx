@@ -26,7 +26,7 @@ const Headline = styled.h1`
   font-weight: ${({ theme }) => theme.font.weight.bold};
 `;
 
-export function StepThree() {
+export function StepThree({ onDonated }: { onDonated?: () => void }) {
   const { t } = useTranslation();
   const draft = useWizard((state) => state.draft);
   const goBack = useWizard((state) => state.goBack);
@@ -47,6 +47,7 @@ export function StepThree() {
     try {
       await contribute.mutateAsync(toContributePayload(draft));
       markSent();
+      onDonated?.();
     } catch (error) {
       if (!(error instanceof ApiError)) {
         setFailure('donation.submit.failed');

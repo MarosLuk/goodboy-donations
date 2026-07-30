@@ -1,6 +1,6 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { contributeUrl } from '@/test/msw/handlers';
 import { server } from '@/test/msw/server';
 import { renderWithProviders } from '@/test/render';
@@ -275,5 +275,31 @@ describe('DonationWizard', () => {
       'Server teraz neodpovedá správne. Skúste to prosím za chvíľu.',
     );
     expect(useWizard.getState().sent).toBe(false);
+  });
+
+  it('tells the caller once the gift is recorded', async () => {
+    const onDonated = vi.fn();
+
+    renderWithProviders(<DonationWizard renderShelterField={() => null} onDonated={onDonated} />);
+
+    await walkToLastStep();
+    fireEvent.click(screen.getByRole('checkbox'));
+    fireEvent.click(donateButton());
+
+    await waitFor(() => expect(onDonated).toHaveBeenCalledTimes(1));
+  });
+
+  it('says nothing to the caller when sending fails', async () => {
+    const onDonated = vi.fn();
+    server.use(http.post(contributeUrl, () => new HttpResponse(null, { status: 500 })));
+
+    renderWithProviders(<DonationWizard renderShelterField={() => null} onDonated={onDonated} />);
+
+    await walkToLastStep();
+    fireEvent.click(screen.getByRole('checkbox'));
+    fireEvent.click(donateButton());
+
+    await waitFor(() => expect(screen.getByRole('alert')).toBeInTheDocument());
+    expect(onDonated).not.toHaveBeenCalled();
   });
 });

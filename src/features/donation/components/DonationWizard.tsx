@@ -21,9 +21,12 @@ const Wrapper = styled.div`
 export function DonationWizard({
   renderShelterField,
   initialStep = 1,
+  onDonated,
 }: {
   renderShelterField: (props: ShelterFieldProps) => ReactNode;
   initialStep?: Step;
+  /** Called once the gift is recorded, so the app layer can refresh what it shows. */
+  onDonated?: () => void;
 }) {
   const { t } = useTranslation();
   const step = useWizard((state) => state.step);
@@ -42,7 +45,7 @@ export function DonationWizard({
 
       {step === 1 ? <StepOne renderShelterField={renderShelterField} /> : null}
       {step === 2 ? <StepTwo /> : null}
-      {step === 3 ? <StepThree /> : null}
+      {step === 3 ? <StepThree onDonated={onDonated} /> : null}
     </Wrapper>
   );
 }
