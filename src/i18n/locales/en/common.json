@@ -14,6 +14,13 @@
       "label": "The amount I want to give",
       "presets": "Preset amounts"
     },
+    "donor": {
+      "firstName": "First name",
+      "lastName": "Surname",
+      "email": "Email",
+      "phone": "Phone",
+      "phonePrefix": "Country code"
+    },
     "errors": {
       "nameLength": "Use between 2 and 20 characters",
       "email": "Enter a valid email address",

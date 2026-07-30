@@ -14,6 +14,13 @@
       "label": "Suma, ktorou chcem prispieť",
       "presets": "Preddefinované sumy"
     },
+    "donor": {
+      "firstName": "Meno",
+      "lastName": "Priezvisko",
+      "email": "E-mail",
+      "phone": "Telefón",
+      "phonePrefix": "Predvoľba"
+    },
     "errors": {
       "nameLength": "Zadajte 2 až 20 znakov",
       "email": "Zadajte platný e-mail",

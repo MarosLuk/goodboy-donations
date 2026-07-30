@@ -84,4 +84,14 @@ export const donationSchema = z
   .refine(shelterMatchesHelpType, shelterIssue);
 
 export type Donor = z.infer<typeof donorSchema>;
+export type StepOneValues = z.infer<typeof stepOneSchema>;
+export type StepTwoValues = z.infer<typeof stepTwoSchema>;
 export type DonationForm = z.infer<typeof donationSchema>;
+
+export const emptyDonor: Donor = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  phonePrefix: PHONE_PREFIXES[0],
+  phone: '',
+};
