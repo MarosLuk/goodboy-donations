@@ -58,8 +58,10 @@ const stepTwoShape = {
 };
 
 const stepThreeShape = {
-  // Consent lives on the last step, where the design puts the checkbox.
-  consent: z.literal(true, { error: 'donation.errors.consent' }),
+  // Consent lives on the last step, where the design puts the checkbox. Typed as a
+  // boolean that has to be true rather than as the literal true, so the form can
+  // start out unticked without fighting the type.
+  consent: z.boolean().refine((value) => value, { error: 'donation.errors.consent' }),
 };
 
 // Choosing to support one shelter and then naming none would quietly send the money
@@ -86,6 +88,7 @@ export const donationSchema = z
 export type Donor = z.infer<typeof donorSchema>;
 export type StepOneValues = z.infer<typeof stepOneSchema>;
 export type StepTwoValues = z.infer<typeof stepTwoSchema>;
+export type StepThreeValues = z.infer<typeof stepThreeSchema>;
 export type DonationForm = z.infer<typeof donationSchema>;
 
 export const emptyDonor: Donor = {

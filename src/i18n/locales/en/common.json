@@ -14,6 +14,9 @@
       "label": "The amount I want to give",
       "presets": "Preset amounts"
     },
+    "consent": {
+      "label": "I agree to my personal data being processed in order to handle my donation."
+    },
     "donors": {
       "title": "Donor {{number}}",
       "add": "Add another donor",
