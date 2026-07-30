@@ -1,5 +1,13 @@
 import type { Metadata } from 'next';
-import './globals.css';
+import { Inter } from 'next/font/google';
+import { StyleProvider } from '@/styles/StyleProvider';
+
+const inter = Inter({
+  // latin-ext carries the Slovak diacritics.
+  subsets: ['latin', 'latin-ext'],
+  variable: '--font-inter',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'GoodBoy Foundation',
@@ -12,8 +20,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="sk">
-      <body>{children}</body>
+    <html lang="sk" className={inter.variable}>
+      <body>
+        <StyleProvider>{children}</StyleProvider>
+      </body>
     </html>
   );
 }

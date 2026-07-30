@@ -66,7 +66,7 @@ export const theme = {
   },
   borderWidth: { xs: '1px', sm: '1.5px', md: '2px', lg: '4px' },
   font: {
-    family: "'Inter', system-ui, sans-serif",
+    family: 'var(--font-inter), system-ui, sans-serif',
     weight: { regular: 400, medium: 500, semibold: 600, bold: 700 },
   },
   text: {
