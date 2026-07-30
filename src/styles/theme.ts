@@ -65,6 +65,12 @@ export const theme = {
     circle: '999px',
   },
   borderWidth: { xs: '1px', sm: '1.5px', md: '2px', lg: '4px' },
+  // Named after what changes, not after a t-shirt size: below tablet the page is a
+  // single column, and the two-column split only fits once 658 + 80 + 602 does.
+  breakpoint: {
+    tablet: '768px',
+    desktop: '1200px',
+  },
   font: {
     family: 'var(--font-inter), system-ui, sans-serif',
     weight: { regular: 400, medium: 500, semibold: 600, bold: 700 },
