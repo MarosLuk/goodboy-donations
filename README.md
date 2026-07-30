@@ -6,11 +6,21 @@ Built with Next.js (App Router) and TypeScript.
 ## Getting started
 
 ```bash
+cp .env.example .env.local
 npm install
 npm run dev
 ```
 
 The app runs at http://localhost:3000.
+
+## Environment variables
+
+Copy `.env.example` to `.env.local` — every variable is documented there. They are
+parsed once on startup and the app refuses to boot on a missing or malformed value.
+
+| Variable                   | Purpose                        |
+| -------------------------- | ------------------------------ |
+| `NEXT_PUBLIC_API_BASE_URL` | Base URL of the assignment API |
 
 ## Scripts
 
