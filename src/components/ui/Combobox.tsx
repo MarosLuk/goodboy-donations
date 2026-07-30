@@ -187,9 +187,16 @@ export function Combobox({
           aria-autocomplete="list"
           autoComplete="off"
           aria-activedescendant={open && activeIndex >= 0 ? optionId(activeIndex) : undefined}
-          value={open ? search : (value?.label ?? '')}
+          // What is typed wins; with nothing typed the chosen label stays put, so
+          // reopening the list does not blank out the choice already made.
+          value={search === '' ? (value?.label ?? '') : search}
           placeholder={placeholder}
-          onClick={() => setOpen(true)}
+          onClick={(event) => {
+            setOpen(true);
+            // Selecting the text means the first keystroke replaces the label
+            // instead of typing onto the end of it.
+            event.currentTarget.select();
+          }}
           onKeyDown={handleKeyDown}
           onChange={(event) => {
             onSearchChange(event.target.value);
