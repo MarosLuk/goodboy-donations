@@ -9,7 +9,15 @@ export const shelterFixtures = [
 
 export const sheltersUrl = `${env.NEXT_PUBLIC_API_BASE_URL}/api/v1/shelters/`;
 
+export const resultsUrl = `${env.NEXT_PUBLIC_API_BASE_URL}/api/v1/shelters/results`;
+
+// What the shared assignment database actually holds, so the fixtures are not
+// prettier than reality.
+export const resultsFixture = { contributors: 6, contribution: 5 };
+
 export const handlers = [
+  http.get(resultsUrl, () => HttpResponse.json(resultsFixture)),
+
   // Filtering happens on the real server, so the mock filters too — otherwise a
   // test could pass with a search term the component never actually sends.
   http.get(sheltersUrl, ({ request }) => {

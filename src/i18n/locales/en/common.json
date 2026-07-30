@@ -9,6 +9,11 @@
     "optional": "(Optional)",
     "loading": "Loading…"
   },
+  "results": {
+    "contribution": "Amount raised",
+    "contributors": "Donors",
+    "loadFailed": "Could not load the numbers"
+  },
   "shelters": {
     "label": "Shelter",
     "placeholder": "Pick a shelter from the list",

@@ -9,6 +9,11 @@
     "optional": "(Nepovinné)",
     "loading": "Načítavam…"
   },
+  "results": {
+    "contribution": "Vyzbieraná suma",
+    "contributors": "Počet darcov",
+    "loadFailed": "Údaje sa nepodarilo načítať"
+  },
   "shelters": {
     "label": "Útulok",
     "placeholder": "Vyberte útulok zo zoznamu",
