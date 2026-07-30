@@ -10,6 +10,10 @@
     "loading": "Loading…"
   },
   "donation": {
+    "amount": {
+      "label": "The amount I want to give",
+      "presets": "Preset amounts"
+    },
     "errors": {
       "nameLength": "Use between 2 and 20 characters",
       "email": "Enter a valid email address",

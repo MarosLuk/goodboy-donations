@@ -10,6 +10,10 @@
     "loading": "Načítavam…"
   },
   "donation": {
+    "amount": {
+      "label": "Suma, ktorou chcem prispieť",
+      "presets": "Preddefinované sumy"
+    },
     "errors": {
       "nameLength": "Zadajte 2 až 20 znakov",
       "email": "Zadajte platný e-mail",

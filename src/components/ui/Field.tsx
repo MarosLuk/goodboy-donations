@@ -3,6 +3,7 @@
 import type { ReactNode } from 'react';
 import { useId } from 'react';
 import styled from 'styled-components';
+import { FieldError } from './FieldError';
 
 type FieldControlProps = {
   id: string;
@@ -37,12 +38,6 @@ const Hint = styled.span`
   color: ${({ theme }) => theme.color.content.quaternary};
 `;
 
-const ErrorText = styled.p`
-  font-size: ${({ theme }) => theme.text.sm.fontSize};
-  line-height: ${({ theme }) => theme.text.sm.lineHeight};
-  color: ${({ theme }) => theme.color.state.error.fg};
-`;
-
 // The control comes in as a render prop so the label, the error and the input are
 // wired to the same generated id here, instead of every caller repeating it and
 // eventually getting it wrong.
@@ -64,9 +59,9 @@ export function Field({ label, hint, error, children }: FieldProps) {
       })}
 
       {error ? (
-        <ErrorText id={errorId} role="alert">
+        <FieldError id={errorId} role="alert">
           {error}
-        </ErrorText>
+        </FieldError>
       ) : null}
     </Wrapper>
   );
