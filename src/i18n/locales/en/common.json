@@ -9,6 +9,20 @@
     "optional": "(Optional)",
     "loading": "Loading…"
   },
+  "donation": {
+    "errors": {
+      "nameLength": "Use between 2 and 20 characters",
+      "email": "Enter a valid email address",
+      "phone": "Enter 9 digits without the prefix",
+      "phonePrefix": "Pick a country code",
+      "helpType": "Choose how you want to help",
+      "shelterRequired": "Pick the shelter you want to support",
+      "amountInvalid": "Enter the amount as a number",
+      "amountMin": "The smallest amount is 1 €",
+      "donorsRequired": "Add at least one donor",
+      "consent": "We cannot process the donation without your consent"
+    }
+  },
   "results": {
     "contribution": "Amount raised",
     "contributors": "Donors",
