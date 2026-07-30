@@ -46,6 +46,9 @@ const Box = styled.span`
 
   svg {
     opacity: 0;
+    /* The icon sits over the input, and an invisible icon still swallows clicks:
+       without this, clicking the middle of the box does nothing. */
+    pointer-events: none;
   }
 
   /* State comes from the input rather than from a prop, so the paint cannot fall out
