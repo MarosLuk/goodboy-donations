@@ -1,5 +1,8 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { http, HttpResponse } from 'msw';
 import { beforeEach, describe, expect, it } from 'vitest';
+import { contributeUrl } from '@/test/msw/handlers';
+import { server } from '@/test/msw/server';
 import { renderWithProviders } from '@/test/render';
 import { useWizard } from '../store/wizard';
 import { DonationWizard } from './DonationWizard';
@@ -30,6 +33,20 @@ function fillDonor() {
   fireEvent.change(screen.getByLabelText('Priezvisko'), { target: { value: 'Lukáč' } });
   fireEvent.change(screen.getByLabelText('E-mail'), { target: { value: 'maros@example.com' } });
 }
+
+async function walkToLastStep() {
+  fireEvent.change(amountInput(), { target: { value: '20' } });
+  fireEvent.click(continueButton());
+
+  await waitFor(() => expect(useWizard.getState().step).toBe(2));
+  fillDonor();
+  fireEvent.change(screen.getByLabelText(/Telefón/), { target: { value: '900000000' } });
+  fireEvent.click(continueButton());
+
+  await waitFor(() => expect(useWizard.getState().step).toBe(3));
+}
+
+const donateButton = () => screen.getByRole('button', { name: 'Darovať' });
 
 describe('DonationWizard', () => {
   beforeEach(() => {
@@ -135,5 +152,128 @@ describe('DonationWizard', () => {
 
     await waitFor(() => expect(useWizard.getState().step).toBe(1));
     expect(amountInput()).toHaveValue('35');
+  });
+
+  it('sends what was filled in and confirms it', async () => {
+    const bodies: unknown[] = [];
+
+    server.use(
+      http.post(contributeUrl, async ({ request }) => {
+        bodies.push(await request.json());
+
+        return HttpResponse.json({ messages: [{ type: 'SUCCESS', message: 'ok' }] });
+      }),
+    );
+
+    renderWizard();
+    await walkToLastStep();
+
+    fireEvent.click(screen.getByRole('checkbox'));
+    fireEvent.click(donateButton());
+
+    expect(await screen.findByRole('status')).toHaveTextContent('Dar bol zaznamenaný.');
+    expect(bodies).toEqual([
+      {
+        contributors: [
+          {
+            firstName: 'Maroš',
+            lastName: 'Lukáč',
+            email: 'maros@example.com',
+            phone: '+421900000000',
+          },
+        ],
+        shelterID: null,
+        value: 20,
+      },
+    ]);
+  });
+
+  it('will not send anything without the consent', async () => {
+    const posts: unknown[] = [];
+
+    server.use(
+      http.post(contributeUrl, () => {
+        posts.push(1);
+
+        return HttpResponse.json({ messages: [] });
+      }),
+    );
+
+    renderWizard();
+    await walkToLastStep();
+    fireEvent.click(donateButton());
+
+    await waitFor(() =>
+      expect(screen.getByRole('alert')).toHaveTextContent('Bez súhlasu dar nemôžeme spracovať'),
+    );
+    expect(posts).toEqual([]);
+  });
+
+  it('carries a rejected donor field back to the step that shows it', async () => {
+    server.use(
+      http.post(contributeUrl, () =>
+        HttpResponse.json(
+          {
+            messages: [
+              {
+                type: 'ERROR',
+                message: 'joi.body.contributors.0.email',
+                path: 'body.contributors.0.email',
+              },
+            ],
+          },
+          { status: 400 },
+        ),
+      ),
+    );
+
+    renderWizard();
+    await walkToLastStep();
+
+    fireEvent.click(screen.getByRole('checkbox'));
+    fireEvent.click(donateButton());
+
+    await waitFor(() => expect(useWizard.getState().step).toBe(2));
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      'Server toto pole neprijal. Skontrolujte ho prosím.',
+    );
+    expect(screen.getByLabelText('E-mail')).toHaveAttribute('aria-invalid', 'true');
+  });
+
+  it('says a shelter went missing in our words, not the server ones', async () => {
+    server.use(
+      http.post(contributeUrl, () =>
+        HttpResponse.json(
+          { messages: [{ type: 'ERROR', message: 'Útulok sa nenašiel' }] },
+          { status: 404 },
+        ),
+      ),
+    );
+
+    renderWizard();
+    await walkToLastStep();
+
+    fireEvent.click(screen.getByRole('checkbox'));
+    fireEvent.click(donateButton());
+
+    const alert = await screen.findByRole('alert');
+    expect(alert).toHaveTextContent('Vybraný útulok sa už nenašiel. Vyberte prosím iný.');
+    expect(alert).not.toHaveTextContent('Útulok sa nenašiel');
+    expect(useWizard.getState().step).toBe(3);
+  });
+
+  it('keeps the donation on the last step when the server breaks', async () => {
+    server.use(http.post(contributeUrl, () => new HttpResponse(null, { status: 500 })));
+
+    renderWizard();
+    await walkToLastStep();
+
+    fireEvent.click(screen.getByRole('checkbox'));
+    fireEvent.click(donateButton());
+
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      'Server teraz neodpovedá správne. Skúste to prosím za chvíľu.',
+    );
+    expect(useWizard.getState().sent).toBe(false);
   });
 });

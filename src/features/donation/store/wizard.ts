@@ -1,6 +1,7 @@
 'use client';
 
 import { create } from 'zustand';
+import { stepForField } from '../lib/api-errors';
 import type { Step } from '../lib/step';
 import { STEPS } from '../lib/step';
 import type { Donor, HelpType } from '../schema/donation';
@@ -27,9 +28,16 @@ type WizardStore = {
   /** The furthest step reached so far, which is as far as a link may jump. */
   furthest: Step;
   draft: DonationDraft;
+  sent: boolean;
+  /** Server complaints keyed by form field, waiting for the step that owns them. */
+  serverErrors: Record<string, string>;
   goTo: (step: Step) => void;
   advance: (values: Partial<DonationDraft>) => void;
   goBack: () => void;
+  markSent: () => void;
+  /** Takes the donor back to the step holding the first rejected field. */
+  setServerErrors: (errors: Record<string, string>) => void;
+  clearServerErrors: () => void;
   reset: () => void;
 };
 
@@ -43,6 +51,8 @@ export const useWizard = create<WizardStore>((set) => ({
   step: 1,
   furthest: 1,
   draft: initialDraft,
+  sent: false,
+  serverErrors: {},
 
   // Anyone can put ?step=3 in the address bar; without the clamp that would skip the
   // validation of the steps in between.
@@ -63,5 +73,21 @@ export const useWizard = create<WizardStore>((set) => ({
 
   goBack: () => set((state) => ({ step: clamp(state.step - 1, state.furthest) })),
 
-  reset: () => set({ step: 1, furthest: 1, draft: initialDraft }),
+  markSent: () => set({ sent: true }),
+
+  // The rejected field may live on an earlier step, and a message on a field nobody can
+  // see is no message at all.
+  setServerErrors: (errors) =>
+    set((state) => {
+      const first = Object.keys(errors)[0];
+
+      return {
+        serverErrors: errors,
+        step: first ? clamp(stepForField(first), state.furthest) : state.step,
+      };
+    }),
+
+  clearServerErrors: () => set({ serverErrors: {} }),
+
+  reset: () => set({ step: 1, furthest: 1, draft: initialDraft, sent: false, serverErrors: {} }),
 }));

@@ -10,6 +10,7 @@ import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
 import { Button } from '@/components/ui/Button';
 import type { StepOneValues } from '../schema/donation';
 import { stepOneSchema } from '../schema/donation';
+import { useServerFieldErrors } from '../hooks/useServerFieldErrors';
 import { useWizard } from '../store/wizard';
 import { AmountPicker } from './AmountPicker';
 import { HelpTypeToggle } from './HelpTypeToggle';
@@ -59,6 +60,8 @@ export function StepOne({
       amount: draft.amount,
     },
   });
+
+  useServerFieldErrors(form, 1);
 
   const { errors } = form.formState;
   // useWatch rather than form.watch: watch mutates outside React's model, which the

@@ -46,7 +46,8 @@
       "amountInvalid": "Enter the amount as a number",
       "amountMin": "The smallest amount is 1 €",
       "donorsRequired": "Add at least one donor",
-      "consent": "We cannot process the donation without your consent"
+      "consent": "We cannot process the donation without your consent",
+      "rejectedByServer": "The server rejected this field. Please check it."
     },
     "headline": {
       "1": "Choose how you would like to help",
@@ -76,6 +77,13 @@
       "1": "Shelter",
       "2": "Your details",
       "3": "Confirmation"
+    },
+    "submit": {
+      "pending": "Sending…",
+      "done": "Your donation has been recorded.",
+      "failed": "The donation could not be sent. Please try again.",
+      "shelterMissing": "That shelter could not be found any more. Please pick another one.",
+      "serverError": "The server is not answering properly. Please try again in a moment."
     },
     "summary": {
       "helpType": "Form of help",

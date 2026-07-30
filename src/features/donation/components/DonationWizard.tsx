@@ -1,6 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { useStepInUrl } from '../hooks/useStepInUrl';
 import type { Step } from '../lib/step';
@@ -24,9 +25,16 @@ export function DonationWizard({
   renderShelterField: (props: ShelterFieldProps) => ReactNode;
   initialStep?: Step;
 }) {
+  const { t } = useTranslation();
   const step = useWizard((state) => state.step);
+  const sent = useWizard((state) => state.sent);
 
   useStepInUrl(initialStep);
+
+  // Plain wording for now; the designed confirmation arrives with the next commit.
+  if (sent) {
+    return <p role="status">{t('donation.submit.done')}</p>;
+  }
 
   return (
     <Wrapper>

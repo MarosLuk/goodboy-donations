@@ -46,7 +46,8 @@
       "amountInvalid": "Zadajte sumu ako číslo",
       "amountMin": "Najmenšia suma je 1 €",
       "donorsRequired": "Pridajte aspoň jedného darcu",
-      "consent": "Bez súhlasu dar nemôžeme spracovať"
+      "consent": "Bez súhlasu dar nemôžeme spracovať",
+      "rejectedByServer": "Server toto pole neprijal. Skontrolujte ho prosím."
     },
     "headline": {
       "1": "Vyberte si možnosť, ako chcete pomôcť",
@@ -76,6 +77,13 @@
       "1": "Výber útulku",
       "2": "Osobné údaje",
       "3": "Potvrdenie"
+    },
+    "submit": {
+      "pending": "Odosielam…",
+      "done": "Dar bol zaznamenaný.",
+      "failed": "Dar sa nepodarilo odoslať. Skúste to prosím znova.",
+      "shelterMissing": "Vybraný útulok sa už nenašiel. Vyberte prosím iný.",
+      "serverError": "Server teraz neodpovedá správne. Skúste to prosím za chvíľu."
     },
     "summary": {
       "helpType": "Forma pomoci",

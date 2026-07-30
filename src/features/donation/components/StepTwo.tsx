@@ -9,6 +9,7 @@ import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
 import { Button } from '@/components/ui/Button';
 import type { StepTwoValues } from '../schema/donation';
 import { stepTwoSchema } from '../schema/donation';
+import { useServerFieldErrors } from '../hooks/useServerFieldErrors';
 import { useWizard } from '../store/wizard';
 import { DonorList } from './DonorList';
 import { StepActions, StepLayout } from './StepActions';
@@ -30,6 +31,8 @@ export function StepTwo() {
     resolver: zodResolver(stepTwoSchema),
     defaultValues: { donors: draft.donors },
   });
+
+  useServerFieldErrors(form, 2);
 
   return (
     <FormProvider {...form}>
