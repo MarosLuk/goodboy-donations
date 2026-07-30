@@ -1,0 +1,24 @@
+import { http, HttpResponse } from 'msw';
+import { env } from '@/lib/env';
+
+export const shelterFixtures = [
+  { id: 1, name: 'Žilinský útulok o.z.' },
+  { id: 2, name: 'Trenčiansky Útulok' },
+  { id: 3, name: 'HAFKÁČI' },
+];
+
+export const sheltersUrl = `${env.NEXT_PUBLIC_API_BASE_URL}/api/v1/shelters/`;
+
+export const handlers = [
+  // Filtering happens on the real server, so the mock filters too — otherwise a
+  // test could pass with a search term the component never actually sends.
+  http.get(sheltersUrl, ({ request }) => {
+    const search = new URL(request.url).searchParams.get('search') ?? '';
+
+    return HttpResponse.json({
+      shelters: shelterFixtures.filter((shelter) =>
+        shelter.name.toLowerCase().includes(search.toLowerCase()),
+      ),
+    });
+  }),
+];
