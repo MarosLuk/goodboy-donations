@@ -60,6 +60,10 @@ export function ShelterPicker({ value, onChange, error, optional = true }: Shelt
           onSearchChange={setSearch}
           placeholder={t('shelters.placeholder')}
           emptyLabel={emptyLabel}
+          // Offered whether or not a shelter is required: empty is where a required field
+          // starts, so going back there is a state the form already knows how to talk about.
+          // Deleting the text did this all along, but nothing said so.
+          clearLabel={t('shelters.none')}
         />
       )}
     </Field>

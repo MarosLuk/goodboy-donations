@@ -136,7 +136,8 @@
     "label": "Útulok",
     "placeholder": "Vyberte útulok zo zoznamu",
     "noResults": "Žiadny útulok sa nenašiel",
-    "loadFailed": "Útulky sa nepodarilo načítať"
+    "loadFailed": "Útulky sa nepodarilo načítať",
+    "none": "Bez konkrétneho útulku"
   },
   "about": {
     "title": "O projekte",

@@ -136,7 +136,8 @@
     "label": "Shelter",
     "placeholder": "Pick a shelter from the list",
     "noResults": "No shelter found",
-    "loadFailed": "Could not load the shelters"
+    "loadFailed": "Could not load the shelters",
+    "none": "No specific shelter"
   },
   "about": {
     "title": "About the project",
