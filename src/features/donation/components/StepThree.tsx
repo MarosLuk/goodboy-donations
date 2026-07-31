@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -36,12 +36,22 @@ export function StepThree({ onDonated }: { onDonated?: () => void }) {
   const contribute = useContribute();
   const [failure, setFailure] = useState<string | null>(null);
 
+  // A ref rather than isPending: two clicks in the same tick both run before React has
+  // re-rendered with the pending flag, and the disabled attribute arrives too late. For a
+  // donation that would mean giving twice, so the guard has to be synchronous.
+  const inFlight = useRef(false);
+
   const form = useForm<StepThreeValues>({
     resolver: zodResolver(stepThreeSchema),
     defaultValues: { consent: draft.consent },
   });
 
   async function submit() {
+    if (inFlight.current) {
+      return;
+    }
+
+    inFlight.current = true;
     setFailure(null);
 
     try {
@@ -64,12 +74,21 @@ export function StepThree({ onDonated }: { onDonated?: () => void }) {
       }
 
       setFailure(messageKeyForStatus(error.status));
+    } finally {
+      inFlight.current = false;
     }
   }
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(submit)} noValidate>
+      {/* handleSubmit is called from inside the handler rather than passed during
+          render, so the in-flight ref is only ever read while handling an event. */}
+      <form
+        onSubmit={(event) => {
+          void form.handleSubmit(submit)(event);
+        }}
+        noValidate
+      >
         <StepLayout>
           <Headline data-step-heading tabIndex={-1}>
             {t('donation.headline.3')}
