@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 import { createServerI18n } from '@/i18n/server';
 import { defaultLocale, isLocale } from '@/i18n/settings';
-import { theme } from '@/styles/theme';
+import { lightPalette } from '@/styles/palette';
 
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
@@ -26,8 +26,11 @@ export default async function OpengraphImage({ params }: { params: Promise<{ loc
         justifyContent: 'center',
         gap: 24,
         padding: 96,
-        background: theme.color.action.primary.default,
-        color: theme.color.content.onAction,
+        // Satori has no cascade to resolve a custom property against, so this reads the
+        // palette the theme would have pointed it at. The card is the same either way —
+        // a shared image cannot know which scheme the person opening the link uses.
+        background: lightPalette['action-primary-default'],
+        color: lightPalette['content-on-action'],
         fontFamily: 'sans-serif',
       }}
     >
