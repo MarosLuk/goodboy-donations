@@ -44,10 +44,10 @@ export function HeroPhoto() {
   return (
     <Frame $firstStepOnly={step > 1 || sent}>
       <Image
-        src="/images/hero.jpg"
+        src="/images/hero.webp"
         alt=""
-        width={602}
-        height={984}
+        width={1204}
+        height={1968}
         priority
         sizes="(min-width: 1200px) 602px, 100vw"
       />

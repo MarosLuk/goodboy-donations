@@ -39,10 +39,10 @@ export default async function ContactPage({ params }: PageProps<'/[locale]/conta
           </Section>
 
           <Photo
-            src="/images/contact.jpg"
+            src="/images/contact.webp"
             alt=""
-            width={1120}
-            height={376}
+            width={2240}
+            height={752}
             sizes="(min-width: 1200px) 1120px, 100vw"
           />
 
