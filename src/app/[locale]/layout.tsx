@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { InlineScript } from '@/components/ui/InlineScript';
 import { I18nProvider } from '@/i18n/I18nProvider';
 import { createServerI18n } from '@/i18n/server';
 import { defaultLocale, isLocale, locales } from '@/i18n/settings';
@@ -52,11 +53,13 @@ export default async function RootLayout({ children, params }: LayoutProps<'/[lo
     /* The scheme attribute is written by the script below, after this markup was already
        rendered on the server, so React is told not to read that as a mismatch. */
     <html lang={activeLocale} className={inter.variable} suppressHydrationWarning>
-      <body>
-        {/* Ahead of everything it could recolour, and blocking on purpose: a remembered
-            choice has to be in place before the first paint or the page flashes. */}
-        <script dangerouslySetInnerHTML={{ __html: colorSchemeScript }} />
+      {/* In the head rather than the body: the browser runs it while parsing, so a
+          remembered choice is in place before anything at all is painted. */}
+      <head>
+        <InlineScript html={colorSchemeScript} />
+      </head>
 
+      <body>
         <StyleProvider>
           <QueryProvider>
             <I18nProvider locale={activeLocale}>{children}</I18nProvider>
