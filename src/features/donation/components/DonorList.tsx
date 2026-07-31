@@ -36,6 +36,23 @@ const Title = styled.h3`
   color: ${({ theme }) => theme.color.content.primary};
 `;
 
+// Full width on a phone, where a button floating at 212 of 382 reads like a mistake.
+const AddSlot = styled.div`
+  width: 100%;
+
+  > button {
+    width: 100%;
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoint.tablet}) {
+    width: auto;
+
+    > button {
+      width: auto;
+    }
+  }
+`;
+
 const Note = styled.p`
   font-size: ${({ theme }) => theme.text.sm.fontSize};
   line-height: ${({ theme }) => theme.text.sm.lineHeight};
@@ -70,9 +87,11 @@ export function DonorList() {
         </Donor>
       ))}
 
-      <Button variant="secondary" onClick={() => append(emptyDonor)}>
-        {t('donation.donors.add')}
-      </Button>
+      <AddSlot>
+        <Button variant="secondary" onClick={() => append(emptyDonor)}>
+          {t('donation.donors.add')}
+        </Button>
+      </AddSlot>
 
       {/* A post with two donors and a value of 2 raised the total by 2, so the
           amount is per contribution. Saying so beats letting anyone guess. */}

@@ -22,7 +22,13 @@ const List = styled.dl`
 // display: contents keeps the term and its value as direct grid children, so the two
 // columns line up across every row.
 const Row = styled.div`
-  display: contents;
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.space[2]};
+
+  @media (min-width: ${({ theme }) => theme.breakpoint.tablet}) {
+    display: contents;
+  }
 `;
 
 // One element per line instead of <br>: the lines stay separate strings, which is
