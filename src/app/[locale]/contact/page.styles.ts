@@ -6,7 +6,9 @@ import styled from 'styled-components';
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => `var(--rhythm, ${theme.space[40]})`};
+  /* The same flat 40 as the about screen: the photo below spends what the window has
+     left, so the sections never have to give any of theirs back. */
+  gap: ${({ theme }) => theme.space[40]};
 
   /* Same air the donation screen puts above its stepper, so both screens start alike. */
   @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
@@ -57,7 +59,7 @@ export const Photo = styled(Image)`
     flex: 1 1 0;
     /* Below this there is no photograph left to look at, so the page gives up and
        scrolls instead of crushing it. */
-    min-height: 160px;
+    min-height: 120px;
     width: calc(100% - ${({ theme }) => theme.space[160]});
     /* margin-inline, not margin: the shorthand would wipe the top margin above. */
     margin-inline: auto;

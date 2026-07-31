@@ -7,17 +7,21 @@ import styled from 'styled-components';
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => `var(--rhythm, ${theme.space[40]})`};
+  /* A flat 40 off the frame, not the donation screen's fluid rhythm. That one exists
+     because step 1 needs more height than the frame has; this screen has 230 to spare
+     above its footer even on a short window, so there is nothing here to take back. */
+  gap: ${({ theme }) => theme.space[40]};
 
   @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
     flex: 1;
     padding: ${({ theme }) => `var(--screen-air, ${theme.space[40]}) 0`};
 
-    /* This screen has no photograph to soak up a tall window, and the gap above is the
-       floor rather than the whole story: what the window leaves over is shared out
-       between the blocks, so the page reads as filled rather than as content that
-       stopped early above a footer pinned to the bottom. */
-    justify-content: space-between;
+    /* The frame separates the sections by a flat 40 and spends everything the window has
+       left in one place: above the footer. So the gap above stays the rhythm and only
+       this margin grows — not space-between, which would push the blocks apart too. */
+    > footer {
+      margin-top: auto;
+    }
   }
 `;
 
