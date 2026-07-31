@@ -17,13 +17,18 @@ import { stepThreeSchema } from '../schema/donation';
 import { useWizard } from '../store/wizard';
 import { ConsentField } from './ConsentField';
 import { DonationSummary } from './DonationSummary';
-import { StepActions, StepLayout } from './StepActions';
+import { Section, StepActions, StepForm, StepLayout } from './StepActions';
 
 const Headline = styled.h1`
   font-size: ${({ theme }) => theme.heading.sm.fontSize};
   line-height: ${({ theme }) => theme.heading.sm.lineHeight};
   letter-spacing: ${({ theme }) => theme.heading.sm.letterSpacing};
   font-weight: ${({ theme }) => theme.font.weight.bold};
+
+  @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
+    font-size: ${({ theme }) => theme.heading.lg.fontSize};
+    line-height: ${({ theme }) => theme.heading.lg.lineHeight};
+  }
 `;
 
 export function StepThree({ onDonated }: { onDonated?: () => void }) {
@@ -83,7 +88,7 @@ export function StepThree({ onDonated }: { onDonated?: () => void }) {
     <FormProvider {...form}>
       {/* handleSubmit is called from inside the handler rather than passed during
           render, so the in-flight ref is only ever read while handling an event. */}
-      <form
+      <StepForm
         onSubmit={(event) => {
           void form.handleSubmit(submit)(event);
         }}
@@ -94,9 +99,13 @@ export function StepThree({ onDonated }: { onDonated?: () => void }) {
             {t('donation.headline.3')}
           </Headline>
 
-          <DonationSummary draft={draft} />
+          {/* One 16-gap block: the design hangs the consent right off the summary's
+              closing rule, nearer than the 40 the step keeps between its blocks. */}
+          <Section>
+            <DonationSummary draft={draft} />
 
-          <ConsentField />
+            <ConsentField />
+          </Section>
 
           {failure ? <FieldError role="alert">{t(failure)}</FieldError> : null}
 
@@ -111,7 +120,7 @@ export function StepThree({ onDonated }: { onDonated?: () => void }) {
             </Button>
           </StepActions>
         </StepLayout>
-      </form>
+      </StepForm>
     </FormProvider>
   );
 }

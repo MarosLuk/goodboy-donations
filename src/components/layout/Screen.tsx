@@ -20,8 +20,8 @@ export const Screen = styled.div`
     --screen-air: ${fit(60, 40)};
     --headline-size: ${fit(48, 32)};
     --headline-leading: ${fit(56, 40)};
-    --amount-size: ${fit(72, 48)};
-    --amount-air: ${fit(32, 8)};
+    --amount-size: ${fit(60, 44)};
+    --amount-air: ${fit(24, 0)};
     --footer-air: ${fit(24, 10)};
 
     display: flex;

@@ -8,10 +8,8 @@ import { Container } from '@/components/layout/Container';
 // container, because it belongs to this one screen.
 export const Frame = styled(Container)`
   @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
-    /* The screen is the frame here, so the 80 and the 20 are measured off the window
-       rather than off a 1440 column centred inside it. Past 1920 it centres again, where
-       the form would otherwise be pulled wider than a form wants to be. */
-    max-width: 1920px;
+    /* A 1440 column centred in the window, the same as every other page — on a wide
+       screen the form keeps the design's width instead of chasing the window's edge. */
     padding-left: ${({ theme }) => theme.space[80]};
     padding-right: ${({ theme }) => theme.space[20]};
   }

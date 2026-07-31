@@ -21,7 +21,7 @@ type FieldProps = {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.space[6]};
+  gap: ${({ theme }) => theme.space[4]};
 `;
 
 const Label = styled.label`
@@ -29,7 +29,7 @@ const Label = styled.label`
   gap: ${({ theme }) => theme.space[4]};
   font-size: ${({ theme }) => theme.text.sm.fontSize};
   line-height: ${({ theme }) => theme.text.sm.lineHeight};
-  font-weight: ${({ theme }) => theme.font.weight.semibold};
+  font-weight: ${({ theme }) => theme.font.weight.medium};
   color: ${({ theme }) => theme.color.content.primary};
 `;
 

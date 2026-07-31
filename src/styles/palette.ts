@@ -6,6 +6,8 @@ export const lightPalette = {
   'action-primary-hover': '#4338ca',
   'action-primary-active': '#3730a3',
   'action-primary-bg': '#e0e7ff',
+  // bg10 in the token set: the light indigo at a tenth — the contact page tiles sit on it.
+  'action-primary-bg10': 'rgba(165, 180, 252, 0.1)',
 
   'action-secondary-default': '#f3f4f6',
   'action-secondary-hover': '#e5e7eb',
@@ -57,6 +59,7 @@ export const darkPalette: Record<ColorToken, string> = {
   'action-primary-hover': '#a5b4fc',
   'action-primary-active': '#6366f1',
   'action-primary-bg': 'rgba(49, 46, 129, 0.3)',
+  'action-primary-bg10': 'rgba(99, 102, 241, 0.1)',
 
   'action-secondary-default': '#262626',
   'action-secondary-hover': '#404040',

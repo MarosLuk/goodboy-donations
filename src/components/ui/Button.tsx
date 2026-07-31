@@ -59,7 +59,7 @@ const StyledButton = styled.button<{ $variant: ButtonVariant; $size: ButtonSize 
   /* Labels sit next to an icon in the design, so the gap belongs here instead of
      to every caller. */
   gap: ${({ theme }) => theme.space[8]};
-  border-radius: ${({ theme }) => theme.radius[12]};
+  border-radius: ${({ theme }) => theme.radius[8]};
   font-size: ${({ theme }) => theme.text.md.fontSize};
   line-height: ${({ theme }) => theme.text.md.lineHeight};
   font-weight: ${({ theme }) => theme.font.weight.medium};

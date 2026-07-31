@@ -9,13 +9,13 @@ import { STEPS } from '../lib/step';
 const List = styled.ol`
   display: flex;
   align-items: center;
-  gap: ${({ theme }) => theme.space[12]};
+  gap: ${({ theme }) => theme.space[16]};
 `;
 
 const Item = styled.li`
   display: flex;
   align-items: center;
-  gap: ${({ theme }) => theme.space[12]};
+  gap: ${({ theme }) => theme.space[8]};
 
   &:not(:last-child) {
     flex: 1;
@@ -31,17 +31,19 @@ const circleStates = {
     background: transparent;
     color: ${({ theme }) => theme.color.action.primary.default};
     /* An inset shadow rather than a border: a border on this one state would make the
-       outlined circle wider than the two filled ones beside it. */
+       outlined circle wider than the filled one beside it. */
     box-shadow: ${({ theme }) =>
-      `inset 0 0 0 ${theme.borderWidth.sm} ${theme.color.action.primary.default}`};
+      `inset 0 0 0 ${theme.borderWidth.xs} ${theme.color.action.primary.default}`};
   `,
   current: css`
     background: ${({ theme }) => theme.color.action.primary.default};
     color: ${({ theme }) => theme.color.content.onAction};
   `,
   ahead: css`
-    background: ${({ theme }) => theme.color.surface.tertiary};
-    color: ${({ theme }) => theme.color.content.quaternary};
+    background: transparent;
+    color: ${({ theme }) => theme.color.content.quintary};
+    box-shadow: ${({ theme }) =>
+      `inset 0 0 0 ${theme.borderWidth.xs} ${theme.color.surface.tertiary}`};
   `,
 } satisfies Record<State, ReturnType<typeof css>>;
 
@@ -53,8 +55,7 @@ const Circle = styled.span<{ $state: State }>`
   width: 32px;
   height: 32px;
   border-radius: ${({ theme }) => theme.radius.circle};
-  font-size: ${({ theme }) => theme.text.sm.fontSize};
-  font-weight: ${({ theme }) => theme.font.weight.medium};
+  font-size: ${({ theme }) => theme.text.md.fontSize};
 
   ${({ $state }) => circleStates[$state]}
 `;
@@ -62,12 +63,12 @@ const Circle = styled.span<{ $state: State }>`
 // Hidden below tablet, where the design keeps only the circles and the lines.
 const Label = styled.span<{ $state: State }>`
   display: none;
-  font-size: ${({ theme }) => theme.text.sm.fontSize};
-  line-height: ${({ theme }) => theme.text.sm.lineHeight};
+  font-size: ${({ theme }) => theme.text.md.fontSize};
+  line-height: ${({ theme }) => theme.text.md.lineHeight};
   /* A step behind the visitor keeps its label dark — it is something they did, not
      something greyed out. Only what is still ahead is dimmed. */
   color: ${({ theme, $state }) =>
-    $state === 'ahead' ? theme.color.content.quaternary : theme.color.content.primary};
+    $state === 'ahead' ? theme.color.content.quintary : theme.color.content.primary};
 
   @media (min-width: ${({ theme }) => theme.breakpoint.tablet}) {
     display: inline;
@@ -77,7 +78,8 @@ const Label = styled.span<{ $state: State }>`
 const Line = styled.span`
   flex: 1;
   height: ${({ theme }) => theme.borderWidth.xs};
-  background: ${({ theme }) => theme.color.surface.quaternary};
+  margin: 0 ${({ theme }) => theme.space[8]};
+  background: ${({ theme }) => theme.color.content.quintary};
 `;
 
 function stateOf(step: Step, current: Step): State {

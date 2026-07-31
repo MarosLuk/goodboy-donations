@@ -38,7 +38,9 @@ describe('focus between steps', () => {
     fireEvent.click(continueButton());
 
     await waitFor(() => expect(screen.getByRole('heading', { level: 1 })).toHaveFocus());
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Komu za dar poďakovať');
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+      'Potrebujeme od Vás zopár informácií',
+    );
   });
 
   it('moves focus back to the heading when stepping backwards', async () => {
@@ -99,7 +101,7 @@ describe('focus between steps', () => {
     await waitFor(() => expect(useWizard.getState().step).toBe(3));
 
     fireEvent.click(screen.getByRole('checkbox'));
-    fireEvent.click(screen.getByRole('button', { name: 'Darovať' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Odoslať formulár' }));
 
     await waitFor(() =>
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Ďakujeme za váš dar'),

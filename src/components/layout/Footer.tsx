@@ -14,8 +14,11 @@ const Wrapper = styled.footer`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.space[24]};
-  padding: ${({ theme }) => `var(--footer-air, ${theme.space[24]}) 0`};
-  border-top: ${({ theme }) => `${theme.borderWidth.xs} solid ${theme.color.surface.quaternary}`};
+  /* 24 over the content and none under it: with the 32-tall row that is the frame's
+     56. The frame draws its stroke inside, so the border comes out of the 24. */
+  padding: ${({ theme }) =>
+    `calc(var(--footer-air, ${theme.space[24]}) - ${theme.borderWidth.xs}) 0 0`};
+  border-top: ${({ theme }) => `${theme.borderWidth.xs} solid ${theme.color.content.quintary}`};
 
   @media (min-width: ${({ theme }) => theme.breakpoint.tablet}) {
     flex-direction: row;
@@ -68,7 +71,7 @@ const Nav = styled.nav`
 const NavLink = styled(Link)`
   font-size: ${({ theme }) => theme.text.md.fontSize};
   line-height: ${({ theme }) => theme.text.md.lineHeight};
-  color: ${({ theme }) => theme.color.content.secondary};
+  color: ${({ theme }) => theme.color.content.tertiary};
   text-decoration: none;
 
   &:hover {
@@ -89,8 +92,8 @@ export function Footer() {
             instead of links to nowhere. aria-hidden keeps a screen reader from
             announcing something that cannot be acted on. */}
         <Socials aria-hidden="true">
-          <FacebookIcon width={20} height={20} />
-          <InstagramIcon width={20} height={20} />
+          <FacebookIcon width={16} height={16} />
+          <InstagramIcon width={16} height={16} />
         </Socials>
 
         {/* The two things a visitor can change about the page itself, kept together and

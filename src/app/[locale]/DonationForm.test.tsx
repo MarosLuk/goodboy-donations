@@ -38,7 +38,7 @@ function fillDonor(index: number, email: string) {
 
 async function confirmAndDonate() {
   fireEvent.click(screen.getByRole('checkbox'));
-  fireEvent.click(screen.getByRole('button', { name: 'Darovať' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Odoslať formulár' }));
 }
 
 describe('the donation flow', () => {
@@ -148,7 +148,7 @@ describe('the donation flow', () => {
     await waitFor(() => expect(useWizard.getState().step).toBe(3));
     fireEvent.click(screen.getByRole('checkbox'));
 
-    const donate = screen.getByRole('button', { name: 'Darovať' });
+    const donate = screen.getByRole('button', { name: 'Odoslať formulár' });
     fireEvent.click(donate);
     fireEvent.click(donate);
 
