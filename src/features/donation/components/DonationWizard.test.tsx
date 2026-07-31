@@ -171,7 +171,12 @@ describe('DonationWizard', () => {
     fireEvent.click(screen.getByRole('checkbox'));
     fireEvent.click(donateButton());
 
-    expect(await screen.findByRole('status')).toHaveTextContent('Dar bol zaznamenaný.');
+    // findBy would resolve at once on the heading of the step still on screen, so this
+    // waits for the heading to change rather than for one to exist.
+    await waitFor(() =>
+      expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Ďakujeme za váš dar'),
+    );
+    expect(screen.getByRole('status')).toHaveTextContent('Dar 20 € sme zaznamenali');
     expect(bodies).toEqual([
       {
         contributors: [
@@ -301,5 +306,41 @@ describe('DonationWizard', () => {
 
     await waitFor(() => expect(screen.getByRole('alert')).toBeInTheDocument());
     expect(onDonated).not.toHaveBeenCalled();
+  });
+
+  it('names the shelter in the confirmation when the gift went to one', async () => {
+    renderWizard();
+
+    fireEvent.click(screen.getByLabelText('Prispieť konkrétnemu útulku'));
+    fireEvent.click(screen.getByRole('button', { name: 'útulok povinný' }));
+    fireEvent.change(amountInput(), { target: { value: '30' } });
+    fireEvent.click(continueButton());
+
+    await waitFor(() => expect(useWizard.getState().step).toBe(2));
+    fillDonor();
+    fireEvent.click(continueButton());
+
+    await waitFor(() => expect(useWizard.getState().step).toBe(3));
+    fireEvent.click(screen.getByRole('checkbox'));
+    fireEvent.click(donateButton());
+
+    expect(await screen.findByRole('status')).toHaveTextContent('HAFKÁČI');
+  });
+
+  it('starts over on an empty form when asked to give again', async () => {
+    renderWizard();
+
+    await walkToLastStep();
+    fireEvent.click(screen.getByRole('checkbox'));
+    fireEvent.click(donateButton());
+
+    fireEvent.click(await screen.findByRole('button', { name: 'Darovať znova' }));
+
+    expect(useWizard.getState().step).toBe(1);
+    expect(useWizard.getState().sent).toBe(false);
+    expect(amountInput()).toHaveValue('0');
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+      'Vyberte si možnosť, ako chcete pomôcť',
+    );
   });
 });

@@ -22,6 +22,12 @@
     "consent": {
       "label": "I agree to my personal data being processed in order to handle my donation."
     },
+    "done": {
+      "heading": "Thank you for your donation",
+      "foundation": "Your {{amount}} has been recorded. It will help dogs in Slovak shelters.",
+      "shelter": "Your {{amount}} for {{shelter}} has been recorded. Thank you for thinking of them.",
+      "again": "Donate again"
+    },
     "donor": {
       "firstName": "First name",
       "lastName": "Surname",
@@ -80,7 +86,6 @@
     },
     "submit": {
       "pending": "Sending…",
-      "done": "Your donation has been recorded.",
       "failed": "The donation could not be sent. Please try again.",
       "shelterMissing": "That shelter could not be found any more. Please pick another one.",
       "serverError": "The server is not answering properly. Please try again in a moment."

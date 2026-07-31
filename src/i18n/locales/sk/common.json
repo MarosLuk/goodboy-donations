@@ -22,6 +22,12 @@
     "consent": {
       "label": "Súhlasím so spracovaním osobných údajov na účely spracovania môjho daru."
     },
+    "done": {
+      "heading": "Ďakujeme za váš dar",
+      "foundation": "Dar {{amount}} sme zaznamenali. Pomôže psom v slovenských útulkoch.",
+      "shelter": "Dar {{amount}} pre {{shelter}} sme zaznamenali. Ďakujeme, že ste mysleli na nich.",
+      "again": "Darovať znova"
+    },
     "donor": {
       "firstName": "Meno",
       "lastName": "Priezvisko",
@@ -80,7 +86,6 @@
     },
     "submit": {
       "pending": "Odosielam…",
-      "done": "Dar bol zaznamenaný.",
       "failed": "Dar sa nepodarilo odoslať. Skúste to prosím znova.",
       "shelterMissing": "Vybraný útulok sa už nenašiel. Vyberte prosím iný.",
       "serverError": "Server teraz neodpovedá správne. Skúste to prosím za chvíľu."
