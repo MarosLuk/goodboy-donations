@@ -132,9 +132,10 @@ There is no screen for what happens after a successful donation either, so that 
 the rhythm of the form: a heading, a line naming what was sent and to whom, and a way back
 to give again.
 
-The about page is listed in the design but I only had its content, not its frame, so the
-layout is mine: it borrows the contact page's rhythm, which is specified, and gives the prose
-a measure of its own rather than letting it run the full width of the column.
+On the about page the two figures are exact — size, weight, centring and the rules above and
+below all come from the design file. What surrounds them is mine: it borrows the contact
+page's rhythm, which is specified, and gives the prose a reading measure rather than letting
+it run the full width of the column.
 
 The og image is set in a system sans rather than Inter, because Satori needs the font as a
 buffer and no font file came with the design.
