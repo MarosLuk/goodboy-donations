@@ -43,6 +43,14 @@ const SectionTitle = styled.h2`
   font-weight: ${({ theme }) => theme.font.weight.semibold};
 `;
 
+// The heading and the select belong to each other in the design, sitting far closer
+// than the blocks around them do.
+const ShelterGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.space[16]};
+`;
+
 export function StepOne({
   renderShelterField,
 }: {
@@ -78,16 +86,18 @@ export function StepOne({
 
           <HelpTypeToggle />
 
-          {/* "O projekte" sits above the shelter select in the design, most likely a
-              leftover from the template it was built on. Kept as designed. */}
-          <SectionTitle>{t('donation.about')}</SectionTitle>
+          <ShelterGroup>
+            {/* "O projekte" sits above the shelter select in the design, most likely a
+                leftover from the template it was built on. Kept as designed. */}
+            <SectionTitle>{t('donation.about')}</SectionTitle>
 
-          {renderShelterField({
-            value: shelter,
-            onChange: (value) => form.setValue('shelter', value, { shouldValidate: true }),
-            error: errors.shelter?.message ? t(errors.shelter.message) : undefined,
-            optional: helpType === 'foundation',
-          })}
+            {renderShelterField({
+              value: shelter,
+              onChange: (value) => form.setValue('shelter', value, { shouldValidate: true }),
+              error: errors.shelter?.message ? t(errors.shelter.message) : undefined,
+              optional: helpType === 'foundation',
+            })}
+          </ShelterGroup>
 
           <AmountPicker
             value={amount}
@@ -96,12 +106,12 @@ export function StepOne({
           />
 
           <StepActions>
-            <Button variant="secondary" disabled>
+            <Button variant="secondary" size="lg" disabled>
               <ArrowLeftIcon />
               {t('common.back')}
             </Button>
 
-            <Button type="submit">
+            <Button type="submit" size="lg">
               {t('donation.actions.continue')}
               <ArrowRightIcon />
             </Button>

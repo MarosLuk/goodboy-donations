@@ -43,12 +43,12 @@ export function StepTwo() {
           <DonorList />
 
           <StepActions>
-            <Button variant="secondary" onClick={goBack}>
+            <Button variant="secondary" size="lg" onClick={goBack}>
               <ArrowLeftIcon />
               {t('common.back')}
             </Button>
 
-            <Button type="submit">
+            <Button type="submit" size="lg">
               {t('donation.actions.continue')}
               <ArrowRightIcon />
             </Button>

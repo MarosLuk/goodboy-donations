@@ -10,7 +10,7 @@ import { HELP_TYPES } from '../schema/donation';
 // keys and announces "1 of 2", none of which a pair of divs would do.
 const Group = styled.div`
   display: grid;
-  gap: ${({ theme }) => theme.space[4]};
+  gap: ${({ theme }) => theme.space[8]};
   padding: ${({ theme }) => theme.space[4]};
   border-radius: ${({ theme }) => theme.radius[12]};
   border: ${({ theme }) => `${theme.borderWidth.xs} solid ${theme.color.surface.quaternary}`};
@@ -26,6 +26,8 @@ const Segment = styled.label`
   display: flex;
   align-items: center;
   justify-content: center;
+  /* 52 measured off the design; padding alone lands on 48 or 56. */
+  min-height: 52px;
   padding: ${({ theme }) => `${theme.space[12]} ${theme.space[16]}`};
   border-radius: ${({ theme }) => theme.radius[8]};
   font-size: ${({ theme }) => theme.text.md.fontSize};

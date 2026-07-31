@@ -4,7 +4,8 @@ import { css } from 'styled-components';
 // the combobox field. Kept in one place so the three cannot drift apart.
 export const controlStyles = css`
   width: 100%;
-  padding: ${({ theme }) => `${theme.space[12]} ${theme.space[16]}`};
+  /* 56 tall, measured off the design select. */
+  padding: ${({ theme }) => `${theme.space[16]} ${theme.space[16]}`};
   border-radius: ${({ theme }) => theme.radius[12]};
   background: ${({ theme }) => theme.color.surface.tertiary};
   color: ${({ theme }) => theme.color.content.primary};

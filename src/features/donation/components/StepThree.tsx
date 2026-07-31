@@ -80,12 +80,12 @@ export function StepThree({ onDonated }: { onDonated?: () => void }) {
           {failure ? <FieldError role="alert">{t(failure)}</FieldError> : null}
 
           <StepActions>
-            <Button variant="secondary" onClick={goBack} disabled={contribute.isPending}>
+            <Button variant="secondary" size="lg" onClick={goBack} disabled={contribute.isPending}>
               <ArrowLeftIcon />
               {t('common.back')}
             </Button>
 
-            <Button type="submit" disabled={contribute.isPending}>
+            <Button type="submit" size="lg" disabled={contribute.isPending}>
               {contribute.isPending ? t('donation.submit.pending') : t('donation.actions.submit')}
             </Button>
           </StepActions>

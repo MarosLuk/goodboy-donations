@@ -26,8 +26,8 @@ const Circle = styled.span<{ $current: boolean }>`
   align-items: center;
   justify-content: center;
   flex: none;
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   border-radius: ${({ theme }) => theme.radius.circle};
   font-size: ${({ theme }) => theme.text.sm.fontSize};
   font-weight: ${({ theme }) => theme.font.weight.medium};

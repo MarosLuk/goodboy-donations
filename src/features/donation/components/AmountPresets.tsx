@@ -9,7 +9,8 @@ import { AMOUNT_PRESETS } from '../schema/donation';
 
 const Grid = styled.div`
   display: grid;
-  gap: ${({ theme }) => theme.space[12]};
+  /* Gap 20 puts the six tiles at the widths the design has: 93 each across 658. */
+  gap: ${({ theme }) => theme.space[20]};
   grid-template-columns: repeat(3, minmax(0, 1fr));
 
   @media (min-width: ${({ theme }) => theme.breakpoint.tablet}) {

@@ -10,7 +10,7 @@ import { AmountPresets } from './AmountPresets';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.space[16]};
+  gap: ${({ theme }) => theme.space[8]};
 `;
 
 // A section heading in the design, and the input's label in the markup — the field
@@ -27,7 +27,8 @@ const Centered = styled.div`
   flex-direction: column;
   align-items: center;
   gap: ${({ theme }) => theme.space[8]};
-  padding: ${({ theme }) => `${theme.space[24]} 0`};
+  /* The design leaves more air under the rule than above the number. */
+  padding: ${({ theme }) => `0 0 ${theme.space[32]}`};
 `;
 
 type AmountPickerProps = {

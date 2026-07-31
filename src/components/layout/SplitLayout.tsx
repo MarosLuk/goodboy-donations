@@ -14,9 +14,9 @@ const Grid = styled.div`
 
   @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
     grid-template-areas: 'content media';
-    /* 658 and 602 from the design, as ratios so the columns still breathe between
-       1200 and 1440. */
-    grid-template-columns: minmax(0, 658fr) minmax(0, 602fr);
+    /* 658 for the content and 602 for the photo, exactly as the design frame has them.
+       Both may shrink below 1440, neither grows past it. */
+    grid-template-columns: minmax(0, 658px) minmax(0, 602px);
     gap: ${({ theme }) => theme.space[80]};
     align-items: start;
   }

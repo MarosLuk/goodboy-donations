@@ -21,7 +21,8 @@ const Input = styled.input<{ $empty: boolean }>`
      below size the field exactly to its content. */
   font-variant-numeric: tabular-nums;
   font-size: ${({ theme }) => theme.heading.xxl.fontSize};
-  line-height: ${({ theme }) => theme.heading.xxl.lineHeight};
+  /* The rule sits right under the digits in the design, so no extra leading. */
+  line-height: 1;
   letter-spacing: ${({ theme }) => theme.heading.xxl.letterSpacing};
   font-weight: ${({ theme }) => theme.font.weight.regular};
   text-align: right;
