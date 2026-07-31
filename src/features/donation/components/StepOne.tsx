@@ -82,7 +82,9 @@ export function StepOne({
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit((values) => advance(values))} noValidate>
         <StepLayout>
-          <Headline>{t('donation.headline.1')}</Headline>
+          <Headline data-step-heading tabIndex={-1}>
+            {t('donation.headline.1')}
+          </Headline>
 
           <HelpTypeToggle />
 

@@ -71,7 +71,9 @@ export function StepThree({ onDonated }: { onDonated?: () => void }) {
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(submit)} noValidate>
         <StepLayout>
-          <Headline>{t('donation.headline.3')}</Headline>
+          <Headline data-step-heading tabIndex={-1}>
+            {t('donation.headline.3')}
+          </Headline>
 
           <DonationSummary draft={draft} />
 

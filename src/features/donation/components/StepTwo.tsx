@@ -38,7 +38,9 @@ export function StepTwo() {
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit((values) => advance(values))} noValidate>
         <StepLayout>
-          <Headline>{t('donation.headline.2')}</Headline>
+          <Headline data-step-heading tabIndex={-1}>
+            {t('donation.headline.2')}
+          </Headline>
 
           <DonorList />
 

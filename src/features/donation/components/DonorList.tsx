@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -64,8 +65,27 @@ export function DonorList() {
   const { control } = useFormContext<StepTwoValues>();
   const { fields, append, remove } = useFieldArray({ control, name: 'donors' });
 
+  const list = useRef<HTMLDivElement>(null);
+  const addButton = useRef<HTMLButtonElement>(null);
+  const previousCount = useRef(fields.length);
+
+  // A new donor appears below the button that was just pressed, so focus follows it to
+  // the field that now wants typing. Removing one leaves focus nowhere, so it goes to
+  // the button that is still there.
+  useEffect(() => {
+    if (fields.length > previousCount.current) {
+      const names = list.current?.querySelectorAll<HTMLInputElement>('input[name$=".firstName"]');
+
+      names?.[names.length - 1]?.focus();
+    } else if (fields.length < previousCount.current) {
+      addButton.current?.focus();
+    }
+
+    previousCount.current = fields.length;
+  }, [fields.length]);
+
   return (
-    <Wrapper>
+    <Wrapper ref={list}>
       {fields.map((field, index) => (
         // The id from useFieldArray rather than the index: keying by index makes
         // React reuse the wrong inputs once a donor in the middle is removed.
@@ -88,7 +108,7 @@ export function DonorList() {
       ))}
 
       <AddSlot>
-        <Button variant="secondary" onClick={() => append(emptyDonor)}>
+        <Button ref={addButton} variant="secondary" onClick={() => append(emptyDonor)}>
           {t('donation.donors.add')}
         </Button>
       </AddSlot>

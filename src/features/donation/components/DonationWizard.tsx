@@ -1,7 +1,9 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import { useRef } from 'react';
 import styled from 'styled-components';
+import { useFocusOnStepChange } from '../hooks/useFocusOnStepChange';
 import { useStepInUrl } from '../hooks/useStepInUrl';
 import { DonationDone } from './DonationDone';
 import type { Step } from '../lib/step';
@@ -31,14 +33,22 @@ export function DonationWizard({
   const step = useWizard((state) => state.step);
   const sent = useWizard((state) => state.sent);
 
+  const container = useRef<HTMLDivElement>(null);
+
   useStepInUrl(initialStep);
+  // The confirmation counts as an arrival too, hence sent in the key.
+  useFocusOnStepChange(container, sent ? 'done' : step);
 
   if (sent) {
-    return <DonationDone />;
+    return (
+      <Wrapper ref={container}>
+        <DonationDone />
+      </Wrapper>
+    );
   }
 
   return (
-    <Wrapper>
+    <Wrapper ref={container}>
       <Stepper current={step} />
 
       {step === 1 ? <StepOne renderShelterField={renderShelterField} /> : null}
