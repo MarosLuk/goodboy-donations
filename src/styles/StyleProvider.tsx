@@ -1,6 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import { MotionConfig } from 'motion/react';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from './GlobalStyle';
 import { StyleRegistry } from './StyleRegistry';
@@ -11,7 +12,10 @@ export function StyleProvider({ children }: { children: ReactNode }) {
     <StyleRegistry>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        {children}
+        {/* reducedMotion="user" leaves the decision to the operating system setting, and
+            motion then animates opacity without moving anything. Doing it here rather
+            than per animation means no component can forget. */}
+        <MotionConfig reducedMotion="user">{children}</MotionConfig>
       </ThemeProvider>
     </StyleRegistry>
   );

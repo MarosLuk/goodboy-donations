@@ -35,6 +35,10 @@ const Circle = styled.span<{ $current: boolean }>`
     $current ? theme.color.action.primary.default : theme.color.surface.tertiary};
   color: ${({ theme, $current }) =>
     $current ? theme.color.content.onAction : theme.color.content.quaternary};
+  /* CSS rather than js, so the reduced-motion rule in the reset silences it. */
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
 `;
 
 // Hidden below tablet, where the design keeps only the circles and the lines.
