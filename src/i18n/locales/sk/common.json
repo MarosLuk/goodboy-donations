@@ -101,10 +101,10 @@
       }
     },
     "steps": {
-      "label": "Kroky formulára",
       "1": "Výber útulku",
       "2": "Osobné údaje",
-      "3": "Potvrdenie"
+      "3": "Potvrdenie",
+      "label": "Kroky formulára"
     },
     "submit": {
       "pending": "Odosielam…",
@@ -122,7 +122,8 @@
   },
   "footer": {
     "links": "Odkazy v pätičke",
-    "contact": "Kontakt"
+    "contact": "Kontakt",
+    "darkMode": "Tmavý režim"
   },
   "results": {
     "contribution": "Vyzbieraná suma",

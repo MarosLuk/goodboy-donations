@@ -5,6 +5,7 @@ import { createServerI18n } from '@/i18n/server';
 import { defaultLocale, isLocale, locales } from '@/i18n/settings';
 import { env } from '@/lib/env';
 import { QueryProvider } from '@/lib/query/QueryProvider';
+import { colorSchemeScript } from '@/styles/color-scheme';
 import { StyleProvider } from '@/styles/StyleProvider';
 
 const inter = Inter({
@@ -48,8 +49,14 @@ export default async function RootLayout({ children, params }: LayoutProps<'/[lo
   const activeLocale = isLocale(locale) ? locale : defaultLocale;
 
   return (
-    <html lang={activeLocale} className={inter.variable}>
+    /* The scheme attribute is written by the script below, after this markup was already
+       rendered on the server, so React is told not to read that as a mismatch. */
+    <html lang={activeLocale} className={inter.variable} suppressHydrationWarning>
       <body>
+        {/* Ahead of everything it could recolour, and blocking on purpose: a remembered
+            choice has to be in place before the first paint or the page flashes. */}
+        <script dangerouslySetInnerHTML={{ __html: colorSchemeScript }} />
+
         <StyleProvider>
           <QueryProvider>
             <I18nProvider locale={activeLocale}>{children}</I18nProvider>

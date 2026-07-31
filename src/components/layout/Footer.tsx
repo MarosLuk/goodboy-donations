@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { FacebookIcon } from '@/components/icons/FacebookIcon';
 import { InstagramIcon } from '@/components/icons/InstagramIcon';
 import { defaultLocale } from '@/i18n/settings';
+import { ColorSchemeToggle } from './ColorSchemeToggle';
 import { Logo } from './Logo';
 
 const Wrapper = styled.footer`
@@ -68,6 +69,8 @@ export function Footer() {
           <FacebookIcon width={20} height={20} />
           <InstagramIcon width={20} height={20} />
         </Socials>
+
+        <ColorSchemeToggle />
 
         <Nav aria-label={t('footer.links')}>
           <NavLink href={`/${locale}/contact`}>{t('footer.contact')}</NavLink>

@@ -1,6 +1,12 @@
 import { createGlobalStyle } from 'styled-components';
 import { cssVariables, darkPalette, lightPalette } from './palette';
 
+// Not colours, but they belong to the same three blocks: the toggle in the footer offers
+// the scheme you are not in, and letting the cascade decide which of its two icons shows
+// keeps the server out of a choice only the browser knows.
+const schemeIcons = (sun: string, moon: string) => `--icon-sun: ${sun};
+    --icon-moon: ${moon};`;
+
 export const GlobalStyle = createGlobalStyle`
   /* The palettes land here as custom properties, which is the whole of the theme switch:
      every role in theme.ts reads one of these, so redefining them under a different
@@ -10,6 +16,7 @@ export const GlobalStyle = createGlobalStyle`
      select popup, scrollbars, the caret — follow along. */
   :root {
     color-scheme: light;
+    ${schemeIcons('none', 'block')}
     ${cssVariables(lightPalette)}
   }
 
@@ -17,6 +24,7 @@ export const GlobalStyle = createGlobalStyle`
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme='light']) {
       color-scheme: dark;
+      ${schemeIcons('block', 'none')}
       ${cssVariables(darkPalette)}
     }
   }
@@ -25,6 +33,7 @@ export const GlobalStyle = createGlobalStyle`
      lets a choice override the system in both directions. */
   :root[data-theme='dark'] {
     color-scheme: dark;
+    ${schemeIcons('block', 'none')}
     ${cssVariables(darkPalette)}
   }
 
