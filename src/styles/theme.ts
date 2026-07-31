@@ -46,6 +46,7 @@ export const theme = {
       secondary: c('surface-secondary'),
       tertiary: c('surface-tertiary'),
       quaternary: c('surface-quaternary'),
+      raised: c('surface-raised'),
     },
     state: {
       success: { fg: c('state-success-fg'), bg: c('state-success-bg') },

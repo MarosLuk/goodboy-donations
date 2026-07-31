@@ -56,7 +56,7 @@ const panel = css`
   top: calc(100% + ${({ theme }) => theme.space[4]});
   left: 0;
   right: 0;
-  background: ${({ theme }) => theme.color.surface.primary};
+  background: ${({ theme }) => theme.color.surface.raised};
   border-radius: ${({ theme }) => theme.radius[12]};
   box-shadow: ${({ theme }) => theme.shadow.lg};
   overflow-y: auto;

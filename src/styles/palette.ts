@@ -29,6 +29,9 @@ export const lightPalette = {
   'surface-secondary': '#f9fafb',
   'surface-tertiary': '#f3f4f6',
   'surface-quaternary': '#e5e7eb',
+  // Not in the token set either: what a panel floating over the page sits on. On white a
+  // shadow is enough to lift it, which is why the design never needed the distinction.
+  'surface-raised': '#ffffff',
 
   'state-success-fg': '#047857',
   'state-success-bg': '#d1fae5',
@@ -78,6 +81,9 @@ export const darkPalette: Record<ColorToken, string> = {
   'surface-secondary': '#171717',
   'surface-tertiary': '#262626',
   'surface-quaternary': '#404040',
+  // Here the shadow has nothing to work with — black on black reads as nothing — so a
+  // floating panel is lifted by being lighter than the page instead.
+  'surface-raised': '#262626',
 
   'state-success-fg': '#34d399',
   'state-success-bg': 'rgba(52, 211, 153, 0.2)',
