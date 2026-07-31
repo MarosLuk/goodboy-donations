@@ -86,7 +86,18 @@ export function StepOne({
             {t('donation.headline.1')}
           </Headline>
 
-          <HelpTypeToggle />
+          {/* Only a shelter donation requires a shelter, and react-hook-form revalidates the
+              field that changed rather than the whole form — so a complaint about a missing
+              shelter would sit under a field labelled optional. Guarded on there being one
+              already: this keeps what is on screen true, it does not start complaining about a
+              field nobody has touched yet. */}
+          <HelpTypeToggle
+            onChange={() => {
+              if (errors.shelter) {
+                void form.trigger('shelter');
+              }
+            }}
+          />
 
           <ShelterGroup>
             {/* "O projekte" sits above the shelter select in the design, most likely a

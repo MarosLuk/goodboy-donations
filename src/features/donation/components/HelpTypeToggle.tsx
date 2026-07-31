@@ -55,7 +55,9 @@ const Radio = styled.input`
   cursor: pointer;
 `;
 
-export function HelpTypeToggle() {
+// The choice changes what the schema asks of the other fields, which react-hook-form has no
+// way to know, so whoever owns those fields gets told the choice was made.
+export function HelpTypeToggle({ onChange }: { onChange?: () => void }) {
   const { t } = useTranslation();
   const { register } = useFormContext<StepOneValues>();
 
@@ -63,7 +65,7 @@ export function HelpTypeToggle() {
     <Group>
       {HELP_TYPES.map((helpType) => (
         <Segment key={helpType}>
-          <Radio type="radio" value={helpType} {...register('helpType')} />
+          <Radio type="radio" value={helpType} {...register('helpType', { onChange })} />
           {t(`donation.helpType.${helpType}`)}
         </Segment>
       ))}

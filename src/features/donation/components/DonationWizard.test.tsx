@@ -97,6 +97,41 @@ describe('DonationWizard', () => {
     expect(useWizard.getState().step).toBe(1);
   });
 
+  // The complaint belongs to one of the two ways of helping. Left alone it sat under a field
+  // that had just relabelled itself optional, saying two opposite things at once.
+  it('drops the complaint about a shelter when the money goes to the foundation', async () => {
+    renderWizard();
+
+    fireEvent.click(screen.getByLabelText('Prispieť konkrétnemu útulku'));
+    fireEvent.change(amountInput(), { target: { value: '20' } });
+    fireEvent.click(continueButton());
+
+    await waitFor(() => expect(screen.getByRole('alert')).toBeInTheDocument());
+
+    fireEvent.click(screen.getByLabelText('Prispieť celej nadácii'));
+
+    await waitFor(() => expect(screen.queryByRole('alert')).not.toBeInTheDocument());
+  });
+
+  // Coming back is not the same as trying again: nothing has been submitted in this state, so
+  // there is nothing to complain about yet.
+  it('does not complain again just because the shelter option came back', async () => {
+    renderWizard();
+
+    fireEvent.click(screen.getByLabelText('Prispieť konkrétnemu útulku'));
+    fireEvent.change(amountInput(), { target: { value: '20' } });
+    fireEvent.click(continueButton());
+
+    await waitFor(() => expect(screen.getByRole('alert')).toBeInTheDocument());
+
+    fireEvent.click(screen.getByLabelText('Prispieť celej nadácii'));
+    await waitFor(() => expect(screen.queryByRole('alert')).not.toBeInTheDocument());
+
+    fireEvent.click(screen.getByLabelText('Prispieť konkrétnemu útulku'));
+
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+  });
+
   it('walks all three steps and shows what was entered', async () => {
     renderWizard();
 
