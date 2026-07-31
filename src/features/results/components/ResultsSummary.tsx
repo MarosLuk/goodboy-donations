@@ -6,10 +6,18 @@ import { toLocale } from '@/i18n/settings';
 import { formatCount, formatCurrency } from '@/lib/format';
 import { useResults } from '../api/useResults';
 
+// Two columns rather than two boxes side by side: the amount and the count are meant to read
+// as two separate figures, and left to a flex row a short "1" would sit right against the
+// total. Stacks on a phone, where two columns would leave the labels wrapping.
 const Stats = styled.dl`
-  display: flex;
-  flex-wrap: wrap;
-  gap: ${({ theme }) => theme.space[48]};
+  display: grid;
+  gap: ${({ theme }) => theme.space[32]};
+  max-width: 62ch;
+
+  @media (min-width: ${({ theme }) => theme.breakpoint.tablet}) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: ${({ theme }) => theme.space[48]};
+  }
 `;
 
 const Stat = styled.div`
