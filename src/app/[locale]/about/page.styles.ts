@@ -9,8 +9,15 @@ export const Layout = styled.div`
   flex-direction: column;
   gap: ${({ theme }) => theme.space[40]};
 
+  /* Same viewport behaviour as the other screens: spare room goes above the footer. */
   @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
     padding-top: ${({ theme }) => theme.space[40]};
+    padding-bottom: ${({ theme }) => theme.space[40]};
+    min-height: calc(100dvh - ${({ theme }) => theme.space[40]});
+
+    > footer {
+      margin-top: auto;
+    }
   }
 `;
 
@@ -26,15 +33,16 @@ export const Heading = styled.h1`
   }
 `;
 
-// Prose gets a measure of its own. Full width at 1200 would run to 1120 characters of line,
-// which is roughly twice what stays comfortable to read.
+// Full measure and full ink, the way the frame sets its paragraphs.
 export const Prose = styled.p`
-  max-width: 62ch;
-  color: ${({ theme }) => theme.color.content.secondary};
+  color: ${({ theme }) => theme.color.content.primary};
 `;
 
-// The summary draws its own rules and owns the air inside them, so this only exists to let
-// the prose keep a reading measure while the rules run the full width of the column.
+// The frame pulls the ruled band in by a further 32 on each side of the column.
 export const Numbers = styled.div`
   align-self: stretch;
+
+  @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
+    padding: 0 ${({ theme }) => theme.space[32]};
+  }
 `;

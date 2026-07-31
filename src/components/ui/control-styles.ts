@@ -8,7 +8,7 @@ export const controlStyles = css`
      than a border so it does not add to that height, and an error cannot shift the
      box either. */
   padding: ${({ theme }) => `${theme.space[16]} ${theme.space[16]}`};
-  border-radius: ${({ theme }) => theme.radius[12]};
+  border-radius: ${({ theme }) => theme.radius[8]};
   background: ${({ theme }) => theme.color.surface.tertiary};
   color: ${({ theme }) => theme.color.content.primary};
   font-size: ${({ theme }) => theme.text.md.fontSize};

@@ -18,7 +18,17 @@ import { StepTwo } from './StepTwo';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  /* Grows into the column so a short step can pin its actions to the bottom edge,
+     the way the frame anchors them. */
+  flex: 1;
   gap: ${({ theme }) => theme.space[40]};
+`;
+
+// The animated slot has to pass the height on down to the form for the same reason.
+const StepSlot = styled(motion.div)`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 `;
 
 export function DonationWizard({
@@ -63,11 +73,11 @@ export function DonationWizard({
     <Wrapper ref={container}>
       <Stepper current={step} />
 
-      <motion.div key={step} {...entrance}>
+      <StepSlot key={step} {...entrance}>
         {step === 1 ? <StepOne renderShelterField={renderShelterField} /> : null}
         {step === 2 ? <StepTwo /> : null}
         {step === 3 ? <StepThree onDonated={onDonated} /> : null}
-      </motion.div>
+      </StepSlot>
     </Wrapper>
   );
 }

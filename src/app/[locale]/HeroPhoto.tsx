@@ -8,7 +8,7 @@ import { useWizard } from '@/features/donation/store/wizard';
 // band instead of keeping the tall frame, which is what stops it pushing the form below
 // the fold.
 const Frame = styled.div<{ $firstStepOnly: boolean }>`
-  border-radius: ${({ theme }) => theme.radius[24]};
+  border-radius: ${({ theme }) => theme.radius[20]};
   overflow: hidden;
 
   img {

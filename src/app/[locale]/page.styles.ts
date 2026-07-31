@@ -10,8 +10,9 @@ export const Page = styled.div`
 
   @media (min-width: ${({ theme }) => theme.breakpoint.tablet}) {
     /* The design frame starts the photo 20 from the top; the content column adds its
-       own 40 on top of that, which is what puts the stepper at 60. */
-    padding: ${({ theme }) => `${theme.space[20]} 0 ${theme.space[48]}`};
+       own 40 on top of that, which is what puts the stepper at 60. The bottom edge
+       mirrors it: 20 here plus the column's own 40. */
+    padding: ${({ theme }) => `${theme.space[20]} 0`};
   }
 `;
 
@@ -32,5 +33,13 @@ export const Column = styled.div`
 
   @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
     padding-top: ${({ theme }) => theme.space[40]};
+    padding-bottom: ${({ theme }) => theme.space[40]};
+    /* The frame is a viewport: when the step is short, the footer keeps the bottom
+       edge instead of riding up under the fields. */
+    min-height: calc(100dvh - ${({ theme }) => theme.space[40]});
+
+    > footer {
+      margin-top: auto;
+    }
   }
 `;

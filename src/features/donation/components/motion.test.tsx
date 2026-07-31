@@ -50,7 +50,9 @@ describe('step transitions', () => {
 
     // The step still arrives, it just does not travel to get there: motion writes the
     // offset out as transform: none and animates the opacity alone.
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Komu za dar poďakovať');
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+      'Potrebujeme od Vás zopár informácií',
+    );
     expect(animatedWrapper()?.getAttribute('style')).toContain('transform: none');
     expect(animatedWrapper()?.getAttribute('style')).not.toContain('translateX(');
   });

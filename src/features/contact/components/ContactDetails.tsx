@@ -16,7 +16,7 @@ const CHANNELS = [
 
 const List = styled.ul`
   display: grid;
-  gap: ${({ theme }) => theme.space[48]};
+  gap: ${({ theme }) => theme.space[32]};
   grid-template-columns: minmax(0, 1fr);
 
   @media (min-width: ${({ theme }) => theme.breakpoint.tablet}) {
@@ -38,14 +38,23 @@ const IconTile = styled.span`
   justify-content: center;
   width: 48px;
   height: 48px;
-  border-radius: ${({ theme }) => theme.radius[12]};
-  background: ${({ theme }) => theme.color.action.primary.bg};
+  /* The kit draws the tile at 10, a step the radius scale does not have. */
+  border-radius: 10px;
+  background: ${({ theme }) => theme.color.action.primary.bg10};
   color: ${({ theme }) => theme.color.action.primary.default};
 `;
 
+// The title sits 8 over its line while the tile and the link keep the 20 of the card.
+const TextBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: ${({ theme }) => theme.space[8]};
+`;
+
 const Title = styled.h2`
-  font-size: ${({ theme }) => theme.text.lg.fontSize};
-  line-height: ${({ theme }) => theme.text.lg.lineHeight};
+  font-size: ${({ theme }) => theme.text.xl.fontSize};
+  line-height: ${({ theme }) => theme.text.xl.lineHeight};
   font-weight: ${({ theme }) => theme.font.weight.semibold};
   color: ${({ theme }) => theme.color.content.primary};
 `;
@@ -87,8 +96,10 @@ export function ContactDetails() {
             <Icon />
           </IconTile>
 
-          <Title>{t(`contact.${key}.title`)}</Title>
-          <Description>{t(`contact.${key}.description`)}</Description>
+          <TextBlock>
+            <Title>{t(`contact.${key}.title`)}</Title>
+            <Description>{t(`contact.${key}.description`)}</Description>
+          </TextBlock>
 
           {href ? (
             <ValueLink href={href}>{t(`contact.${key}.value`)}</ValueLink>

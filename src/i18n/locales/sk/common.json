@@ -33,16 +33,17 @@
   },
   "donation": {
     "about": "O projekte",
+    "aboutYou": "O vás",
     "actions": {
       "continue": "Pokračovať",
-      "submit": "Darovať"
+      "submit": "Odoslať formulár"
     },
     "amount": {
       "label": "Suma, ktorou chcem prispieť",
       "presets": "Preddefinované sumy"
     },
     "consent": {
-      "label": "Súhlasím so spracovaním osobných údajov na účely spracovania môjho daru."
+      "label": "Súhlasím so spracovaním mojich osobných údajov"
     },
     "done": {
       "heading": "Ďakujeme za váš dar",
@@ -79,8 +80,8 @@
     },
     "headline": {
       "1": "Vyberte si možnosť, ako chcete pomôcť",
-      "2": "Komu za dar poďakovať",
-      "3": "Skontrolujte a potvrďte dar"
+      "2": "Potrebujeme od Vás zopár informácií",
+      "3": "Skontrolujte si zadané údaje"
     },
     "helpType": {
       "foundation": "Prispieť celej nadácii",
@@ -113,10 +114,17 @@
       "serverError": "Server teraz neodpovedá správne. Skúste to prosím za chvíľu."
     },
     "summary": {
+      "title": "Zhrnutie",
       "helpType": "Forma pomoci",
+      "helpTypeValue": {
+        "foundation": "Finančný príspevok celej nadácii",
+        "shelter": "Finančný príspevok konkrétnemu útulku"
+      },
       "shelter": "Útulok",
-      "amount": "Suma",
-      "donor": "Darca {{number}}",
+      "amount": "Suma príspevku",
+      "name": "Meno a priezvisko",
+      "email": "E-mail",
+      "phone": "Telefónne číslo",
       "wholeFoundation": "Celá nadácia"
     }
   },

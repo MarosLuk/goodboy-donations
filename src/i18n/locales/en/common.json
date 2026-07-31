@@ -33,16 +33,17 @@
   },
   "donation": {
     "about": "About the project",
+    "aboutYou": "About you",
     "actions": {
       "continue": "Continue",
-      "submit": "Donate"
+      "submit": "Submit the form"
     },
     "amount": {
       "label": "The amount I want to give",
       "presets": "Preset amounts"
     },
     "consent": {
-      "label": "I agree to my personal data being processed in order to handle my donation."
+      "label": "I agree to the processing of my personal data"
     },
     "done": {
       "heading": "Thank you for your donation",
@@ -79,8 +80,8 @@
     },
     "headline": {
       "1": "Choose how you would like to help",
-      "2": "Who should we thank for the gift",
-      "3": "Check and confirm your donation"
+      "2": "We need a few details from you",
+      "3": "Check the details you entered"
     },
     "helpType": {
       "foundation": "Give to the whole foundation",
@@ -113,10 +114,17 @@
       "serverError": "The server is not answering properly. Please try again in a moment."
     },
     "summary": {
+      "title": "Summary",
       "helpType": "Form of help",
+      "helpTypeValue": {
+        "foundation": "A financial contribution to the whole foundation",
+        "shelter": "A financial contribution to one shelter"
+      },
       "shelter": "Shelter",
-      "amount": "Amount",
-      "donor": "Donor {{number}}",
+      "amount": "Contribution amount",
+      "name": "Name and surname",
+      "email": "Email",
+      "phone": "Phone number",
       "wholeFoundation": "The whole foundation"
     }
   },

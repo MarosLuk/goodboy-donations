@@ -39,7 +39,7 @@ const NameRow = styled.div`
 // only the number grows from there.
 const PhoneRow = styled.div`
   display: grid;
-  gap: ${({ theme }) => theme.space[12]};
+  gap: ${({ theme }) => theme.space[16]};
   grid-template-columns: 116px minmax(0, 1fr);
 `;
 

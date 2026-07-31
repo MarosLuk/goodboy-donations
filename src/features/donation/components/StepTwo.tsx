@@ -12,13 +12,18 @@ import { stepTwoSchema } from '../schema/donation';
 import { useServerFieldErrors } from '../hooks/useServerFieldErrors';
 import { useWizard } from '../store/wizard';
 import { DonorList } from './DonorList';
-import { StepActions, StepLayout } from './StepActions';
+import { Section, SectionTitle, StepActions, StepForm, StepLayout } from './StepActions';
 
 const Headline = styled.h1`
   font-size: ${({ theme }) => theme.heading.sm.fontSize};
   line-height: ${({ theme }) => theme.heading.sm.lineHeight};
   letter-spacing: ${({ theme }) => theme.heading.sm.letterSpacing};
   font-weight: ${({ theme }) => theme.font.weight.bold};
+
+  @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
+    font-size: ${({ theme }) => theme.heading.lg.fontSize};
+    line-height: ${({ theme }) => theme.heading.lg.lineHeight};
+  }
 `;
 
 export function StepTwo() {
@@ -36,13 +41,16 @@ export function StepTwo() {
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit((values) => advance(values))} noValidate>
+      <StepForm onSubmit={form.handleSubmit((values) => advance(values))} noValidate>
         <StepLayout>
           <Headline data-step-heading tabIndex={-1}>
             {t('donation.headline.2')}
           </Headline>
 
-          <DonorList />
+          <Section>
+            <SectionTitle>{t('donation.aboutYou')}</SectionTitle>
+            <DonorList />
+          </Section>
 
           <StepActions>
             <Button variant="secondary" size="lg" onClick={goBack}>
@@ -56,7 +64,7 @@ export function StepTwo() {
             </Button>
           </StepActions>
         </StepLayout>
-      </form>
+      </StepForm>
     </FormProvider>
   );
 }

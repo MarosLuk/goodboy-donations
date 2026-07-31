@@ -9,7 +9,7 @@ import { theme } from './theme';
 
 function customProperties(value: unknown, found = new Set<string>()) {
   if (typeof value === 'string') {
-    for (const [, name] of value.matchAll(/var\((--c-[a-z-]+)\)/g)) found.add(name);
+    for (const [, name] of value.matchAll(/var\((--c-[a-z0-9-]+)\)/g)) found.add(name);
   } else if (typeof value === 'object' && value !== null) {
     for (const nested of Object.values(value)) customProperties(nested, found);
   }
@@ -18,7 +18,7 @@ function customProperties(value: unknown, found = new Set<string>()) {
 }
 
 function declaredIn(palette: Parameters<typeof cssVariables>[0]) {
-  const names = cssVariables(palette).matchAll(/(--c-[a-z-]+):/g);
+  const names = cssVariables(palette).matchAll(/(--c-[a-z0-9-]+):/g);
 
   return new Set(Array.from(names, ([, name]) => name));
 }
