@@ -1,7 +1,10 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import { useRef } from 'react';
+import { motion } from 'motion/react';
 import styled from 'styled-components';
+import { useFocusOnStepChange } from '../hooks/useFocusOnStepChange';
 import { useStepInUrl } from '../hooks/useStepInUrl';
 import { DonationDone } from './DonationDone';
 import type { Step } from '../lib/step';
@@ -9,13 +12,23 @@ import { useWizard } from '../store/wizard';
 import type { ShelterFieldProps } from './StepOne';
 import { StepOne } from './StepOne';
 import { Stepper } from './Stepper';
+import { fills } from './StepActions';
 import { StepThree } from './StepThree';
 import { StepTwo } from './StepTwo';
 
+// The wizard and the step below it grow into the column, so every step can pin its
+// actions to the bottom edge the way the frame does. Which step also caps the screen
+// to the window is said by the step itself — see StepForm's fill.
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.space[40]};
+  gap: ${({ theme }) => `var(--rhythm, ${theme.space[40]})`};
+
+  ${fills}
+`;
+
+const StepSlot = styled(motion.div)`
+  ${fills}
 `;
 
 export function DonationWizard({
@@ -31,19 +44,40 @@ export function DonationWizard({
   const step = useWizard((state) => state.step);
   const sent = useWizard((state) => state.sent);
 
+  const container = useRef<HTMLDivElement>(null);
+  // Keyed by the step, so React remounts and the entrance plays on every arrival. No exit
+  // animation on purpose: mode="wait" would hold the next step back and delay the focus
+  // move with it. The x offset is dropped for anyone who asked for reduced motion —
+  // MotionConfig in the style provider takes care of that.
+  const entrance = {
+    initial: { opacity: 0, x: 24 },
+    animate: { opacity: 1, x: 0 },
+    transition: { duration: 0.25, ease: 'easeOut' as const },
+  };
+
   useStepInUrl(initialStep);
+  // The confirmation counts as an arrival too, hence sent in the key.
+  useFocusOnStepChange(container, sent ? 'done' : step);
 
   if (sent) {
-    return <DonationDone />;
+    return (
+      <Wrapper ref={container}>
+        <motion.div key="done" {...entrance}>
+          <DonationDone />
+        </motion.div>
+      </Wrapper>
+    );
   }
 
   return (
-    <Wrapper>
+    <Wrapper ref={container}>
       <Stepper current={step} />
 
-      {step === 1 ? <StepOne renderShelterField={renderShelterField} /> : null}
-      {step === 2 ? <StepTwo /> : null}
-      {step === 3 ? <StepThree onDonated={onDonated} /> : null}
+      <StepSlot key={step} {...entrance}>
+        {step === 1 ? <StepOne renderShelterField={renderShelterField} /> : null}
+        {step === 2 ? <StepTwo /> : null}
+        {step === 3 ? <StepThree onDonated={onDonated} /> : null}
+      </StepSlot>
     </Wrapper>
   );
 }

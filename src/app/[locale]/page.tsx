@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import { Footer } from '@/components/layout/Footer';
+import { Screen } from '@/components/layout/Screen';
 import { SplitLayout } from '@/components/layout/SplitLayout';
 import { parseStep } from '@/features/donation/lib/step';
 import { createServerI18n } from '@/i18n/server';
 import { defaultLocale, isLocale } from '@/i18n/settings';
 import { DonationForm } from './DonationForm';
 import { HeroPhoto } from './HeroPhoto';
-import { Column, Frame, Page } from './page.styles';
+import { Column, Frame } from './page.styles';
 
 // Each step gets its own title and description. The step is in the query string, so
 // the server can read it and a shared link describes the step it points at.
@@ -19,17 +20,19 @@ export async function generateMetadata({
   const { t } = createServerI18n(isLocale(locale) ? locale : defaultLocale);
   const current = parseStep(step);
 
-  return {
-    title: t(`donation.meta.${current}.title`),
-    description: t(`donation.meta.${current}.description`),
-  };
+  const title = t(`donation.meta.${current}.title`);
+  const description = t(`donation.meta.${current}.description`);
+
+  // The og image cannot vary by step — the file convention never sees the query string —
+  // but the wording shared alongside it can.
+  return { title, description, openGraph: { title, description } };
 }
 
 export default async function DonationPage({ searchParams }: PageProps<'/[locale]'>) {
   const { step } = await searchParams;
 
   return (
-    <Page>
+    <Screen>
       <Frame>
         <SplitLayout media={<HeroPhoto />}>
           <Column>
@@ -38,6 +41,6 @@ export default async function DonationPage({ searchParams }: PageProps<'/[locale
           </Column>
         </SplitLayout>
       </Frame>
-    </Page>
+    </Screen>
   );
 }

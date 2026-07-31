@@ -2,10 +2,10 @@ import type { Metadata } from 'next';
 import { BackLink } from '@/components/layout/BackLink';
 import { Container } from '@/components/layout/Container';
 import { Footer } from '@/components/layout/Footer';
+import { Screen } from '@/components/layout/Screen';
 import { ContactDetails } from '@/features/contact/components/ContactDetails';
 import { createServerI18n } from '@/i18n/server';
 import { defaultLocale, isLocale } from '@/i18n/settings';
-import { Page } from '../page.styles';
 import { Heading, Layout, Photo, Section } from './page.styles';
 
 export async function generateMetadata({
@@ -14,10 +14,10 @@ export async function generateMetadata({
   const { locale } = await params;
   const { t } = createServerI18n(isLocale(locale) ? locale : defaultLocale);
 
-  return {
-    title: t('contact.meta.title'),
-    description: t('contact.meta.description'),
-  };
+  const title = t('contact.meta.title');
+  const description = t('contact.meta.description');
+
+  return { title, description, openGraph: { title, description } };
 }
 
 export default async function ContactPage({ params }: PageProps<'/[locale]/contact'>) {
@@ -26,7 +26,7 @@ export default async function ContactPage({ params }: PageProps<'/[locale]/conta
   const { t } = createServerI18n(activeLocale);
 
   return (
-    <Page>
+    <Screen>
       <Container>
         <Layout>
           {/* The design opens the page with this link rather than a header. */}
@@ -39,16 +39,16 @@ export default async function ContactPage({ params }: PageProps<'/[locale]/conta
           </Section>
 
           <Photo
-            src="/images/contact.jpg"
+            src="/images/contact.webp"
             alt=""
-            width={1120}
-            height={376}
+            width={2240}
+            height={752}
             sizes="(min-width: 1200px) 1120px, 100vw"
           />
 
           <Footer />
         </Layout>
       </Container>
-    </Page>
+    </Screen>
   );
 }

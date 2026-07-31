@@ -46,7 +46,9 @@ export function DonationDone() {
 
   return (
     <Wrapper>
-      <Heading>{t('donation.done.heading')}</Heading>
+      <Heading data-step-heading tabIndex={-1}>
+        {t('donation.done.heading')}
+      </Heading>
 
       {/* role=status announces the confirmation without stealing focus. */}
       <Text role="status">

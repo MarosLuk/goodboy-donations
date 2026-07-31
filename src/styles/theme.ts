@@ -1,31 +1,59 @@
+import type { ColorToken } from './palette';
+
+// A role resolves to the CSS variable the live palette wrote, not to a hex value, which is
+// how one theme serves both colour schemes. Typed by the palette's own keys, so a token
+// that does not exist there fails to compile.
+const c = (token: ColorToken) => `var(--c-${token})`;
+
+// The shadow scale keeps its own alphas and takes only the ink from the palette, so the
+// same six elevations work on a white page and on a black one.
+const ink = (alpha: number) => `rgba(${c('shadow-ink')}, ${alpha})`;
+
 // Only semantic roles are exposed — no component reaches for a raw palette shade,
 // so changing a role recolours every place that plays that role.
 export const theme = {
   color: {
     action: {
-      primary: { default: '#4f46e5', hover: '#4338ca', active: '#3730a3', bg: '#e0e7ff' },
-      secondary: { default: '#f3f4f6', hover: '#e5e7eb', active: '#d1d5db', bg: '#f9fafb' },
-      destructive: { default: '#e11d48', hover: '#be123c', active: '#9f1239', bg: '#fff1f2' },
+      primary: {
+        default: c('action-primary-default'),
+        hover: c('action-primary-hover'),
+        active: c('action-primary-active'),
+        bg: c('action-primary-bg'),
+        bg10: c('action-primary-bg10'),
+      },
+      secondary: {
+        default: c('action-secondary-default'),
+        hover: c('action-secondary-hover'),
+        active: c('action-secondary-active'),
+        bg: c('action-secondary-bg'),
+      },
+      destructive: {
+        default: c('action-destructive-default'),
+        hover: c('action-destructive-hover'),
+        active: c('action-destructive-active'),
+        bg: c('action-destructive-bg'),
+      },
     },
     content: {
-      primary: '#111827',
-      secondary: '#374151',
-      tertiary: '#4b5563',
-      quaternary: '#9ca3af',
-      quintary: '#d1d5db',
-      onAction: '#fff',
+      primary: c('content-primary'),
+      secondary: c('content-secondary'),
+      tertiary: c('content-tertiary'),
+      quaternary: c('content-quaternary'),
+      quintary: c('content-quintary'),
+      onAction: c('content-on-action'),
     },
     surface: {
-      primary: '#fff',
-      secondary: '#f9fafb',
-      tertiary: '#f3f4f6',
-      quaternary: '#e5e7eb',
+      primary: c('surface-primary'),
+      secondary: c('surface-secondary'),
+      tertiary: c('surface-tertiary'),
+      quaternary: c('surface-quaternary'),
+      raised: c('surface-raised'),
     },
     state: {
-      success: { fg: '#047857', bg: '#d1fae5' },
-      warning: { fg: '#b45309', bg: '#fef3c7' },
-      error: { fg: '#be123c', bg: '#ffe4e6' },
-      info: { fg: '#1d4ed8', bg: '#dbeafe' },
+      success: { fg: c('state-success-fg'), bg: c('state-success-bg') },
+      warning: { fg: c('state-warning-fg'), bg: c('state-warning-bg') },
+      error: { fg: c('state-error-fg'), bg: c('state-error-bg') },
+      info: { fg: c('state-info-fg'), bg: c('state-info-bg') },
     },
   },
   space: {
@@ -91,15 +119,15 @@ export const theme = {
     xxl: { fontSize: '72px', lineHeight: '88px', letterSpacing: '-0.35px' },
   },
   shadow: {
-    xs: '0 1px 2px 0 rgba(17, 24, 39, 0.07)',
-    sm: '0 1px 3px 0 rgba(17, 24, 39, 0.1), 0 1px 2px 0 rgba(17, 24, 39, 0.06)',
-    md: '0 4px 6px -1px rgba(17, 24, 39, 0.1), 0 2px 4px -1px rgba(17, 24, 39, 0.06)',
-    lg: '0 10px 15px -3px rgba(17, 24, 39, 0.1), 0 4px 6px -2px rgba(17, 24, 39, 0.05)',
-    xl: '0 20px 25px -5px rgba(17, 24, 39, 0.1), 0 10px 10px -5px rgba(17, 24, 39, 0.04)',
-    xxl: '0 25px 50px -12px rgba(17, 24, 39, 0.25), 0 15px 30px -6px rgba(17, 24, 39, 0.04)',
-    inner: 'inset 0 2px 4px 0 rgba(17, 24, 39, 0.1)',
+    xs: `0 1px 2px 0 ${ink(0.07)}`,
+    sm: `0 1px 3px 0 ${ink(0.1)}, 0 1px 2px 0 ${ink(0.06)}`,
+    md: `0 4px 6px -1px ${ink(0.1)}, 0 2px 4px -1px ${ink(0.06)}`,
+    lg: `0 10px 15px -3px ${ink(0.1)}, 0 4px 6px -2px ${ink(0.05)}`,
+    xl: `0 20px 25px -5px ${ink(0.1)}, 0 10px 10px -5px ${ink(0.04)}`,
+    xxl: `0 25px 50px -12px ${ink(0.25)}, 0 15px 30px -6px ${ink(0.04)}`,
+    inner: `inset 0 2px 4px 0 ${ink(0.1)}`,
   },
-  focusRing: '0 0 0 2px rgba(55, 48, 163, 0.24)',
+  focusRing: `0 0 0 2px ${c('focus-ring')}`,
 } as const;
 
 export type Theme = typeof theme;

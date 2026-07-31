@@ -1,6 +1,6 @@
 'use client';
 
-import type { ComponentPropsWithoutRef } from 'react';
+import type { ComponentPropsWithRef } from 'react';
 import styled, { css } from 'styled-components';
 
 export type ButtonVariant = 'primary' | 'secondary';
@@ -9,7 +9,9 @@ export type ButtonVariant = 'primary' | 'secondary';
 // presets 48. One component, two sizes, rather than two components.
 export type ButtonSize = 'md' | 'lg';
 
-type ButtonProps = ComponentPropsWithoutRef<'button'> & {
+// WithRef, not WithoutRef: focus has to be able to land here after a donor is removed,
+// and in React 19 a ref is an ordinary prop to pass along.
+type ButtonProps = ComponentPropsWithRef<'button'> & {
   variant?: ButtonVariant;
   size?: ButtonSize;
 };
@@ -57,7 +59,7 @@ const StyledButton = styled.button<{ $variant: ButtonVariant; $size: ButtonSize 
   /* Labels sit next to an icon in the design, so the gap belongs here instead of
      to every caller. */
   gap: ${({ theme }) => theme.space[8]};
-  border-radius: ${({ theme }) => theme.radius[12]};
+  border-radius: ${({ theme }) => theme.radius[8]};
   font-size: ${({ theme }) => theme.text.md.fontSize};
   line-height: ${({ theme }) => theme.text.md.lineHeight};
   font-weight: ${({ theme }) => theme.font.weight.medium};

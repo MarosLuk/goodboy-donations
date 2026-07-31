@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { InlineScript } from '@/components/ui/InlineScript';
 import { I18nProvider } from '@/i18n/I18nProvider';
 import { createServerI18n } from '@/i18n/server';
 import { defaultLocale, isLocale, locales } from '@/i18n/settings';
+import { env } from '@/lib/env';
 import { QueryProvider } from '@/lib/query/QueryProvider';
+import { colorSchemeScript } from '@/styles/color-scheme';
 import { StyleProvider } from '@/styles/StyleProvider';
 
 const inter = Inter({
@@ -23,11 +26,22 @@ export const dynamicParams = false;
 
 export async function generateMetadata({ params }: LayoutProps<'/[locale]'>): Promise<Metadata> {
   const { locale } = await params;
-  const { t } = createServerI18n(isLocale(locale) ? locale : defaultLocale);
+  const activeLocale = isLocale(locale) ? locale : defaultLocale;
+  const { t } = createServerI18n(activeLocale);
 
   return {
+    // Without a base, a relative og:image is dropped by every crawler.
+    metadataBase: new URL(env.NEXT_PUBLIC_SITE_URL),
     title: t('app.title'),
     description: t('app.description'),
+    openGraph: {
+      type: 'website',
+      siteName: t('app.brand'),
+      locale: activeLocale,
+      title: t('app.title'),
+      description: t('app.description'),
+    },
+    twitter: { card: 'summary_large_image' },
   };
 }
 
@@ -36,7 +50,15 @@ export default async function RootLayout({ children, params }: LayoutProps<'/[lo
   const activeLocale = isLocale(locale) ? locale : defaultLocale;
 
   return (
-    <html lang={activeLocale} className={inter.variable}>
+    /* The scheme attribute is written by the script below, after this markup was already
+       rendered on the server, so React is told not to read that as a mismatch. */
+    <html lang={activeLocale} className={inter.variable} suppressHydrationWarning>
+      {/* In the head rather than the body: the browser runs it while parsing, so a
+          remembered choice is in place before anything at all is painted. */}
+      <head>
+        <InlineScript html={colorSchemeScript} />
+      </head>
+
       <body>
         <StyleProvider>
           <QueryProvider>

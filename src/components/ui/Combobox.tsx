@@ -21,10 +21,17 @@ type ComboboxProps = {
   onSearchChange: (search: string) => void;
   placeholder?: string;
   emptyLabel: string;
+  // Names a row at the top of the unfiltered list that puts the choice back to nothing. Shown
+  // only once something is chosen, since that is when there is anything to undo.
+  clearLabel?: string;
   id?: string;
   'aria-invalid'?: true;
   'aria-describedby'?: string;
 };
+
+// The clearing row is a row of the same list, not a separate control, so one set of arrow
+// keys and one activedescendant cover both. Hence rows rather than options everywhere below.
+type Row = { kind: 'clear' } | { kind: 'option'; option: ComboboxOption };
 
 const Wrapper = styled.div`
   position: relative;
@@ -56,7 +63,7 @@ const panel = css`
   top: calc(100% + ${({ theme }) => theme.space[4]});
   left: 0;
   right: 0;
-  background: ${({ theme }) => theme.color.surface.primary};
+  background: ${({ theme }) => theme.color.surface.raised};
   border-radius: ${({ theme }) => theme.radius[12]};
   box-shadow: ${({ theme }) => theme.shadow.lg};
   overflow-y: auto;
@@ -76,14 +83,20 @@ const EmptyPanel = styled.div`
   line-height: ${({ theme }) => theme.text.md.lineHeight};
 `;
 
-const Option = styled.li<{ $active: boolean; $selected: boolean }>`
+const Option = styled.li<{ $active: boolean; $selected: boolean; $muted?: boolean }>`
   padding: ${({ theme }) => `${theme.space[12]} ${theme.space[16]}`};
   font-size: ${({ theme }) => theme.text.md.fontSize};
   line-height: ${({ theme }) => theme.text.md.lineHeight};
   cursor: pointer;
   background: ${({ theme, $active }) => ($active ? theme.color.surface.tertiary : 'transparent')};
-  color: ${({ theme, $selected }) =>
-    $selected ? theme.color.action.primary.default : theme.color.content.primary};
+  /* The clearing row names an absence, so it is quieter than the things it clears — unless it
+     is the state you are in, where it says so the same way any chosen row does. */
+  color: ${({ theme, $selected, $muted }) =>
+    $selected
+      ? theme.color.action.primary.default
+      : $muted
+        ? theme.color.content.tertiary
+        : theme.color.content.primary};
   font-weight: ${({ theme, $selected }) =>
     $selected ? theme.font.weight.medium : theme.font.weight.regular};
 `;
@@ -96,6 +109,7 @@ export function Combobox({
   onSearchChange,
   placeholder,
   emptyLabel,
+  clearLabel,
   id,
   ...aria
 }: ComboboxProps) {
@@ -107,6 +121,20 @@ export function Combobox({
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const listRef = useRef<HTMLUListElement>(null);
+
+  // Three conditions, each for its own reason. Something has to be chosen, or there is
+  // nothing to undo. Nothing may be typed, because a filtered list is a set of results and
+  // this is not one of them. And there have to be options, since with none the panel must
+  // explain why it is empty and a lone clearing row would bury that.
+  const clearable = clearLabel !== undefined && value !== null && search === '';
+
+  const rows: Row[] =
+    options.length === 0
+      ? []
+      : [
+          ...(clearable ? [{ kind: 'clear' } as const] : []),
+          ...options.map((option) => ({ kind: 'option' as const, option })),
+        ];
 
   // Keyboard movement has to drag the viewport along, otherwise the active option
   // walks out of a scrolled list. Indexing children avoids escaping generated ids.
@@ -123,8 +151,8 @@ export function Combobox({
     setActiveIndex(-1);
   }
 
-  function select(option: ComboboxOption) {
-    onValueChange(option);
+  function choose(row: Row) {
+    onValueChange(row.kind === 'clear' ? null : row.option);
     onSearchChange('');
     close();
   }
@@ -136,27 +164,27 @@ export function Combobox({
 
       if (!open) {
         setOpen(true);
-        setActiveIndex(step === 1 ? 0 : Math.max(options.length - 1, 0));
+        setActiveIndex(step === 1 ? 0 : Math.max(rows.length - 1, 0));
         return;
       }
 
-      if (options.length === 0) {
+      if (rows.length === 0) {
         return;
       }
 
       setActiveIndex((current) => {
         const next = current < 0 && step === -1 ? 0 : current + step;
-        return (next + options.length) % options.length;
+        return (next + rows.length) % rows.length;
       });
       return;
     }
 
     if (event.key === 'Enter' && open && activeIndex >= 0) {
-      const option = options[activeIndex];
+      const row = rows[activeIndex];
 
-      if (option) {
+      if (row) {
         event.preventDefault();
-        select(option);
+        choose(row);
       }
 
       return;
@@ -212,7 +240,7 @@ export function Combobox({
         <Chevron />
       </Control>
 
-      {open && options.length === 0 ? (
+      {open && rows.length === 0 ? (
         // role=status so the miss is announced; a disabled option would be read out
         // as something selectable.
         <EmptyPanel id={listboxId} role="status">
@@ -220,7 +248,7 @@ export function Combobox({
         </EmptyPanel>
       ) : null}
 
-      {open && options.length > 0 ? (
+      {open && rows.length > 0 ? (
         <Listbox
           id={listboxId}
           role="listbox"
@@ -228,20 +256,25 @@ export function Combobox({
           // Keeps focus in the input, so the click lands before the blur closes it.
           onMouseDown={(event) => event.preventDefault()}
         >
-          {options.map((option, index) => (
-            <Option
-              key={option.value}
-              id={optionId(index)}
-              role="option"
-              aria-selected={option.value === value?.value}
-              $active={index === activeIndex}
-              $selected={option.value === value?.value}
-              onClick={() => select(option)}
-              onMouseEnter={() => setActiveIndex(index)}
-            >
-              {option.label}
-            </Option>
-          ))}
+          {rows.map((row, index) => {
+            const selected = row.kind === 'option' && row.option.value === value?.value;
+
+            return (
+              <Option
+                key={row.kind === 'clear' ? 'clear' : row.option.value}
+                id={optionId(index)}
+                role="option"
+                aria-selected={selected}
+                $active={index === activeIndex}
+                $selected={selected}
+                $muted={row.kind === 'clear'}
+                onClick={() => choose(row)}
+                onMouseEnter={() => setActiveIndex(index)}
+              >
+                {row.kind === 'clear' ? clearLabel : row.option.label}
+              </Option>
+            );
+          })}
         </Listbox>
       ) : null}
     </Wrapper>

@@ -9,16 +9,22 @@ import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
 import { Button } from '@/components/ui/Button';
 import type { StepTwoValues } from '../schema/donation';
 import { stepTwoSchema } from '../schema/donation';
+import { useDraftSync } from '../hooks/useDraftSync';
 import { useServerFieldErrors } from '../hooks/useServerFieldErrors';
 import { useWizard } from '../store/wizard';
 import { DonorList } from './DonorList';
-import { StepActions, StepLayout } from './StepActions';
+import { Section, SectionTitle, StepActions, StepForm, StepLayout } from './StepActions';
 
 const Headline = styled.h1`
   font-size: ${({ theme }) => theme.heading.sm.fontSize};
   line-height: ${({ theme }) => theme.heading.sm.lineHeight};
   letter-spacing: ${({ theme }) => theme.heading.sm.letterSpacing};
   font-weight: ${({ theme }) => theme.font.weight.bold};
+
+  @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
+    font-size: ${({ theme }) => `var(--headline-size, ${theme.heading.lg.fontSize})`};
+    line-height: ${({ theme }) => `var(--headline-leading, ${theme.heading.lg.lineHeight})`};
+  }
 `;
 
 export function StepTwo() {
@@ -33,14 +39,22 @@ export function StepTwo() {
   });
 
   useServerFieldErrors(form, 2);
+  useDraftSync(form.control);
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit((values) => advance(values))} noValidate>
+      {/* The one step whose height the visitor decides, so it takes the column and lets
+          the donor list scroll inside it rather than pushing the page taller. */}
+      <StepForm fill onSubmit={form.handleSubmit((values) => advance(values))} noValidate>
         <StepLayout>
-          <Headline>{t('donation.headline.2')}</Headline>
+          <Headline data-step-heading tabIndex={-1}>
+            {t('donation.headline.2')}
+          </Headline>
 
-          <DonorList />
+          <Section $fill>
+            <SectionTitle>{t('donation.aboutYou')}</SectionTitle>
+            <DonorList />
+          </Section>
 
           <StepActions>
             <Button variant="secondary" size="lg" onClick={goBack}>
@@ -54,7 +68,7 @@ export function StepTwo() {
             </Button>
           </StepActions>
         </StepLayout>
-      </form>
+      </StepForm>
     </FormProvider>
   );
 }

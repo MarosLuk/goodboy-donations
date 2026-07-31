@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 const Row = styled.div`
   display: flex;
   align-items: flex-start;
-  gap: ${({ theme }) => theme.space[12]};
+  gap: ${({ theme }) => theme.space[8]};
 `;
 
 // The native input stays, stretched invisibly over the box: keyboard, Space, the
@@ -36,11 +36,11 @@ const Box = styled.span`
   align-items: center;
   justify-content: center;
   flex: none;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   margin-top: ${({ theme }) => theme.space[2]};
-  border-radius: ${({ theme }) => theme.radius[6]};
-  border: ${({ theme }) => `${theme.borderWidth.sm} solid ${theme.color.surface.quaternary}`};
+  border-radius: ${({ theme }) => theme.radius[4]};
+  border: ${({ theme }) => `${theme.borderWidth.xs} solid ${theme.color.content.quaternary}`};
   background: ${({ theme }) => theme.color.surface.primary};
   color: ${({ theme }) => theme.color.action.primary.default};
 
@@ -78,6 +78,7 @@ const Box = styled.span`
 const Label = styled.label`
   font-size: ${({ theme }) => theme.text.sm.fontSize};
   line-height: ${({ theme }) => theme.text.sm.lineHeight};
+  font-weight: ${({ theme }) => theme.font.weight.medium};
   color: ${({ theme }) => theme.color.content.secondary};
   cursor: pointer;
 `;

@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -13,6 +14,33 @@ const Wrapper = styled.div`
   flex-direction: column;
   gap: ${({ theme }) => theme.space[24]};
   align-items: flex-start;
+
+  @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
+    flex: 1;
+    min-height: 0;
+  }
+`;
+
+// Only the donors scroll. The button that adds one and the note under it stay where they
+// are, because a control that scrolls out of reach the moment it is used is worse than
+// no room at all.
+const Scroller = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.space[24]};
+  align-self: stretch;
+
+  @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    /* The gutter is held whether or not a bar is showing, so adding the donor that first
+       needs one does not shift every field left. The negative margin gives a focus ring
+       room to sit outside its field without the overflow clipping it. */
+    scrollbar-gutter: stable;
+    padding: ${({ theme }) => theme.space[4]};
+    margin: ${({ theme }) => `-${theme.space[4]}`};
+  }
 `;
 
 const Donor = styled.div`
@@ -64,31 +92,52 @@ export function DonorList() {
   const { control } = useFormContext<StepTwoValues>();
   const { fields, append, remove } = useFieldArray({ control, name: 'donors' });
 
+  const list = useRef<HTMLDivElement>(null);
+  const addButton = useRef<HTMLButtonElement>(null);
+  const previousCount = useRef(fields.length);
+
+  // A new donor appears below the button that was just pressed, so focus follows it to
+  // the field that now wants typing. Removing one leaves focus nowhere, so it goes to
+  // the button that is still there.
+  useEffect(() => {
+    if (fields.length > previousCount.current) {
+      const names = list.current?.querySelectorAll<HTMLInputElement>('input[name$=".firstName"]');
+
+      names?.[names.length - 1]?.focus();
+    } else if (fields.length < previousCount.current) {
+      addButton.current?.focus();
+    }
+
+    previousCount.current = fields.length;
+  }, [fields.length]);
+
   return (
     <Wrapper>
-      {fields.map((field, index) => (
-        // The id from useFieldArray rather than the index: keying by index makes
-        // React reuse the wrong inputs once a donor in the middle is removed.
-        <Donor key={field.id}>
-          {fields.length > 1 ? (
-            <Header>
-              <Title>{t('donation.donors.title', { number: index + 1 })}</Title>
-              <Button
-                variant="secondary"
-                onClick={() => remove(index)}
-                aria-label={t('donation.donors.removeLabel', { number: index + 1 })}
-              >
-                {t('donation.donors.remove')}
-              </Button>
-            </Header>
-          ) : null}
+      <Scroller ref={list}>
+        {fields.map((field, index) => (
+          // The id from useFieldArray rather than the index: keying by index makes
+          // React reuse the wrong inputs once a donor in the middle is removed.
+          <Donor key={field.id}>
+            {fields.length > 1 ? (
+              <Header>
+                <Title>{t('donation.donors.title', { number: index + 1 })}</Title>
+                <Button
+                  variant="secondary"
+                  onClick={() => remove(index)}
+                  aria-label={t('donation.donors.removeLabel', { number: index + 1 })}
+                >
+                  {t('donation.donors.remove')}
+                </Button>
+              </Header>
+            ) : null}
 
-          <DonorFields index={index} />
-        </Donor>
-      ))}
+            <DonorFields index={index} />
+          </Donor>
+        ))}
+      </Scroller>
 
       <AddSlot>
-        <Button variant="secondary" onClick={() => append(emptyDonor)}>
+        <Button ref={addButton} variant="secondary" onClick={() => append(emptyDonor)}>
           {t('donation.donors.add')}
         </Button>
       </AddSlot>
