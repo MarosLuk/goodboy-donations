@@ -6,7 +6,7 @@ import { createServerI18n } from '@/i18n/server';
 import { defaultLocale, isLocale } from '@/i18n/settings';
 import { DonationForm } from './DonationForm';
 import { HeroPhoto } from './HeroPhoto';
-import { Column, Frame, Page } from './page.styles';
+import { Column, Frame, Screen } from './page.styles';
 
 // Each step gets its own title and description. The step is in the query string, so
 // the server can read it and a shared link describes the step it points at.
@@ -31,7 +31,7 @@ export default async function DonationPage({ searchParams }: PageProps<'/[locale
   const { step } = await searchParams;
 
   return (
-    <Page>
+    <Screen>
       <Frame>
         <SplitLayout media={<HeroPhoto />}>
           <Column>
@@ -40,6 +40,6 @@ export default async function DonationPage({ searchParams }: PageProps<'/[locale
           </Column>
         </SplitLayout>
       </Frame>
-    </Page>
+    </Screen>
   );
 }

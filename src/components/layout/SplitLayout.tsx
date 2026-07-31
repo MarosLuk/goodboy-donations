@@ -2,6 +2,7 @@
 
 import type { ReactNode } from 'react';
 import styled from 'styled-components';
+import { fit } from '@/styles/fit';
 
 const Grid = styled.div`
   display: grid;
@@ -14,20 +15,38 @@ const Grid = styled.div`
 
   @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
     grid-template-areas: 'content media';
-    /* 658 for the content and 602 for the photo, exactly as the design frame has them.
-       Both may shrink below 1440, neither grows past it. */
-    grid-template-columns: minmax(0, 658px) minmax(0, 602px);
-    gap: ${({ theme }) => theme.space[80]};
-    align-items: start;
+    /* The design's 658 for the content against 602 for the photo, kept as a ratio so the
+       two share whatever the window leaves after the 80 gap. On a 1440 window that is
+       the design's own 658 and 602; on a wider one both grow rather than the page
+       stranding the photo short of the edge it is measured from. */
+    grid-template-columns: minmax(0, 658fr) minmax(0, 602fr);
+    column-gap: ${({ theme }) => theme.space[80]};
+    /* The window is the frame. The single row fills it, so both columns are as tall as
+       the screen and the step opens without a scrollbar. */
+    min-height: 100dvh;
   }
 `;
 
 const Content = styled.div`
   grid-area: content;
+
+  @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
+    display: flex;
+    flex-direction: column;
+    /* 60 above the stepper and below the footer. */
+    padding: ${fit(60, 40)} 0;
+  }
 `;
 
 const Media = styled.div`
   grid-area: media;
+
+  @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
+    /* Only the frame for the photo, which fills it from out of flow. In flow its own
+       height would size the row, and the row would then be the photo's 984 on every
+       window instead of the window's. */
+    position: relative;
+  }
 `;
 
 export function SplitLayout({ media, children }: { media: ReactNode; children: ReactNode }) {

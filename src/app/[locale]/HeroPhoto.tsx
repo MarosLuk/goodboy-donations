@@ -19,12 +19,18 @@ const Frame = styled.div<{ $firstStepOnly: boolean }>`
     object-position: center 35%;
   }
 
-  /* Beside the form it costs nothing, so on a wide screen it stays on every step. */
+  /* Beside the form it costs nothing, so on a wide screen it stays on every step. There
+     it runs the height of the window less the 20 above and below — the design's own 984
+     is what that comes to on the 1024 frame — and the crop follows from there. Out of
+     flow, so the photo takes its height from the column rather than setting it. */
   @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
     display: block;
+    position: absolute;
+    inset: ${({ theme }) => `${theme.space[20]} 0`};
 
     img {
       aspect-ratio: auto;
+      height: 100%;
     }
   }
 
