@@ -9,6 +9,28 @@
     "optional": "(Optional)",
     "loading": "Loading…"
   },
+  "contact": {
+    "title": "Contact",
+    "email": {
+      "title": "Email",
+      "description": "Our friendly team is here to help.",
+      "value": "hello@goodrequest.com"
+    },
+    "office": {
+      "title": "Office",
+      "description": "Come say hello at our office HQ.",
+      "value": "Obchodná 3D, 010 08 Žilina, Slovakia"
+    },
+    "phone": {
+      "title": "Phone",
+      "description": "Mon-Fri from 8am to 5pm.",
+      "value": "+421 911 750 750"
+    },
+    "meta": {
+      "title": "Contact — GoodBoy Foundation",
+      "description": "Write to us, call us, or drop by the office in Žilina."
+    }
+  },
   "donation": {
     "about": "About the project",
     "actions": {
@@ -98,6 +120,10 @@
       "wholeFoundation": "The whole foundation"
     }
   },
+  "footer": {
+    "links": "Footer links",
+    "contact": "Contact"
+  },
   "results": {
     "contribution": "Amount raised",
     "contributors": "Donors",
@@ -108,9 +134,5 @@
     "placeholder": "Pick a shelter from the list",
     "noResults": "No shelter found",
     "loadFailed": "Could not load the shelters"
-  },
-  "footer": {
-    "links": "Footer links",
-    "contact": "Contact"
   }
 }

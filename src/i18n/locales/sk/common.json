@@ -9,6 +9,28 @@
     "optional": "(Nepovinné)",
     "loading": "Načítavam…"
   },
+  "contact": {
+    "title": "Kontakt",
+    "email": {
+      "title": "E-mail",
+      "description": "Náš tím je tu pre vás.",
+      "value": "hello@goodrequest.com"
+    },
+    "office": {
+      "title": "Adresa",
+      "description": "Zastavte sa u nás v kancelárii.",
+      "value": "Obchodná 3D, 010 08 Žilina, Slovakia"
+    },
+    "phone": {
+      "title": "Telefón",
+      "description": "Po–Pi od 8:00 do 17:00.",
+      "value": "+421 911 750 750"
+    },
+    "meta": {
+      "title": "Kontakt — Nadácia GoodBoy",
+      "description": "Napíšte nám, zavolajte alebo sa zastavte v kancelárii v Žiline."
+    }
+  },
   "donation": {
     "about": "O projekte",
     "actions": {
@@ -98,6 +120,10 @@
       "wholeFoundation": "Celá nadácia"
     }
   },
+  "footer": {
+    "links": "Odkazy v pätičke",
+    "contact": "Kontakt"
+  },
   "results": {
     "contribution": "Vyzbieraná suma",
     "contributors": "Počet darcov",
@@ -108,9 +134,5 @@
     "placeholder": "Vyberte útulok zo zoznamu",
     "noResults": "Žiadny útulok sa nenašiel",
     "loadFailed": "Útulky sa nepodarilo načítať"
-  },
-  "footer": {
-    "links": "Odkazy v pätičke",
-    "contact": "Kontakt"
   }
 }
