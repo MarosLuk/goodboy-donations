@@ -12,14 +12,28 @@ import { useWizard } from '../store/wizard';
 import type { ShelterFieldProps } from './StepOne';
 import { StepOne } from './StepOne';
 import { Stepper } from './Stepper';
+import { fills } from './StepActions';
 import { StepThree } from './StepThree';
 import { StepTwo } from './StepTwo';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ $fill?: boolean }>`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => `var(--rhythm, ${theme.space[40]})`};
+
+  ${({ $fill }) => $fill && fills}
 `;
+
+// The step itself, and the two boxes above it, hand the column's height down to whatever
+// inside wants to scroll on its own. Off by default: a step that fits has nothing to
+// gain from it, and stretching it would only move its actions away from its fields.
+const Step = styled(motion.div)<{ $fill?: boolean }>`
+  ${({ $fill }) => $fill && fills}
+`;
+
+// Step 2 is the one whose height the visitor controls: every donor added is another
+// three fields. The rest are as tall as they are.
+const GROWS = 2;
 
 export function DonationWizard({
   renderShelterField,
@@ -60,14 +74,14 @@ export function DonationWizard({
   }
 
   return (
-    <Wrapper ref={container}>
+    <Wrapper ref={container} $fill={step === GROWS}>
       <Stepper current={step} />
 
-      <motion.div key={step} {...entrance}>
+      <Step key={step} $fill={step === GROWS} {...entrance}>
         {step === 1 ? <StepOne renderShelterField={renderShelterField} /> : null}
         {step === 2 ? <StepTwo /> : null}
         {step === 3 ? <StepThree onDonated={onDonated} /> : null}
-      </motion.div>
+      </Step>
     </Wrapper>
   );
 }

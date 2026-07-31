@@ -26,6 +26,7 @@ export const Column = styled.div`
     /* The footer sits on the bottom edge of the frame in the design, so it goes there at
        any window height rather than trailing whichever step happens to be shortest. */
     flex: 1;
+    min-height: 0;
     justify-content: space-between;
   }
 `;

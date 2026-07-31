@@ -15,3 +15,19 @@ export function fit(design: number, floor: number) {
 
   return `clamp(${floor}px, calc(${design}px - (${FULL}px - 100dvh) * ${rate}), ${design}px)`;
 }
+
+/**
+ * Marks a section that can outgrow the window on its own — a list the visitor keeps
+ * adding to. The screen above it then caps to the window rather than growing with it,
+ * which is what leaves the scrolling to the one box inside that asked for it.
+ *
+ * An attribute and `:has()` rather than a prop: the page is rendered on the server and
+ * which step is showing is client state, so there is no prop to pass down.
+ */
+const FILLS_SCREEN = 'data-fills-screen';
+
+/** Spread onto the section that grows. */
+export const fillsScreen = { [FILLS_SCREEN]: '' } as const;
+
+/** Matches an element with such a section somewhere inside it. */
+export const withFillingChild = `&:has([${FILLS_SCREEN}])`;

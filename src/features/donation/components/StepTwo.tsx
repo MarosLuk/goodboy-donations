@@ -12,7 +12,7 @@ import { stepTwoSchema } from '../schema/donation';
 import { useServerFieldErrors } from '../hooks/useServerFieldErrors';
 import { useWizard } from '../store/wizard';
 import { DonorList } from './DonorList';
-import { StepActions, StepLayout } from './StepActions';
+import { StepActions, StepForm, StepLayout } from './StepActions';
 
 const Headline = styled.h1`
   font-size: ${({ theme }) => theme.heading.sm.fontSize};
@@ -36,8 +36,10 @@ export function StepTwo() {
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit((values) => advance(values))} noValidate>
-        <StepLayout>
+      {/* The one step whose height the visitor decides, so it takes the column and lets
+          the donor list scroll inside it rather than pushing the page taller. */}
+      <StepForm fill onSubmit={form.handleSubmit((values) => advance(values))} noValidate>
+        <StepLayout fill>
           <Headline data-step-heading tabIndex={-1}>
             {t('donation.headline.2')}
           </Headline>
@@ -56,7 +58,7 @@ export function StepTwo() {
             </Button>
           </StepActions>
         </StepLayout>
-      </form>
+      </StepForm>
     </FormProvider>
   );
 }

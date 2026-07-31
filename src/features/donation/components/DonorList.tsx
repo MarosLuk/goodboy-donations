@@ -14,6 +14,33 @@ const Wrapper = styled.div`
   flex-direction: column;
   gap: ${({ theme }) => theme.space[24]};
   align-items: flex-start;
+
+  @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
+    flex: 1;
+    min-height: 0;
+  }
+`;
+
+// Only the donors scroll. The button that adds one and the note under it stay where they
+// are, because a control that scrolls out of reach the moment it is used is worse than
+// no room at all.
+const Scroller = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.space[24]};
+  align-self: stretch;
+
+  @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    /* The gutter is held whether or not a bar is showing, so adding the donor that first
+       needs one does not shift every field left. The negative margin gives a focus ring
+       room to sit outside its field without the overflow clipping it. */
+    scrollbar-gutter: stable;
+    padding: ${({ theme }) => theme.space[4]};
+    margin: ${({ theme }) => `-${theme.space[4]}`};
+  }
 `;
 
 const Donor = styled.div`
@@ -85,27 +112,29 @@ export function DonorList() {
   }, [fields.length]);
 
   return (
-    <Wrapper ref={list}>
-      {fields.map((field, index) => (
-        // The id from useFieldArray rather than the index: keying by index makes
-        // React reuse the wrong inputs once a donor in the middle is removed.
-        <Donor key={field.id}>
-          {fields.length > 1 ? (
-            <Header>
-              <Title>{t('donation.donors.title', { number: index + 1 })}</Title>
-              <Button
-                variant="secondary"
-                onClick={() => remove(index)}
-                aria-label={t('donation.donors.removeLabel', { number: index + 1 })}
-              >
-                {t('donation.donors.remove')}
-              </Button>
-            </Header>
-          ) : null}
+    <Wrapper>
+      <Scroller ref={list}>
+        {fields.map((field, index) => (
+          // The id from useFieldArray rather than the index: keying by index makes
+          // React reuse the wrong inputs once a donor in the middle is removed.
+          <Donor key={field.id}>
+            {fields.length > 1 ? (
+              <Header>
+                <Title>{t('donation.donors.title', { number: index + 1 })}</Title>
+                <Button
+                  variant="secondary"
+                  onClick={() => remove(index)}
+                  aria-label={t('donation.donors.removeLabel', { number: index + 1 })}
+                >
+                  {t('donation.donors.remove')}
+                </Button>
+              </Header>
+            ) : null}
 
-          <DonorFields index={index} />
-        </Donor>
-      ))}
+            <DonorFields index={index} />
+          </Donor>
+        ))}
+      </Scroller>
 
       <AddSlot>
         <Button ref={addButton} variant="secondary" onClick={() => append(emptyDonor)}>
