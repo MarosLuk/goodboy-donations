@@ -23,6 +23,7 @@ const Grid = styled.div`
     column-gap: ${({ theme }) => theme.space[80]};
     /* The window is the frame. The single row fills it, so both columns are as tall as
        the screen and the step opens without a scrollbar. */
+    flex: 1;
     min-height: 100dvh;
   }
 `;

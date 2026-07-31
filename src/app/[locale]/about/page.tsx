@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { BackLink } from '@/components/layout/BackLink';
 import { Container } from '@/components/layout/Container';
 import { Footer } from '@/components/layout/Footer';
-import { Page } from '@/components/layout/Page';
+import { Screen } from '@/components/layout/Screen';
 import { ResultsSummary } from '@/features/results/components/ResultsSummary';
 import { createServerI18n } from '@/i18n/server';
 import { defaultLocale, isLocale } from '@/i18n/settings';
@@ -28,7 +28,7 @@ export default async function AboutPage({ params }: PageProps<'/[locale]/about'>
   const { t } = createServerI18n(activeLocale);
 
   return (
-    <Page>
+    <Screen>
       <Container>
         <Layout>
           <BackLink href={`/${activeLocale}`}>{t('common.back')}</BackLink>
@@ -46,6 +46,6 @@ export default async function AboutPage({ params }: PageProps<'/[locale]/about'>
           <Footer />
         </Layout>
       </Container>
-    </Page>
+    </Screen>
   );
 }

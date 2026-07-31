@@ -7,10 +7,17 @@ import styled from 'styled-components';
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.space[40]};
+  gap: ${({ theme }) => `var(--rhythm, ${theme.space[40]})`};
 
   @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
-    padding-top: ${({ theme }) => theme.space[40]};
+    flex: 1;
+    padding: ${({ theme }) => `var(--screen-air, ${theme.space[40]}) 0`};
+
+    /* This screen has no photograph to soak up a tall window, and the gap above is the
+       floor rather than the whole story: what the window leaves over is shared out
+       between the blocks, so the page reads as filled rather than as content that
+       stopped early above a footer pinned to the bottom. */
+    justify-content: space-between;
   }
 `;
 
@@ -21,20 +28,20 @@ export const Heading = styled.h1`
   font-weight: ${({ theme }) => theme.font.weight.bold};
 
   @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
-    font-size: ${({ theme }) => theme.heading.lg.fontSize};
-    line-height: ${({ theme }) => theme.heading.lg.lineHeight};
+    font-size: ${({ theme }) => `var(--headline-size, ${theme.heading.lg.fontSize})`};
+    line-height: ${({ theme }) => `var(--headline-leading, ${theme.heading.lg.lineHeight})`};
   }
 `;
 
-// Prose gets a measure of its own. Full width at 1200 would run to 1120 characters of line,
-// which is roughly twice what stays comfortable to read.
+// The prose runs the full width of the page, left aligned. A reading measure would be the
+// textbook call, but the design sets these two paragraphs against the full-width rules of
+// the metrics, and a narrow column beside them reads as an accident.
 export const Prose = styled.p`
-  max-width: 62ch;
   color: ${({ theme }) => theme.color.content.secondary};
 `;
 
 // The summary draws its own rules and owns the air inside them, so this only exists to let
-// the prose keep a reading measure while the rules run the full width of the column.
+// the metrics sit apart from the paragraphs around them.
 export const Numbers = styled.div`
   align-self: stretch;
 `;

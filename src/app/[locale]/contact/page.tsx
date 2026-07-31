@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { BackLink } from '@/components/layout/BackLink';
 import { Container } from '@/components/layout/Container';
 import { Footer } from '@/components/layout/Footer';
-import { Page } from '@/components/layout/Page';
+import { Screen } from '@/components/layout/Screen';
 import { ContactDetails } from '@/features/contact/components/ContactDetails';
 import { createServerI18n } from '@/i18n/server';
 import { defaultLocale, isLocale } from '@/i18n/settings';
@@ -26,7 +26,7 @@ export default async function ContactPage({ params }: PageProps<'/[locale]/conta
   const { t } = createServerI18n(activeLocale);
 
   return (
-    <Page>
+    <Screen>
       <Container>
         <Layout>
           {/* The design opens the page with this link rather than a header. */}
@@ -49,6 +49,6 @@ export default async function ContactPage({ params }: PageProps<'/[locale]/conta
           <Footer />
         </Layout>
       </Container>
-    </Page>
+    </Screen>
   );
 }

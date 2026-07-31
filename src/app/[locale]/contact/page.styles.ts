@@ -6,11 +6,16 @@ import styled from 'styled-components';
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.space[40]};
+  gap: ${({ theme }) => `var(--rhythm, ${theme.space[40]})`};
 
-  /* Same 40 the donation page puts above its stepper, so both screens start alike. */
+  /* Same air the donation screen puts above its stepper, so both screens start alike. */
   @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
-    padding-top: ${({ theme }) => theme.space[40]};
+    flex: 1;
+    padding: ${({ theme }) => `var(--screen-air, ${theme.space[40]}) 0`};
+
+    > footer {
+      margin-top: auto;
+    }
   }
 `;
 
@@ -27,8 +32,8 @@ export const Heading = styled.h1`
   font-weight: ${({ theme }) => theme.font.weight.bold};
 
   @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
-    font-size: ${({ theme }) => theme.heading.lg.fontSize};
-    line-height: ${({ theme }) => theme.heading.lg.lineHeight};
+    font-size: ${({ theme }) => `var(--headline-size, ${theme.heading.lg.fontSize})`};
+    line-height: ${({ theme }) => `var(--headline-leading, ${theme.heading.lg.lineHeight})`};
   }
 `;
 
@@ -45,7 +50,14 @@ export const Photo = styled(Image)`
   border-radius: ${({ theme }) => theme.radius[24]};
 
   @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
-    aspect-ratio: 1120 / 376;
+    /* No fixed band beside the rest of the page: the photo takes whatever height the
+       window has left, which is what lets this screen open without a scrollbar at any
+       size. On the 1024 frame that lands within a few pixels of the design's 376. */
+    aspect-ratio: auto;
+    flex: 1 1 0;
+    /* Below this there is no photograph left to look at, so the page gives up and
+       scrolls instead of crushing it. */
+    min-height: 160px;
     width: calc(100% - ${({ theme }) => theme.space[160]});
     /* margin-inline, not margin: the shorthand would wipe the top margin above. */
     margin-inline: auto;

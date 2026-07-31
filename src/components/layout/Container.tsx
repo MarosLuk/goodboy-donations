@@ -16,5 +16,11 @@ export const Container = styled.div`
 
   @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
     padding: 0 ${({ theme }) => theme.space[80]};
+    /* Its only parent is Screen, which is the window tall there; the container passes
+       that height on so the layout inside can spend it. */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
   }
 `;

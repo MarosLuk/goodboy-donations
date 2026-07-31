@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import { Footer } from '@/components/layout/Footer';
+import { Screen } from '@/components/layout/Screen';
 import { SplitLayout } from '@/components/layout/SplitLayout';
 import { parseStep } from '@/features/donation/lib/step';
 import { createServerI18n } from '@/i18n/server';
 import { defaultLocale, isLocale } from '@/i18n/settings';
 import { DonationForm } from './DonationForm';
 import { HeroPhoto } from './HeroPhoto';
-import { Column, Frame, Screen } from './page.styles';
+import { Column, Frame } from './page.styles';
 
 // Each step gets its own title and description. The step is in the query string, so
 // the server can read it and a shared link describes the step it points at.

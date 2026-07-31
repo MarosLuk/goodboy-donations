@@ -2,28 +2,6 @@
 
 import styled from 'styled-components';
 import { Container } from '@/components/layout/Container';
-import { Page } from '@/components/layout/Page';
-import { fit } from '@/styles/fit';
-
-// On a desktop this screen is the window rather than a document inside it. Everything
-// that decides whether it needs a scrollbar is declared here as a custom property, so
-// the one rule — hold the design on a tall window, ease down on a short one — lives in
-// one place. The blocks read them through `var(…, token)`, which is what leaves the
-// contact page and every phone on the design's own numbers.
-export const Screen = styled(Page)`
-  @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
-    --rhythm: ${fit(40, 16)};
-    --headline-size: ${fit(48, 32)};
-    --headline-leading: ${fit(56, 40)};
-    --amount-size: ${fit(72, 48)};
-    --amount-air: ${fit(32, 8)};
-    --footer-air: ${fit(24, 10)};
-
-    /* The two columns carry their own vertical insets — 60 for the form, 20 for the
-       photo — so the page keeps none of its own. */
-    padding: 0;
-  }
-`;
 
 // The design frame is not symmetric: 80 on the left, 20 on the right, which is what
 // makes 658 + 80 + 602 add up to 1440. Reproduced here rather than in the shared
