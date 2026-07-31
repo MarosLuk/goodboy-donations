@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -15,7 +14,13 @@ const List = styled.ul`
 
 // A pair of links rather than a select: there are two of them, and a link is what a language
 // change actually is — a different address for the same page.
-const Choice = styled(Link)<{ $active: boolean }>`
+//
+// A plain anchor rather than next/link, so the browser loads a new document. The root layout
+// lives inside the locale segment, so a soft navigation remounts it, React builds a fresh
+// <html> from the payload, and the colour scheme attribute set outside React is gone — the
+// page would jump back to light. A document load lets the script in the head put it back
+// before anything is painted. The whole language of the page is changing anyway.
+const Choice = styled.a<{ $active: boolean }>`
   display: block;
   padding: ${({ theme }) => `${theme.space[6]} ${theme.space[8]}`};
   border-radius: ${({ theme }) => theme.radius[8]};
