@@ -2,10 +2,10 @@ import type { Metadata } from 'next';
 import { BackLink } from '@/components/layout/BackLink';
 import { Container } from '@/components/layout/Container';
 import { Footer } from '@/components/layout/Footer';
+import { Page } from '@/components/layout/Page';
 import { ContactDetails } from '@/features/contact/components/ContactDetails';
 import { createServerI18n } from '@/i18n/server';
 import { defaultLocale, isLocale } from '@/i18n/settings';
-import { Page } from '../page.styles';
 import { Heading, Layout, Photo, Section } from './page.styles';
 
 export async function generateMetadata({

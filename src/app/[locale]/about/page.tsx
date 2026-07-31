@@ -2,10 +2,10 @@ import type { Metadata } from 'next';
 import { BackLink } from '@/components/layout/BackLink';
 import { Container } from '@/components/layout/Container';
 import { Footer } from '@/components/layout/Footer';
+import { Page } from '@/components/layout/Page';
 import { ResultsSummary } from '@/features/results/components/ResultsSummary';
 import { createServerI18n } from '@/i18n/server';
 import { defaultLocale, isLocale } from '@/i18n/settings';
-import { Page } from '../page.styles';
 import { Heading, Layout, Numbers, Prose } from './page.styles';
 
 export async function generateMetadata({
