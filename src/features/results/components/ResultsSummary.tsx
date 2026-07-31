@@ -7,13 +7,17 @@ import { toLocale } from '@/i18n/settings';
 import { formatCount, formatCurrency } from '@/lib/format';
 import { useResults } from '../api/useResults';
 
-// Two columns rather than two boxes side by side: the amount and the count are meant to read
-// as two separate figures, and left to a flex row a short "1" would sit right against the
-// total. Stacks on a phone, where two columns would leave the labels wrapping.
+// Two columns, each centred on itself. The design centres them — read off the frame, where
+// the shorter label and the wider figure above it share a centre to the pixel. Stacks on a
+// phone, where two columns would leave the labels wrapping.
 const Stats = styled.dl`
   display: grid;
   gap: ${({ theme }) => theme.space[32]};
-  max-width: 62ch;
+  /* Rules above and below, the same hairline the footer draws. */
+  padding: ${({ theme }) => `${theme.space[40]} 0`};
+  border-top: ${({ theme }) => `${theme.borderWidth.xs} solid ${theme.color.surface.quaternary}`};
+  border-bottom: ${({ theme }) =>
+    `${theme.borderWidth.xs} solid ${theme.color.surface.quaternary}`};
 
   @media (min-width: ${({ theme }) => theme.breakpoint.tablet}) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -24,21 +28,36 @@ const Stats = styled.dl`
 const Stat = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: ${({ theme }) => theme.space[4]};
+  text-align: center;
 `;
 
+// 60/72 semibold and 18/24 semibold come from the frame itself, not from a guess: the file
+// stores the size and line height per text node, and these two land exactly on heading.xl and
+// text.lg. A phone gets a step down, since the design has no phone layout for this screen and
+// a 60px figure on a 390px screen leaves no room for its own label.
 const Value = styled.dd`
-  font-size: ${({ theme }) => theme.heading.sm.fontSize};
-  line-height: ${({ theme }) => theme.heading.sm.lineHeight};
-  letter-spacing: ${({ theme }) => theme.heading.sm.letterSpacing};
-  font-weight: ${({ theme }) => theme.font.weight.bold};
+  font-size: ${({ theme }) => theme.heading.md.fontSize};
+  line-height: ${({ theme }) => theme.heading.md.lineHeight};
+  letter-spacing: ${({ theme }) => theme.heading.md.letterSpacing};
+  font-weight: ${({ theme }) => theme.font.weight.semibold};
   color: ${({ theme }) => theme.color.action.primary.default};
+
+  @media (min-width: ${({ theme }) => theme.breakpoint.tablet}) {
+    font-size: ${({ theme }) => theme.heading.xl.fontSize};
+    line-height: ${({ theme }) => theme.heading.xl.lineHeight};
+    letter-spacing: ${({ theme }) => theme.heading.xl.letterSpacing};
+  }
 `;
 
 const Label = styled.dt`
-  font-size: ${({ theme }) => theme.text.md.fontSize};
-  line-height: ${({ theme }) => theme.text.md.lineHeight};
-  color: ${({ theme }) => theme.color.content.tertiary};
+  font-size: ${({ theme }) => theme.text.lg.fontSize};
+  line-height: ${({ theme }) => theme.text.lg.lineHeight};
+  font-weight: ${({ theme }) => theme.font.weight.semibold};
+  /* Antialiasing can only lighten, and the darkest pixel in the frame is already darker than
+     the tertiary role, which rules it out. */
+  color: ${({ theme }) => theme.color.content.secondary};
 `;
 
 const Message = styled.p`

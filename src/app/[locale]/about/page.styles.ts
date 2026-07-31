@@ -33,8 +33,8 @@ export const Prose = styled.p`
   color: ${({ theme }) => theme.color.content.secondary};
 `;
 
-// The numbers are the point of the page, so they sit between the two blocks of prose with
-// more air than the 40 that separates everything else.
+// The summary draws its own rules and owns the air inside them, so this only exists to let
+// the prose keep a reading measure while the rules run the full width of the column.
 export const Numbers = styled.div`
-  padding: ${({ theme }) => `${theme.space[16]} 0`};
+  align-self: stretch;
 `;
