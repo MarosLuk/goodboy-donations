@@ -5,8 +5,22 @@ import styled, { css } from 'styled-components';
 
 export type ButtonVariant = 'primary' | 'secondary';
 
+// Measured off the design: the buttons that move between steps are 56 tall, the amount
+// presets 48. One component, two sizes, rather than two components.
+export type ButtonSize = 'md' | 'lg';
+
 type ButtonProps = ComponentPropsWithoutRef<'button'> & {
   variant?: ButtonVariant;
+  size?: ButtonSize;
+};
+
+const sizeStyles = {
+  md: css`
+    padding: ${({ theme }) => `${theme.space[12]} ${theme.space[24]}`};
+  `,
+  lg: css`
+    padding: ${({ theme }) => `${theme.space[16]} ${theme.space[32]}`};
+  `,
 };
 
 const variantStyles = {
@@ -36,14 +50,13 @@ const variantStyles = {
   `,
 };
 
-const StyledButton = styled.button<{ $variant: ButtonVariant }>`
+const StyledButton = styled.button<{ $variant: ButtonVariant; $size: ButtonSize }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
   /* Labels sit next to an icon in the design, so the gap belongs here instead of
      to every caller. */
   gap: ${({ theme }) => theme.space[8]};
-  padding: ${({ theme }) => `${theme.space[12]} ${theme.space[24]}`};
   border-radius: ${({ theme }) => theme.radius[12]};
   font-size: ${({ theme }) => theme.text.md.fontSize};
   line-height: ${({ theme }) => theme.text.md.lineHeight};
@@ -56,11 +69,17 @@ const StyledButton = styled.button<{ $variant: ButtonVariant }>`
     cursor: not-allowed;
   }
 
+  ${({ $size }) => sizeStyles[$size]}
   ${({ $variant }) => variantStyles[$variant]}
 `;
 
 // type defaults to button: a primitive dropped into a form must not submit it by
 // accident — the one button that submits says so explicitly.
-export function Button({ variant = 'primary', type = 'button', ...props }: ButtonProps) {
-  return <StyledButton $variant={variant} type={type} {...props} />;
+export function Button({
+  variant = 'primary',
+  size = 'md',
+  type = 'button',
+  ...props
+}: ButtonProps) {
+  return <StyledButton $variant={variant} $size={size} type={type} {...props} />;
 }

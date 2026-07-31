@@ -45,6 +45,7 @@ const NavLink = styled(Link)`
   font-size: ${({ theme }) => theme.text.md.fontSize};
   line-height: ${({ theme }) => theme.text.md.lineHeight};
   color: ${({ theme }) => theme.color.content.secondary};
+  text-decoration: none;
 
   &:hover {
     color: ${({ theme }) => theme.color.content.primary};

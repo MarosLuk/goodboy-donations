@@ -15,7 +15,17 @@ export const resultsUrl = `${env.NEXT_PUBLIC_API_BASE_URL}/api/v1/shelters/resul
 // prettier than reality.
 export const resultsFixture = { contributors: 6, contribution: 5 };
 
+export const contributeUrl = `${env.NEXT_PUBLIC_API_BASE_URL}/api/v1/shelters/contribute`;
+
 export const handlers = [
+  // The real database is shared between candidates, so a stray post would show up in
+  // everyone's totals. Every test goes through this handler instead.
+  http.post(contributeUrl, () =>
+    HttpResponse.json({
+      messages: [{ type: 'SUCCESS', message: 'Príspevok bol úspešne zaznamenaný' }],
+    }),
+  ),
+
   http.get(resultsUrl, () => HttpResponse.json(resultsFixture)),
 
   // Filtering happens on the real server, so the mock filters too — otherwise a

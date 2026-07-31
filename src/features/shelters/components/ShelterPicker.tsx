@@ -25,9 +25,12 @@ type ShelterPickerProps = {
   value: Shelter | null;
   onChange: (shelter: Shelter | null) => void;
   error?: string;
+  // The hint has to follow the form of help: a field that calls itself optional and
+  // then blocks the next step would be lying.
+  optional?: boolean;
 };
 
-export function ShelterPicker({ value, onChange, error }: ShelterPickerProps) {
+export function ShelterPicker({ value, onChange, error, optional = true }: ShelterPickerProps) {
   const { t } = useTranslation();
   const [search, setSearch] = useState('');
   const { data, isError, isFetching } = useShelters(useDebouncedValue(search, SEARCH_DELAY));
@@ -42,7 +45,11 @@ export function ShelterPicker({ value, onChange, error }: ShelterPickerProps) {
       : t('shelters.noResults');
 
   return (
-    <Field label={t('shelters.label')} hint={t('common.optional')} error={error}>
+    <Field
+      label={t('shelters.label')}
+      hint={optional ? t('common.optional') : undefined}
+      error={error}
+    >
       {(control) => (
         <Combobox
           {...control}

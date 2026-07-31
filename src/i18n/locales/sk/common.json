@@ -9,6 +9,121 @@
     "optional": "(Nepovinné)",
     "loading": "Načítavam…"
   },
+  "contact": {
+    "title": "Kontakt",
+    "email": {
+      "title": "E-mail",
+      "description": "Náš tím je tu pre vás.",
+      "value": "hello@goodrequest.com"
+    },
+    "office": {
+      "title": "Adresa",
+      "description": "Zastavte sa u nás v kancelárii.",
+      "value": "Obchodná 3D, 010 08 Žilina, Slovakia"
+    },
+    "phone": {
+      "title": "Telefón",
+      "description": "Po–Pi od 8:00 do 17:00.",
+      "value": "+421 911 750 750"
+    },
+    "meta": {
+      "title": "Kontakt — Nadácia GoodBoy",
+      "description": "Napíšte nám, zavolajte alebo sa zastavte v kancelárii v Žiline."
+    }
+  },
+  "donation": {
+    "about": "O projekte",
+    "actions": {
+      "continue": "Pokračovať",
+      "submit": "Darovať"
+    },
+    "amount": {
+      "label": "Suma, ktorou chcem prispieť",
+      "presets": "Preddefinované sumy"
+    },
+    "consent": {
+      "label": "Súhlasím so spracovaním osobných údajov na účely spracovania môjho daru."
+    },
+    "done": {
+      "heading": "Ďakujeme za váš dar",
+      "foundation": "Dar {{amount}} sme zaznamenali. Pomôže psom v slovenských útulkoch.",
+      "shelter": "Dar {{amount}} pre {{shelter}} sme zaznamenali. Ďakujeme, že ste mysleli na nich.",
+      "again": "Darovať znova"
+    },
+    "donor": {
+      "firstName": "Meno",
+      "lastName": "Priezvisko",
+      "email": "E-mail",
+      "phone": "Telefón",
+      "phonePrefix": "Predvoľba"
+    },
+    "donors": {
+      "title": "Darca {{number}}",
+      "add": "Pridať ďalšieho darcu",
+      "remove": "Odstrániť",
+      "removeLabel": "Odstrániť darcu {{number}}",
+      "sharedAmount": "Suma sa počíta raz za celý príspevok, nie za každého darcu."
+    },
+    "errors": {
+      "nameLength": "Zadajte 2 až 20 znakov",
+      "email": "Zadajte platný e-mail",
+      "phone": "Zadajte 9 číslic bez predvoľby",
+      "phonePrefix": "Vyberte predvoľbu",
+      "helpType": "Vyberte formu pomoci",
+      "shelterRequired": "Vyberte útulok, ktorému chcete prispieť",
+      "amountInvalid": "Zadajte sumu ako číslo",
+      "amountMin": "Najmenšia suma je 1 €",
+      "donorsRequired": "Pridajte aspoň jedného darcu",
+      "consent": "Bez súhlasu dar nemôžeme spracovať",
+      "rejectedByServer": "Server toto pole neprijal. Skontrolujte ho prosím."
+    },
+    "headline": {
+      "1": "Vyberte si možnosť, ako chcete pomôcť",
+      "2": "Komu za dar poďakovať",
+      "3": "Skontrolujte a potvrďte dar"
+    },
+    "helpType": {
+      "foundation": "Prispieť celej nadácii",
+      "shelter": "Prispieť konkrétnemu útulku"
+    },
+    "meta": {
+      "1": {
+        "title": "Vyberte sumu daru — Nadácia GoodBoy",
+        "description": "Prispejte celej nadácii alebo konkrétnemu útulku a vyberte sumu daru."
+      },
+      "2": {
+        "title": "Údaje darcu — Nadácia GoodBoy",
+        "description": "Zadajte údaje darcu. Prispieť môže aj viac ľudí jedným darom."
+      },
+      "3": {
+        "title": "Potvrdenie daru — Nadácia GoodBoy",
+        "description": "Skontrolujte údaje a potvrďte dar pre slovenské útulky pre psov."
+      }
+    },
+    "steps": {
+      "label": "Kroky formulára",
+      "1": "Výber útulku",
+      "2": "Osobné údaje",
+      "3": "Potvrdenie"
+    },
+    "submit": {
+      "pending": "Odosielam…",
+      "failed": "Dar sa nepodarilo odoslať. Skúste to prosím znova.",
+      "shelterMissing": "Vybraný útulok sa už nenašiel. Vyberte prosím iný.",
+      "serverError": "Server teraz neodpovedá správne. Skúste to prosím za chvíľu."
+    },
+    "summary": {
+      "helpType": "Forma pomoci",
+      "shelter": "Útulok",
+      "amount": "Suma",
+      "donor": "Darca {{number}}",
+      "wholeFoundation": "Celá nadácia"
+    }
+  },
+  "footer": {
+    "links": "Odkazy v pätičke",
+    "contact": "Kontakt"
+  },
   "results": {
     "contribution": "Vyzbieraná suma",
     "contributors": "Počet darcov",
@@ -19,9 +134,5 @@
     "placeholder": "Vyberte útulok zo zoznamu",
     "noResults": "Žiadny útulok sa nenašiel",
     "loadFailed": "Útulky sa nepodarilo načítať"
-  },
-  "footer": {
-    "links": "Odkazy v pätičke",
-    "contact": "Kontakt"
   }
 }
