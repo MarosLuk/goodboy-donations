@@ -1,25 +1,33 @@
 'use client';
 
-import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import { LogoMarkIcon } from '@/components/icons/LogoMarkIcon';
+import { LogoWordmarkIcon } from '@/components/icons/LogoWordmarkIcon';
 
+// One name for the pair rather than one per picture: together they read as the brand, and
+// the mascot on its own has nothing to say.
 const Wrapper = styled.span`
   display: inline-flex;
   align-items: center;
   gap: ${({ theme }) => theme.space[8]};
+  color: ${({ theme }) => theme.color.content.primary};
 `;
 
-// Brand artwork carries its own colours — the indigo mascot and the dark wordmark —
-// so it stays a file instead of an inlined icon on currentColor. Unoptimized because
-// there is nothing for the image pipeline to do to an svg.
+const Mark = styled(LogoMarkIcon)`
+  color: ${({ theme }) => theme.color.action.primary.default};
+`;
+
+// The artwork came out of the design with its colours baked in, which left the wordmark
+// unreadable the moment the surface went dark. Inlined on currentColor instead, so both
+// parts take their shade from a role.
 export function Logo() {
   const { t } = useTranslation();
 
   return (
-    <Wrapper>
-      <Image src="/logo-mark.svg" alt="" width={30} height={31} unoptimized />
-      <Image src="/logo-wordmark.svg" alt={t('app.brand')} width={88} height={21} unoptimized />
+    <Wrapper role="img" aria-label={t('app.brand')}>
+      <Mark />
+      <LogoWordmarkIcon />
     </Wrapper>
   );
 }
