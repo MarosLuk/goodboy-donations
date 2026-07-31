@@ -2,6 +2,7 @@
 
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import { CountUp } from '@/components/ui/CountUp';
 import { toLocale } from '@/i18n/settings';
 import { formatCount, formatCurrency } from '@/lib/format';
 import { useResults } from '../api/useResults';
@@ -65,12 +66,19 @@ export function ResultsSummary() {
     <Stats>
       <Stat>
         {/* dd before dt so the number reads first; the pair stays associated. */}
-        <Value>{formatCurrency(data.contribution ?? 0, locale)}</Value>
+        <Value>
+          <CountUp
+            value={data.contribution ?? 0}
+            format={(value) => formatCurrency(value, locale)}
+          />
+        </Value>
         <Label>{t('results.contribution')}</Label>
       </Stat>
 
       <Stat>
-        <Value>{formatCount(data.contributors, locale)}</Value>
+        <Value>
+          <CountUp value={data.contributors} format={(value) => formatCount(value, locale)} />
+        </Value>
         <Label>{t('results.contributors')}</Label>
       </Stat>
     </Stats>

@@ -128,7 +128,7 @@
     "language": "Language"
   },
   "results": {
-    "contribution": "Amount raised",
+    "contribution": "Total amount raised",
     "contributors": "Donors",
     "loadFailed": "Could not load the numbers"
   },

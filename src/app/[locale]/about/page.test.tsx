@@ -24,7 +24,7 @@ describe('the about page', () => {
     await waitFor(() => expect(screen.getAllByRole('definition')).toHaveLength(2));
 
     expect(screen.getAllByRole('term').map((element) => element.textContent)).toEqual([
-      'Vyzbieraná suma',
+      'Celková vyzbieraná hodnota',
       'Počet darcov',
     ]);
   });

@@ -128,7 +128,7 @@
     "language": "Jazyk"
   },
   "results": {
-    "contribution": "Vyzbieraná suma",
+    "contribution": "Celková vyzbieraná hodnota",
     "contributors": "Počet darcov",
     "loadFailed": "Údaje sa nepodarilo načítať"
   },
