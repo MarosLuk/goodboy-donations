@@ -19,10 +19,12 @@ export async function generateMetadata({
   const { t } = createServerI18n(isLocale(locale) ? locale : defaultLocale);
   const current = parseStep(step);
 
-  return {
-    title: t(`donation.meta.${current}.title`),
-    description: t(`donation.meta.${current}.description`),
-  };
+  const title = t(`donation.meta.${current}.title`);
+  const description = t(`donation.meta.${current}.description`);
+
+  // The og image cannot vary by step — the file convention never sees the query string —
+  // but the wording shared alongside it can.
+  return { title, description, openGraph: { title, description } };
 }
 
 export default async function DonationPage({ searchParams }: PageProps<'/[locale]'>) {

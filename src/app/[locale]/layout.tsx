@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import { I18nProvider } from '@/i18n/I18nProvider';
 import { createServerI18n } from '@/i18n/server';
 import { defaultLocale, isLocale, locales } from '@/i18n/settings';
+import { env } from '@/lib/env';
 import { QueryProvider } from '@/lib/query/QueryProvider';
 import { StyleProvider } from '@/styles/StyleProvider';
 
@@ -23,11 +24,22 @@ export const dynamicParams = false;
 
 export async function generateMetadata({ params }: LayoutProps<'/[locale]'>): Promise<Metadata> {
   const { locale } = await params;
-  const { t } = createServerI18n(isLocale(locale) ? locale : defaultLocale);
+  const activeLocale = isLocale(locale) ? locale : defaultLocale;
+  const { t } = createServerI18n(activeLocale);
 
   return {
+    // Without a base, a relative og:image is dropped by every crawler.
+    metadataBase: new URL(env.NEXT_PUBLIC_SITE_URL),
     title: t('app.title'),
     description: t('app.description'),
+    openGraph: {
+      type: 'website',
+      siteName: t('app.brand'),
+      locale: activeLocale,
+      title: t('app.title'),
+      description: t('app.description'),
+    },
+    twitter: { card: 'summary_large_image' },
   };
 }
 

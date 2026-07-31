@@ -18,9 +18,10 @@ The app runs at http://localhost:3000.
 Copy `.env.example` to `.env.local` — every variable is documented there. They are
 parsed once on startup and the app refuses to boot on a missing or malformed value.
 
-| Variable                   | Purpose                        |
-| -------------------------- | ------------------------------ |
-| `NEXT_PUBLIC_API_BASE_URL` | Base URL of the assignment API |
+| Variable                   | Purpose                                             |
+| -------------------------- | --------------------------------------------------- |
+| `NEXT_PUBLIC_API_BASE_URL` | Base URL of the assignment API                      |
+| `NEXT_PUBLIC_SITE_URL`     | Canonical site URL, used as `metadataBase` for `og` |
 
 ## Scripts
 

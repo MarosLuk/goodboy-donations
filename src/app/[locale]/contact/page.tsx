@@ -14,10 +14,10 @@ export async function generateMetadata({
   const { locale } = await params;
   const { t } = createServerI18n(isLocale(locale) ? locale : defaultLocale);
 
-  return {
-    title: t('contact.meta.title'),
-    description: t('contact.meta.description'),
-  };
+  const title = t('contact.meta.title');
+  const description = t('contact.meta.description');
+
+  return { title, description, openGraph: { title, description } };
 }
 
 export default async function ContactPage({ params }: PageProps<'/[locale]/contact'>) {

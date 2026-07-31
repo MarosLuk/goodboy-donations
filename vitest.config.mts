@@ -19,6 +19,7 @@ export default defineConfig({
     // whatever happens to sit in a local .env file.
     env: {
       NEXT_PUBLIC_API_BASE_URL: 'https://api.test',
+      NEXT_PUBLIC_SITE_URL: 'https://goodboy.test',
     },
   },
 });
