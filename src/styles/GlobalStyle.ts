@@ -53,12 +53,8 @@ export const GlobalStyle = createGlobalStyle`
     color: inherit;
   }
 
-  h1,
-  h2,
-  h3,
-  h4 {
-    text-wrap: balance;
-  }
+  /* No text-wrap: balance on headings. It shortens the first line to even the two out,
+     which broke the headline one word earlier than the design does. */
 
   p {
     text-wrap: pretty;
