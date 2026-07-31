@@ -14,7 +14,7 @@ const Stats = styled.dl`
   display: grid;
   gap: ${({ theme }) => theme.space[32]};
   /* Rules above and below, the same hairline the footer draws. */
-  padding: ${({ theme }) => `${theme.space[40]} 0`};
+  padding: ${({ theme }) => `var(--rhythm, ${theme.space[40]}) 0`};
   border-top: ${({ theme }) => `${theme.borderWidth.xs} solid ${theme.color.surface.quaternary}`};
   border-bottom: ${({ theme }) =>
     `${theme.borderWidth.xs} solid ${theme.color.surface.quaternary}`};
@@ -22,6 +22,10 @@ const Stats = styled.dl`
   @media (min-width: ${({ theme }) => theme.breakpoint.tablet}) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: ${({ theme }) => theme.space[48]};
+    /* The rules stop 32 short of the text at each end, unlike the footer's, which runs
+       the full width. Not on a phone, where 32 more off each side of an already narrow
+       column would start wrapping the labels. */
+    margin: ${({ theme }) => `0 ${theme.space[32]}`};
   }
 `;
 
