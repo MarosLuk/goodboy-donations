@@ -20,7 +20,7 @@ const Input = styled.input<{ $empty: boolean }>`
   /* Tabular figures make every digit the same width, which is what lets the ch unit
      below size the field exactly to its content. */
   font-variant-numeric: tabular-nums;
-  font-size: ${({ theme }) => theme.heading.xxl.fontSize};
+  font-size: ${({ theme }) => `var(--amount-size, ${theme.heading.xxl.fontSize})`};
   /* The rule sits right under the digits in the design, so no extra leading. */
   line-height: 1;
   letter-spacing: ${({ theme }) => theme.heading.xxl.letterSpacing};

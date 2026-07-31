@@ -18,7 +18,7 @@ import { StepTwo } from './StepTwo';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.space[40]};
+  gap: ${({ theme }) => `var(--rhythm, ${theme.space[40]})`};
 `;
 
 export function DonationWizard({

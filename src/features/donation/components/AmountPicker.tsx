@@ -28,7 +28,7 @@ const Centered = styled.div`
   align-items: center;
   gap: ${({ theme }) => theme.space[8]};
   /* The design leaves more air under the rule than above the number. */
-  padding: ${({ theme }) => `0 0 ${theme.space[32]}`};
+  padding: ${({ theme }) => `0 0 var(--amount-air, ${theme.space[32]})`};
 `;
 
 type AmountPickerProps = {

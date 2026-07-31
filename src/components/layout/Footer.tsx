@@ -14,7 +14,7 @@ const Wrapper = styled.footer`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.space[24]};
-  padding: ${({ theme }) => `${theme.space[24]} 0`};
+  padding: ${({ theme }) => `var(--footer-air, ${theme.space[24]}) 0`};
   border-top: ${({ theme }) => `${theme.borderWidth.xs} solid ${theme.color.surface.quaternary}`};
 
   @media (min-width: ${({ theme }) => theme.breakpoint.tablet}) {

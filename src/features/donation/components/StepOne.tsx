@@ -32,8 +32,8 @@ const Headline = styled.h1`
   font-weight: ${({ theme }) => theme.font.weight.bold};
 
   @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
-    font-size: ${({ theme }) => theme.heading.lg.fontSize};
-    line-height: ${({ theme }) => theme.heading.lg.lineHeight};
+    font-size: ${({ theme }) => `var(--headline-size, ${theme.heading.lg.fontSize})`};
+    line-height: ${({ theme }) => `var(--headline-leading, ${theme.heading.lg.lineHeight})`};
   }
 `;
 
