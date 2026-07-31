@@ -7,6 +7,7 @@ import { FacebookIcon } from '@/components/icons/FacebookIcon';
 import { InstagramIcon } from '@/components/icons/InstagramIcon';
 import { defaultLocale } from '@/i18n/settings';
 import { ColorSchemeToggle } from './ColorSchemeToggle';
+import { LocaleSwitcher } from './LocaleSwitcher';
 import { Logo } from './Logo';
 
 const Wrapper = styled.footer`
@@ -23,10 +24,19 @@ const Wrapper = styled.footer`
   }
 `;
 
+// Four groups do not fit on one line of a phone, so on a narrow screen the icons and the two
+// controls take one row and the links the next. Wrapping rather than a second breakpoint,
+// because what decides is whether they fit, not how wide the screen is.
 const Side = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: ${({ theme }) => theme.space[32]};
+  justify-content: space-between;
+  gap: ${({ theme }) => `${theme.space[16]} ${theme.space[24]}`};
+
+  @media (min-width: ${({ theme }) => theme.breakpoint.tablet}) {
+    gap: ${({ theme }) => theme.space[32]};
+  }
 `;
 
 const Socials = styled.div`
@@ -34,12 +44,25 @@ const Socials = styled.div`
   align-items: center;
   gap: ${({ theme }) => theme.space[16]};
   color: ${({ theme }) => theme.color.content.tertiary};
+  /* Icons have no text to give back, so they would be crushed instead of the row wrapping. */
+  flex-shrink: 0;
+`;
+
+const Controls = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.space[8]};
 `;
 
 const Nav = styled.nav`
   display: flex;
   align-items: center;
-  gap: ${({ theme }) => theme.space[32]};
+  gap: ${({ theme }) => theme.space[24]};
+  flex-shrink: 0;
+
+  @media (min-width: ${({ theme }) => theme.breakpoint.tablet}) {
+    gap: ${({ theme }) => theme.space[32]};
+  }
 `;
 
 const NavLink = styled(Link)`
@@ -70,10 +93,16 @@ export function Footer() {
           <InstagramIcon width={20} height={20} />
         </Socials>
 
-        <ColorSchemeToggle />
+        {/* The two things a visitor can change about the page itself, kept together and
+            apart from the links, which change the page they are on. */}
+        <Controls>
+          <LocaleSwitcher />
+          <ColorSchemeToggle />
+        </Controls>
 
         <Nav aria-label={t('footer.links')}>
           <NavLink href={`/${locale}/contact`}>{t('footer.contact')}</NavLink>
+          <NavLink href={`/${locale}/about`}>{t('footer.about')}</NavLink>
         </Nav>
       </Side>
     </Wrapper>
