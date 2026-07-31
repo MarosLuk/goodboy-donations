@@ -1,17 +1,19 @@
 'use client';
 
 import styled from 'styled-components';
+import { EuroIcon } from '@/components/icons/EuroIcon';
 
 const MAX_DIGITS = 6;
 
 const Wrapper = styled.div`
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: center;
-  gap: ${({ theme }) => theme.space[8]};
-  /* Wider than the digits so a single 0 does not sit on a stub of a line. */
-  min-width: 144px;
-  padding-bottom: ${({ theme }) => theme.space[8]};
+  /* The design keeps the euro a fifth of the box away from the digits. */
+  gap: ${({ theme }) => theme.space[20]};
+  /* The frame the design draws the rule under is 146 wide at a single digit. */
+  min-width: 146px;
+  padding-bottom: ${({ theme }) => theme.space[16]};
   border-bottom: ${({ theme }) =>
     `${theme.borderWidth.md} solid ${theme.color.action.primary.default}`};
 `;
@@ -20,10 +22,11 @@ const Input = styled.input<{ $empty: boolean }>`
   /* Tabular figures make every digit the same width, which is what lets the ch unit
      below size the field exactly to its content. */
   font-variant-numeric: tabular-nums;
-  font-size: ${({ theme }) => `var(--amount-size, ${theme.heading.xxl.fontSize})`};
-  /* The rule sits right under the digits in the design, so no extra leading. */
+  font-size: ${({ theme }) => `var(--amount-size, ${theme.heading.xl.fontSize})`};
+  /* The wrapper padding already holds the rule at the design's distance, so the digits
+     carry no extra leading of their own. */
   line-height: 1;
-  letter-spacing: ${({ theme }) => theme.heading.xxl.letterSpacing};
+  letter-spacing: ${({ theme }) => theme.heading.xl.letterSpacing};
   font-weight: ${({ theme }) => theme.font.weight.regular};
   text-align: right;
   border: none;
@@ -39,10 +42,9 @@ const Input = styled.input<{ $empty: boolean }>`
   }
 `;
 
-const Currency = styled.span`
-  font-size: ${({ theme }) => theme.heading.sm.fontSize};
-  line-height: ${({ theme }) => theme.heading.sm.lineHeight};
-  color: ${({ theme }) => theme.color.content.primary};
+const Currency = styled(EuroIcon)`
+  flex: none;
+  color: ${({ theme }) => theme.color.content.tertiary};
 `;
 
 type AmountFieldProps = {
@@ -73,7 +75,7 @@ export function AmountField({ value, onChange, ...rest }: AmountFieldProps) {
           onChange(digits === '' ? 0 : Number(digits));
         }}
       />
-      <Currency aria-hidden="true">€</Currency>
+      <Currency />
     </Wrapper>
   );
 }

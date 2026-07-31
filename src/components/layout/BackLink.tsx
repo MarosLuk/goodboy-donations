@@ -8,7 +8,9 @@ import { ArrowLeftIcon } from '@/components/icons/ArrowLeftIcon';
 const StyledLink = styled(Link)`
   display: inline-flex;
   align-items: center;
-  gap: ${({ theme }) => theme.space[8]};
+  gap: ${({ theme }) => theme.space[4]};
+  padding: ${({ theme }) => theme.space[4]};
+  border-radius: ${({ theme }) => theme.radius[16]};
   color: ${({ theme }) => theme.color.action.primary.default};
   font-size: ${({ theme }) => theme.text.md.fontSize};
   line-height: ${({ theme }) => theme.text.md.lineHeight};

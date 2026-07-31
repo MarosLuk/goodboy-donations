@@ -14,6 +14,8 @@ export const Layout = styled.div`
 
   @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
     flex: 1;
+    /* The page's ceiling on a desktop — the frame's own content width. */
+    max-width: 1280px;
     padding: ${({ theme }) => `var(--screen-air, ${theme.space[40]}) 0`};
 
     /* The frame separates the sections by a flat 40 and spends everything the window has
@@ -37,11 +39,9 @@ export const Heading = styled.h1`
   }
 `;
 
-// The prose runs the full width of the page, left aligned. A reading measure would be the
-// textbook call, but the design sets these two paragraphs against the full-width rules of
-// the metrics, and a narrow column beside them reads as an accident.
+// The prose runs the full width of the page, left aligned, in the frame's full ink.
 export const Prose = styled.p`
-  color: ${({ theme }) => theme.color.content.secondary};
+  color: ${({ theme }) => theme.color.content.primary};
 `;
 
 // The summary draws its own rules and owns the air inside them, so this only exists to let

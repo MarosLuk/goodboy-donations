@@ -13,7 +13,7 @@ const Group = styled.div`
   gap: ${({ theme }) => theme.space[8]};
   padding: ${({ theme }) => theme.space[4]};
   border-radius: ${({ theme }) => theme.radius[12]};
-  border: ${({ theme }) => `${theme.borderWidth.xs} solid ${theme.color.surface.quaternary}`};
+  border: ${({ theme }) => `${theme.borderWidth.xs} solid ${theme.color.content.quintary}`};
   grid-template-columns: minmax(0, 1fr);
 
   @media (min-width: ${({ theme }) => theme.breakpoint.tablet}) {
@@ -26,12 +26,12 @@ const Segment = styled.label`
   display: flex;
   align-items: center;
   justify-content: center;
-  /* 52 measured off the design; padding alone lands on 48 or 56. */
+  /* 16 + 20 + 16 = the 52 the design draws. */
   min-height: 52px;
-  padding: ${({ theme }) => `${theme.space[12]} ${theme.space[16]}`};
+  padding: ${({ theme }) => `${theme.space[16]} ${theme.space[8]}`};
   border-radius: ${({ theme }) => theme.radius[8]};
-  font-size: ${({ theme }) => theme.text.md.fontSize};
-  line-height: ${({ theme }) => theme.text.md.lineHeight};
+  font-size: ${({ theme }) => theme.text.sm.fontSize};
+  line-height: ${({ theme }) => theme.text.sm.lineHeight};
   font-weight: ${({ theme }) => theme.font.weight.medium};
   color: ${({ theme }) => theme.color.content.primary};
   text-align: center;

@@ -18,8 +18,9 @@ const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  /* No taller than the logo, so the footer keeps the design's 56. */
+  width: 32px;
+  height: 32px;
   border-radius: ${({ theme }) => theme.radius.circle};
   color: ${({ theme }) => theme.color.content.tertiary};
 

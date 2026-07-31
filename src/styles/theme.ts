@@ -19,6 +19,7 @@ export const theme = {
         hover: c('action-primary-hover'),
         active: c('action-primary-active'),
         bg: c('action-primary-bg'),
+        bg10: c('action-primary-bg10'),
       },
       secondary: {
         default: c('action-secondary-default'),

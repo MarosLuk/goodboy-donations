@@ -15,11 +15,12 @@ const Grid = styled.div`
 
   @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
     grid-template-areas: 'content media';
-    /* The design's 658 for the content against 602 for the photo, kept as a ratio so the
-       two share whatever the window leaves after the 80 gap. On a 1440 window that is
-       the design's own 658 and 602; on a wider one both grow rather than the page
-       stranding the photo short of the edge it is measured from. */
-    grid-template-columns: minmax(0, 658fr) minmax(0, 602fr);
+    /* The photo shows whole, so its own proportions and the window's height decide how
+       wide it is; the form column runs right up to the 80 before the photo, capped at
+       1280 like every page. On a 1440 by 1024 window this comes to the design's own
+       602 and 658. */
+    grid-template-columns: minmax(0, 1280px) auto;
+    justify-content: space-between;
     column-gap: ${({ theme }) => theme.space[80]};
     /* The window is the frame. The single row fills it, so both columns are as tall as
        the screen and the step opens without a scrollbar. */
@@ -54,13 +55,6 @@ const Content = styled.div`
 
 const Media = styled.div`
   grid-area: media;
-
-  @media (min-width: ${({ theme }) => theme.breakpoint.desktop}) {
-    /* Only the frame for the photo, which fills it from out of flow. In flow its own
-       height would size the row, and the row would then be the photo's 984 on every
-       window instead of the window's. */
-    position: relative;
-  }
 `;
 
 export function SplitLayout({ media, children }: { media: ReactNode; children: ReactNode }) {

@@ -10,11 +10,12 @@ import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
 import { Button } from '@/components/ui/Button';
 import type { StepOneValues } from '../schema/donation';
 import { stepOneSchema } from '../schema/donation';
+import { useDraftSync } from '../hooks/useDraftSync';
 import { useServerFieldErrors } from '../hooks/useServerFieldErrors';
 import { useWizard } from '../store/wizard';
 import { AmountPicker } from './AmountPicker';
 import { HelpTypeToggle } from './HelpTypeToggle';
-import { StepActions, StepLayout } from './StepActions';
+import { Section, SectionTitle, StepActions, StepForm, StepLayout } from './StepActions';
 
 // The shelter field belongs to the shelters feature, so it arrives as a slot instead
 // of an import: features do not reach into each other, and the page owns both.
@@ -37,20 +38,6 @@ const Headline = styled.h1`
   }
 `;
 
-const SectionTitle = styled.h2`
-  font-size: ${({ theme }) => theme.text.md.fontSize};
-  line-height: ${({ theme }) => theme.text.md.lineHeight};
-  font-weight: ${({ theme }) => theme.font.weight.semibold};
-`;
-
-// The heading and the select belong to each other in the design, sitting far closer
-// than the blocks around them do.
-const ShelterGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.space[16]};
-`;
-
 export function StepOne({
   renderShelterField,
 }: {
@@ -70,6 +57,7 @@ export function StepOne({
   });
 
   useServerFieldErrors(form, 1);
+  useDraftSync(form.control);
 
   const { errors } = form.formState;
   // useWatch rather than form.watch: watch mutates outside React's model, which the
@@ -80,7 +68,7 @@ export function StepOne({
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit((values) => advance(values))} noValidate>
+      <StepForm onSubmit={form.handleSubmit((values) => advance(values))} noValidate>
         <StepLayout>
           <Headline data-step-heading tabIndex={-1}>
             {t('donation.headline.1')}
@@ -99,7 +87,7 @@ export function StepOne({
             }}
           />
 
-          <ShelterGroup>
+          <Section>
             {/* "O projekte" sits above the shelter select in the design, most likely a
                 leftover from the template it was built on. Kept as designed. */}
             <SectionTitle>{t('donation.about')}</SectionTitle>
@@ -110,7 +98,7 @@ export function StepOne({
               error: errors.shelter?.message ? t(errors.shelter.message) : undefined,
               optional: helpType === 'foundation',
             })}
-          </ShelterGroup>
+          </Section>
 
           <AmountPicker
             value={amount}
@@ -130,7 +118,7 @@ export function StepOne({
             </Button>
           </StepActions>
         </StepLayout>
-      </form>
+      </StepForm>
     </FormProvider>
   );
 }

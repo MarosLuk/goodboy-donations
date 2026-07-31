@@ -13,15 +13,15 @@ import { useResults } from '../api/useResults';
 const Stats = styled.dl`
   display: grid;
   gap: ${({ theme }) => theme.space[32]};
-  /* Rules above and below, the same hairline the footer draws. */
-  padding: ${({ theme }) => `var(--rhythm, ${theme.space[40]}) 0`};
-  border-top: ${({ theme }) => `${theme.borderWidth.xs} solid ${theme.color.surface.quaternary}`};
-  border-bottom: ${({ theme }) =>
-    `${theme.borderWidth.xs} solid ${theme.color.surface.quaternary}`};
+  /* Rules above and below, the same hairline the footer draws; the frame keeps the
+     numbers 64 off both rules. */
+  padding: ${({ theme }) => `${theme.space[64]} 0`};
+  border-top: ${({ theme }) => `${theme.borderWidth.xs} solid ${theme.color.content.quintary}`};
+  border-bottom: ${({ theme }) => `${theme.borderWidth.xs} solid ${theme.color.content.quintary}`};
 
   @media (min-width: ${({ theme }) => theme.breakpoint.tablet}) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: ${({ theme }) => theme.space[48]};
+    gap: ${({ theme }) => theme.space[16]};
     /* The rules stop 32 short of the text at each end, unlike the footer's, which runs
        the full width. Not on a phone, where 32 more off each side of an already narrow
        column would start wrapping the labels. */
@@ -33,7 +33,7 @@ const Stat = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: ${({ theme }) => theme.space[4]};
+  gap: ${({ theme }) => theme.space[12]};
   text-align: center;
 `;
 
@@ -59,9 +59,7 @@ const Label = styled.dt`
   font-size: ${({ theme }) => theme.text.lg.fontSize};
   line-height: ${({ theme }) => theme.text.lg.lineHeight};
   font-weight: ${({ theme }) => theme.font.weight.semibold};
-  /* Antialiasing can only lighten, and the darkest pixel in the frame is already darker than
-     the tertiary role, which rules it out. */
-  color: ${({ theme }) => theme.color.content.secondary};
+  color: ${({ theme }) => theme.color.content.primary};
 `;
 
 const Message = styled.p`

@@ -10,7 +10,7 @@ import { AmountPresets } from './AmountPresets';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.space[8]};
+  gap: ${({ theme }) => theme.space[16]};
 `;
 
 // A section heading in the design, and the input's label in the markup — the field
@@ -27,8 +27,8 @@ const Centered = styled.div`
   flex-direction: column;
   align-items: center;
   gap: ${({ theme }) => theme.space[8]};
-  /* The design leaves more air under the rule than above the number. */
-  padding: ${({ theme }) => `0 0 var(--amount-air, ${theme.space[32]})`};
+  /* With the wrapper gap this lands the presets 40 under the rule, as the frame has. */
+  padding: ${({ theme }) => `0 0 var(--amount-air, ${theme.space[24]})`};
 `;
 
 type AmountPickerProps = {

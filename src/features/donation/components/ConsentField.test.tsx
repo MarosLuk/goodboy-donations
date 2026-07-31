@@ -7,7 +7,7 @@ import type { StepThreeValues } from '../schema/donation';
 import { stepThreeSchema } from '../schema/donation';
 import { ConsentField } from './ConsentField';
 
-const LABEL = 'Súhlasím so spracovaním osobných údajov na účely spracovania môjho daru.';
+const LABEL = 'Súhlasím so spracovaním mojich osobných údajov';
 
 function Harness({ onValid = vi.fn() }: { onValid?: (values: StepThreeValues) => void }) {
   const form = useForm<StepThreeValues>({

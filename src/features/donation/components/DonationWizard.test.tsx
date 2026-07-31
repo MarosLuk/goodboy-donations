@@ -46,7 +46,7 @@ async function walkToLastStep() {
   await waitFor(() => expect(useWizard.getState().step).toBe(3));
 }
 
-const donateButton = () => screen.getByRole('button', { name: 'Darovať' });
+const donateButton = () => screen.getByRole('button', { name: 'Odoslať formulár' });
 
 describe('DonationWizard', () => {
   beforeEach(() => {
@@ -144,9 +144,9 @@ describe('DonationWizard', () => {
 
     await waitFor(() => expect(useWizard.getState().step).toBe(3));
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-      'Skontrolujte a potvrďte dar',
+      'Skontrolujte si zadané údaje',
     );
-    expect(screen.getByText('Prispieť celej nadácii')).toBeInTheDocument();
+    expect(screen.getByText('Finančný príspevok celej nadácii')).toBeInTheDocument();
     expect(screen.getByText('Celá nadácia')).toBeInTheDocument();
     expect(screen.getByText('Maroš Lukáč')).toBeInTheDocument();
     expect(screen.getByText('maros@example.com')).toBeInTheDocument();
