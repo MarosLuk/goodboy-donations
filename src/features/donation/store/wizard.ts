@@ -32,6 +32,8 @@ type WizardStore = {
   /** Server complaints keyed by form field, waiting for the step that owns them. */
   serverErrors: Record<string, string>;
   goTo: (step: Step) => void;
+  /** Keeps the draft level with what is on screen, without moving off the step. */
+  keepDraft: (values: Partial<DonationDraft>) => void;
   advance: (values: Partial<DonationDraft>) => void;
   goBack: () => void;
   markSent: () => void;
@@ -57,6 +59,11 @@ export const useWizard = create<WizardStore>((set) => ({
   // Anyone can put ?step=3 in the address bar; without the clamp that would skip the
   // validation of the steps in between.
   goTo: (step) => set((state) => ({ step: clamp(step, state.furthest) })),
+
+  // What is half typed is worth as much as what was submitted. A step remounts for reasons
+  // that have nothing to do with the form — changing the language is one — and the draft is
+  // what it is rebuilt from, so it has to know about the typing as it happens.
+  keepDraft: (values) => set((state) => ({ draft: { ...state.draft, ...values } })),
 
   // Each step hands over its own values, so going back and forth keeps what was typed
   // without the whole form living in one place.

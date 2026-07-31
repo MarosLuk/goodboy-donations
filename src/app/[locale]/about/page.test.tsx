@@ -1,7 +1,15 @@
 import { screen, waitFor } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { renderWithProviders } from '@/test/render';
 import AboutPage from './page';
+
+// The footer at the bottom of this page carries the language switcher, which asks for the
+// router to swap the language without reloading the document. There is none in a test, and
+// the real hook throws rather than answering with nothing.
+vi.mock('next/navigation', () => ({
+  usePathname: () => '/sk/about',
+  useRouter: () => ({ push: () => {} }),
+}));
 
 // The results summary was built, tested and then rendered nowhere, which no test noticed
 // because every one of them mounted the component directly. This one renders the page, so
