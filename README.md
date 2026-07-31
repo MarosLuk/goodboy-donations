@@ -78,7 +78,8 @@ is a real ARIA combobox with `aria-activedescendant` rather than a div listening
 Errors are tied to their fields through `aria-describedby`, the consent checkbox is a native
 input painted over, and the confirmation is announced. Animations run through
 `MotionConfig reducedMotion="user"`, so a system-level preference for less motion is
-honoured without a prop on every component.
+honoured without a prop on every component — the totals on the about page count up to their
+figure for everybody else and simply arrive at it for anyone who asked for less.
 
 **Two i18next instances, not one.** The server renders with a plain instance; only the
 client one gets `initReactI18next`. They were one until the production build failed on
@@ -157,9 +158,9 @@ keeps the rest of the path.
 
 ## What is not there
 
-The results endpoint answers `0` contributors and `0` collected on the shared assignment
-database, so the two figures on the about page are wired up and truthful but currently read
-zero. They fill in as soon as the endpoint has something.
+The results endpoint reads from a database shared by everyone working on this assignment, so
+the two figures on the about page are real but small, and they move when somebody else
+donates rather than only when you do.
 
 Server-side validation is thin, as the differences above describe, which means the client is
 the only thing standing between a typo and the database. In a real product that would be a
