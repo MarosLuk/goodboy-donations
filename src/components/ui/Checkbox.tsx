@@ -43,9 +43,17 @@ const Box = styled.span`
   border: ${({ theme }) => `${theme.borderWidth.xs} solid ${theme.color.content.quaternary}`};
   background: ${({ theme }) => theme.color.surface.primary};
   color: ${({ theme }) => theme.color.action.primary.default};
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease;
 
   svg {
     opacity: 0;
+    transform: scale(0.6);
+    /* CSS rather than js, so the reduced-motion rule in the reset silences it. */
+    transition:
+      opacity 120ms ease,
+      transform 120ms ease;
     /* The icon sits over the input, and an invisible icon still swallows clicks:
        without this, clicking the middle of the box does nothing. */
     pointer-events: none;
@@ -60,6 +68,7 @@ const Box = styled.span`
 
   &:has(input:checked) svg {
     opacity: 1;
+    transform: scale(1);
   }
 
   &:has(input:focus-visible) {

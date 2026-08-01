@@ -73,6 +73,7 @@ const NavLink = styled(Link)`
   line-height: ${({ theme }) => theme.text.md.lineHeight};
   color: ${({ theme }) => theme.color.content.tertiary};
   text-decoration: none;
+  transition: color 150ms ease;
 
   &:hover {
     color: ${({ theme }) => theme.color.content.primary};

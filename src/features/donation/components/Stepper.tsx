@@ -1,10 +1,14 @@
 'use client';
 
 import { useTranslation } from 'react-i18next';
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { CheckIcon } from '@/components/icons/CheckIcon';
 import type { Step } from '../lib/step';
 import { STEPS } from '../lib/step';
+
+// The three looks a step can wear in the design: done is an outlined circle with a
+// check, current a filled one with the number, upcoming a barely-there ring.
+type Status = 'done' | 'current' | 'upcoming';
 
 const List = styled.ol`
   display: flex;
@@ -22,32 +26,23 @@ const Item = styled.li`
   }
 `;
 
-// Three states, not two: a step already behind the visitor is an outline with a tick
-// rather than a number, so what is done reads differently from what is still ahead.
-type State = 'done' | 'current' | 'ahead';
-
-const circleStates = {
+const circleStyles = {
   done: css`
-    background: transparent;
+    border-color: ${({ theme }) => theme.color.action.primary.default};
     color: ${({ theme }) => theme.color.action.primary.default};
-    /* An inset shadow rather than a border: a border on this one state would make the
-       outlined circle wider than the filled one beside it. */
-    box-shadow: ${({ theme }) =>
-      `inset 0 0 0 ${theme.borderWidth.xs} ${theme.color.action.primary.default}`};
   `,
   current: css`
+    border-color: ${({ theme }) => theme.color.action.primary.default};
     background: ${({ theme }) => theme.color.action.primary.default};
     color: ${({ theme }) => theme.color.content.onAction};
   `,
-  ahead: css`
-    background: transparent;
+  upcoming: css`
+    border-color: ${({ theme }) => theme.color.surface.tertiary};
     color: ${({ theme }) => theme.color.content.quintary};
-    box-shadow: ${({ theme }) =>
-      `inset 0 0 0 ${theme.borderWidth.xs} ${theme.color.surface.tertiary}`};
   `,
-} satisfies Record<State, ReturnType<typeof css>>;
+};
 
-const Circle = styled.span<{ $state: State }>`
+const Circle = styled.span<{ $status: Status }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,20 +50,24 @@ const Circle = styled.span<{ $state: State }>`
   width: 32px;
   height: 32px;
   border-radius: ${({ theme }) => theme.radius.circle};
+  border: ${({ theme }) => `${theme.borderWidth.xs} solid transparent`};
   font-size: ${({ theme }) => theme.text.md.fontSize};
+  /* CSS rather than js, so the reduced-motion rule in the reset silences it. */
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease;
 
-  ${({ $state }) => circleStates[$state]}
+  ${({ $status }) => circleStyles[$status]}
 `;
 
 // Hidden below tablet, where the design keeps only the circles and the lines.
-const Label = styled.span<{ $state: State }>`
+const Label = styled.span<{ $status: Status }>`
   display: none;
   font-size: ${({ theme }) => theme.text.md.fontSize};
   line-height: ${({ theme }) => theme.text.md.lineHeight};
-  /* A step behind the visitor keeps its label dark — it is something they did, not
-     something greyed out. Only what is still ahead is dimmed. */
-  color: ${({ theme, $state }) =>
-    $state === 'ahead' ? theme.color.content.quintary : theme.color.content.primary};
+  color: ${({ theme, $status }) =>
+    $status === 'upcoming' ? theme.color.content.quintary : theme.color.content.primary};
 
   @media (min-width: ${({ theme }) => theme.breakpoint.tablet}) {
     display: inline;
@@ -82,30 +81,33 @@ const Line = styled.span`
   background: ${({ theme }) => theme.color.content.quintary};
 `;
 
-function stateOf(step: Step, current: Step): State {
-  if (step < current) {
-    return 'done';
+// The tick lands with a small settle instead of switching on.
+const settle = keyframes`
+  from {
+    opacity: 0;
+    transform: scale(0.5);
   }
+`;
 
-  return step === current ? 'current' : 'ahead';
-}
+const Tick = styled(CheckIcon)`
+  animation: ${settle} 200ms ease-out;
+`;
 
 export function Stepper({ current }: { current: Step }) {
   const { t } = useTranslation();
 
+  const statusOf = (step: Step): Status =>
+    step === current ? 'current' : step < current ? 'done' : 'upcoming';
+
   return (
     <List aria-label={t('donation.steps.label')}>
       {STEPS.map((step) => {
-        const state = stateOf(step, current);
+        const status = statusOf(step);
 
         return (
-          <Item key={step} aria-current={state === 'current' ? 'step' : undefined}>
-            {/* The tick replaces the number, and the label beside it already names the
-                step, so a reader loses nothing by the digit going away. */}
-            <Circle $state={state}>
-              {state === 'done' ? <CheckIcon width={12} height={10} /> : step}
-            </Circle>
-            <Label $state={state}>{t(`donation.steps.${step}`)}</Label>
+          <Item key={step} aria-current={step === current ? 'step' : undefined}>
+            <Circle $status={status}>{status === 'done' ? <Tick /> : step}</Circle>
+            <Label $status={status}>{t(`donation.steps.${step}`)}</Label>
             {step === STEPS.length ? null : <Line />}
           </Item>
         );

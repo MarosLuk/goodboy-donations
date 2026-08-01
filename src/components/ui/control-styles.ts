@@ -14,6 +14,8 @@ export const controlStyles = css`
   font-size: ${({ theme }) => theme.text.md.fontSize};
   line-height: ${({ theme }) => theme.text.md.lineHeight};
   border: none;
+  /* The focus ring and the error outline fade in rather than snapping on. */
+  transition: box-shadow 150ms ease;
 
   &::placeholder {
     color: ${({ theme }) => theme.color.content.quaternary};

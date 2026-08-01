@@ -2,7 +2,7 @@
 
 import type { FocusEvent, KeyboardEvent } from 'react';
 import { useEffect, useId, useRef, useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { ChevronDownIcon } from '@/components/icons/ChevronDownIcon';
 import { controlStyles } from './control-styles';
 
@@ -48,13 +48,22 @@ const Input = styled.input`
   padding-right: ${({ theme }) => theme.space[40]};
 `;
 
-const Chevron = styled(ChevronDownIcon)`
+const Chevron = styled(ChevronDownIcon)<{ $open: boolean }>`
   position: absolute;
   top: 50%;
   right: ${({ theme }) => theme.space[16]};
-  transform: translateY(-50%);
+  transform: ${({ $open }) => `translateY(-50%) rotate(${$open ? 180 : 0}deg)`};
+  transition: transform 200ms ease;
   color: ${({ theme }) => theme.color.content.tertiary};
   pointer-events: none;
+`;
+
+// The panel does not blink into place: it settles the few pixels it seems to open from.
+const rise = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
 `;
 
 const panel = css`
@@ -68,6 +77,7 @@ const panel = css`
   box-shadow: ${({ theme }) => theme.shadow.lg};
   overflow-y: auto;
   max-height: 240px;
+  animation: ${rise} 140ms ease-out;
 `;
 
 const Listbox = styled.ul`
@@ -88,6 +98,7 @@ const Option = styled.li<{ $active: boolean; $selected: boolean; $muted?: boolea
   font-size: ${({ theme }) => theme.text.md.fontSize};
   line-height: ${({ theme }) => theme.text.md.lineHeight};
   cursor: pointer;
+  transition: background-color 100ms ease;
   background: ${({ theme, $active }) => ($active ? theme.color.surface.tertiary : 'transparent')};
   /* The clearing row names an absence, so it is quieter than the things it clears — unless it
      is the state you are in, where it says so the same way any chosen row does. */
@@ -237,7 +248,7 @@ export function Combobox({
             }
           }}
         />
-        <Chevron />
+        <Chevron $open={open} />
       </Control>
 
       {open && rows.length === 0 ? (

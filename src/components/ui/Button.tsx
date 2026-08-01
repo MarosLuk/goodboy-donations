@@ -64,7 +64,14 @@ const StyledButton = styled.button<{ $variant: ButtonVariant; $size: ButtonSize 
   line-height: ${({ theme }) => theme.text.md.lineHeight};
   font-weight: ${({ theme }) => theme.font.weight.medium};
   white-space: nowrap;
-  transition: background-color 150ms ease;
+  transition:
+    background-color 150ms ease,
+    transform 100ms ease;
+
+  /* A press the finger can feel: barely there, and only while held down. */
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
 
   &:disabled {
     opacity: 0.5;

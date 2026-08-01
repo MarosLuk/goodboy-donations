@@ -1,6 +1,7 @@
 'use client';
 
-import { useFormContext } from 'react-hook-form';
+import { motion } from 'motion/react';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import type { StepOneValues } from '../schema/donation';
@@ -36,9 +37,10 @@ const Segment = styled.label`
   color: ${({ theme }) => theme.color.content.primary};
   text-align: center;
   cursor: pointer;
+  /* The ink crosses over while the pill slides underneath. */
+  transition: color 200ms ease;
 
   &:has(input:checked) {
-    background: ${({ theme }) => theme.color.action.primary.default};
     color: ${({ theme }) => theme.color.content.onAction};
   }
 
@@ -55,18 +57,46 @@ const Radio = styled.input`
   cursor: pointer;
 `;
 
+// One pill for both segments: on a change of mind framer carries it over to the other
+// side instead of the fill blinking from one box to the next. Clicks fall through it
+// to the radio underneath.
+const Pill = styled(motion.span)`
+  position: absolute;
+  inset: 0;
+  background: ${({ theme }) => theme.color.action.primary.default};
+  pointer-events: none;
+`;
+
+// Positioned, so the label's text paints over the pill.
+const Wording = styled.span`
+  position: relative;
+`;
+
 // The choice changes what the schema asks of the other fields, which react-hook-form has no
 // way to know, so whoever owns those fields gets told the choice was made.
 export function HelpTypeToggle({ onChange }: { onChange?: () => void }) {
   const { t } = useTranslation();
-  const { register } = useFormContext<StepOneValues>();
+  const { register, control } = useFormContext<StepOneValues>();
+  const helpType = useWatch({ control, name: 'helpType' });
 
   return (
     <Group>
-      {HELP_TYPES.map((helpType) => (
-        <Segment key={helpType}>
-          <Radio type="radio" value={helpType} {...register('helpType', { onChange })} />
-          {t(`donation.helpType.${helpType}`)}
+      {HELP_TYPES.map((option) => (
+        <Segment key={option}>
+          <Radio type="radio" value={option} {...register('helpType', { onChange })} />
+
+          {option === helpType ? (
+            <Pill
+              layoutId="help-type-pill"
+              aria-hidden="true"
+              transition={{ type: 'spring', duration: 0.45, bounce: 0.15 }}
+              /* Through style, so the layout animation corrects the corners instead of
+                 stretching them mid-flight. */
+              style={{ borderRadius: 8 }}
+            />
+          ) : null}
+
+          <Wording>{t(`donation.helpType.${option}`)}</Wording>
         </Segment>
       ))}
     </Group>

@@ -2,7 +2,7 @@
 
 import type { ComponentType } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { MailIcon } from '@/components/icons/MailIcon';
 import { PhoneIcon } from '@/components/icons/PhoneIcon';
 import { PinIcon } from '@/components/icons/PinIcon';
@@ -24,12 +24,36 @@ const List = styled.ul`
   }
 `;
 
+// The three cards settle in one after another — a short beat apart, not a parade.
+const rise = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+`;
+
 const Channel = styled.li`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: ${({ theme }) => theme.space[20]};
   text-align: center;
+  /* backwards, so a card still waiting for its turn is not visible early. */
+  animation: ${rise} 350ms ease-out backwards;
+
+  &:nth-child(2) {
+    animation-delay: 70ms;
+  }
+
+  &:nth-child(3) {
+    animation-delay: 140ms;
+  }
+
+  /* The global reset shortens durations but not delays, and a delayed 'backwards'
+     animation would hold the card invisible — so here it goes entirely. */
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 `;
 
 const IconTile = styled.span`
@@ -78,6 +102,7 @@ const ValueLink = styled.a`
   font-weight: ${({ theme }) => theme.font.weight.medium};
   color: ${({ theme }) => theme.color.action.primary.default};
   text-decoration: none;
+  transition: color 150ms ease;
 
   &:hover {
     color: ${({ theme }) => theme.color.action.primary.hover};

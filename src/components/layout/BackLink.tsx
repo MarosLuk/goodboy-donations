@@ -16,6 +16,7 @@ const StyledLink = styled(Link)`
   line-height: ${({ theme }) => theme.text.md.lineHeight};
   font-weight: ${({ theme }) => theme.font.weight.medium};
   text-decoration: none;
+  transition: color 150ms ease;
 
   &:hover {
     color: ${({ theme }) => theme.color.action.primary.hover};

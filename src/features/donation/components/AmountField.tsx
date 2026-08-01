@@ -35,6 +35,7 @@ const Input = styled.input<{ $empty: boolean }>`
   /* Zero is the nothing-chosen state and the design greys it out. */
   color: ${({ theme, $empty }) =>
     $empty ? theme.color.content.quaternary : theme.color.content.primary};
+  transition: color 150ms ease;
 
   &:focus-visible {
     outline: none;

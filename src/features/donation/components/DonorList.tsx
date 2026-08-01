@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { motion } from 'motion/react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -43,7 +44,7 @@ const Scroller = styled.div`
   }
 `;
 
-const Donor = styled.div`
+const Donor = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.space[12]};
@@ -95,6 +96,9 @@ export function DonorList() {
   const list = useRef<HTMLDivElement>(null);
   const addButton = useRef<HTMLButtonElement>(null);
   const previousCount = useRef(fields.length);
+  // Donors present when the step arrives came with it and stay put; only one added
+  // by hand eases in. Captured once, so later ids are the added ones.
+  const [openingIds] = useState(() => new Set(fields.map((field) => field.id)));
 
   // A new donor appears below the button that was just pressed, so focus follows it to
   // the field that now wants typing. Removing one leaves focus nowhere, so it goes to
@@ -117,7 +121,12 @@ export function DonorList() {
         {fields.map((field, index) => (
           // The id from useFieldArray rather than the index: keying by index makes
           // React reuse the wrong inputs once a donor in the middle is removed.
-          <Donor key={field.id}>
+          <Donor
+            key={field.id}
+            initial={openingIds.has(field.id) ? false : { opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25, ease: 'easeOut' }}
+          >
             {fields.length > 1 ? (
               <Header>
                 <Title>{t('donation.donors.title', { number: index + 1 })}</Title>
