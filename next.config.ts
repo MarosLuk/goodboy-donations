@@ -30,6 +30,12 @@ const nextConfig: NextConfig = {
   },
   // Which framework serves the page, and which version of it, is nobody's business.
   poweredByHeader: false,
+  experimental: {
+    // A url matching no route cannot be answered from the root layout here, because that layout
+    // is a dynamic segment and there is nothing to fill it with. This is the flag the framework
+    // documents for that case, and `src/app/global-not-found.tsx` is what it turns on.
+    globalNotFound: true,
+  },
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }];
   },

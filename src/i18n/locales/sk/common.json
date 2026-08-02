@@ -160,5 +160,10 @@
   "language": {
     "sk": "Slovenčina",
     "en": "Angličtina"
+  },
+  "notFound": {
+    "title": "Túto stránku sme nenašli",
+    "body": "Adresa, na ktorej ste skončili, tu nie je. Mohla sa zmeniť alebo je v nej preklep.",
+    "home": "Späť na darovanie"
   }
 }

@@ -71,6 +71,12 @@ describe('content security policy', () => {
     expect(response?.headers.get('x-middleware-request-x-nonce')).toBe(nonceIn(policy));
   });
 
+  // The 404 screen renders outside the locale segment, so the path is the only thing left that
+  // knows which language to answer in.
+  it('passes the locale of the path on to the renderer', () => {
+    expect(visit('/en/nowhere')?.headers.get('x-middleware-request-x-locale')).toBe('en');
+  });
+
   it('lets the browser reach the api the form posts to, and nothing else', () => {
     expect(policyFor('/sk')).toContain(`connect-src 'self' https://api.test`);
   });

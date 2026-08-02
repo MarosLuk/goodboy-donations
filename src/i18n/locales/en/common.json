@@ -160,5 +160,10 @@
   "language": {
     "sk": "Slovak",
     "en": "English"
+  },
+  "notFound": {
+    "title": "We could not find this page",
+    "body": "The address you ended up on is not here. It may have changed, or it has a typo in it.",
+    "home": "Back to donating"
   }
 }

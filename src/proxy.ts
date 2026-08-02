@@ -93,6 +93,9 @@ export function proxy(request: NextRequest) {
   const headers = new Headers(request.headers);
   headers.set('x-nonce', nonce);
   headers.set('Content-Security-Policy', policy);
+  // The 404 screen is rendered outside the locale segment, so the segment cannot tell it which
+  // language to answer in. The path can, and this is the last place that still has it.
+  headers.set('x-locale', pathname.split('/')[1]);
 
   const response = NextResponse.next({ request: { headers } });
   response.headers.set('Content-Security-Policy', policy);
