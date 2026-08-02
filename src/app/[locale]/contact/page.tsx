@@ -2,11 +2,12 @@ import type { Metadata } from 'next';
 import { BackLink } from '@/components/layout/BackLink';
 import { Container } from '@/components/layout/Container';
 import { Footer } from '@/components/layout/Footer';
+import { PageHeading, PageLayout } from '@/components/layout/PageLayout';
 import { Screen } from '@/components/layout/Screen';
 import { ContactDetails } from '@/features/contact/components/ContactDetails';
 import { createServerI18n } from '@/i18n/server';
 import { defaultLocale, isLocale } from '@/i18n/settings';
-import { Heading, Layout, Photo, Section } from './page.styles';
+import { Photo, Section } from './page.styles';
 
 export async function generateMetadata({
   params,
@@ -28,11 +29,11 @@ export default async function ContactPage({ params }: PageProps<'/[locale]/conta
   return (
     <Screen>
       <Container>
-        <Layout>
+        <PageLayout>
           {/* The design opens the page with this link rather than a header. */}
           <BackLink href={`/${activeLocale}`}>{t('common.back')}</BackLink>
 
-          <Heading>{t('contact.title')}</Heading>
+          <PageHeading>{t('contact.title')}</PageHeading>
 
           <Section>
             <ContactDetails />
@@ -47,7 +48,7 @@ export default async function ContactPage({ params }: PageProps<'/[locale]/conta
           />
 
           <Footer />
-        </Layout>
+        </PageLayout>
       </Container>
     </Screen>
   );

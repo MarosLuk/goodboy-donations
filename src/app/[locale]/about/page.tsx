@@ -2,11 +2,12 @@ import type { Metadata } from 'next';
 import { BackLink } from '@/components/layout/BackLink';
 import { Container } from '@/components/layout/Container';
 import { Footer } from '@/components/layout/Footer';
+import { PageHeading, PageLayout } from '@/components/layout/PageLayout';
 import { Screen } from '@/components/layout/Screen';
 import { ResultsSummary } from '@/features/results/components/ResultsSummary';
 import { createServerI18n } from '@/i18n/server';
 import { defaultLocale, isLocale } from '@/i18n/settings';
-import { Heading, Layout, Numbers, Prose } from './page.styles';
+import { Numbers, Prose } from './page.styles';
 
 export async function generateMetadata({
   params,
@@ -30,10 +31,10 @@ export default async function AboutPage({ params }: PageProps<'/[locale]/about'>
   return (
     <Screen>
       <Container>
-        <Layout>
+        <PageLayout>
           <BackLink href={`/${activeLocale}`}>{t('common.back')}</BackLink>
 
-          <Heading>{t('about.title')}</Heading>
+          <PageHeading>{t('about.title')}</PageHeading>
 
           <Prose>{t('about.intro')}</Prose>
 
@@ -44,7 +45,7 @@ export default async function AboutPage({ params }: PageProps<'/[locale]/about'>
           <Prose>{t('about.outro')}</Prose>
 
           <Footer />
-        </Layout>
+        </PageLayout>
       </Container>
     </Screen>
   );
