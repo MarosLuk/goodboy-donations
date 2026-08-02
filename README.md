@@ -101,6 +101,14 @@ the about and contact pages gave up their prerender. Two pages that fetch nothin
 server, against a policy that stops an injected script from running — I would make that trade
 again.
 
+The 404 screen was the one page that could not simply give it up. A url matching no route is
+answered above the routing tree, where `[locale]` has nothing to fill it with, so the
+framework renders its own shell — prerendered, without a nonce, and with every script in it
+refused. That is the case `experimental.globalNotFound` exists for, and `app/global-not-found.tsx`
+is the answer to it: it owns its document, so the language, the font, the theme and the colour
+scheme script are set up there a second time, and reading the request keeps it dynamic like
+everything else.
+
 `style-src` is the one place inline is still allowed, and a nonce there would have been
 theatre: motion animates through the style attribute and `next/image` sizes itself the same
 way, and a policy that names a nonce stops honouring `unsafe-inline` at all. The directives
@@ -160,6 +168,12 @@ On the about page the two figures are exact — size, weight, centring and the r
 below all come from the design file. What surrounds them is mine: it borrows the contact
 page's rhythm, which is specified, and the paragraphs run the full width the frame draws
 them at.
+
+The 404 screen is mine as well. It follows the confirmation's rhythm, which is the other
+screen the design does not draw — a heading, one line saying what happened, and the way out —
+and because three lines cannot fill a window the way the other screens do, they sit in the
+middle of the room instead of leaving a void under them. The footer stays, so an address that
+led nowhere is still somewhere a visitor can navigate from.
 
 The og image is set in a system sans rather than Inter, because Satori needs the font as a
 buffer and no font file came with the design.
