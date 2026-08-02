@@ -19,13 +19,18 @@ const onClient = () => false;
  * lives inside the locale segment. `useSyncExternalStore` is how a component is told which
  * pass it is in: the server snapshot answers the server render and the hydration that has to
  * match it, the client snapshot every render after.
+ *
+ * The nonce is what the content security policy recognises the script by. Next marks the
+ * scripts it writes itself; this one is the app's own, so it has to be handed the value.
  */
-export function InlineScript({ html }: { html: string }) {
+export function InlineScript({ html, nonce }: { html: string; nonce?: string }) {
   const rendersOnServer = useSyncExternalStore(never, onClient, onServer);
 
   if (!rendersOnServer) {
     return null;
   }
 
-  return <script suppressHydrationWarning dangerouslySetInnerHTML={{ __html: html }} />;
+  return (
+    <script nonce={nonce} suppressHydrationWarning dangerouslySetInnerHTML={{ __html: html }} />
+  );
 }

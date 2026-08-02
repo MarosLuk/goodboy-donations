@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { headers } from 'next/headers';
 import { InlineScript } from '@/components/ui/InlineScript';
 import { I18nProvider } from '@/i18n/I18nProvider';
 import { createServerI18n } from '@/i18n/server';
@@ -48,6 +49,10 @@ export async function generateMetadata({ params }: LayoutProps<'/[locale]'>): Pr
 export default async function RootLayout({ children, params }: LayoutProps<'/[locale]'>) {
   const { locale } = await params;
   const activeLocale = isLocale(locale) ? locale : defaultLocale;
+  // Set by the proxy, and the reason no page here is prerendered: a nonce is only a nonce if
+  // it is minted for the one request that carries it. Reading the request in the layout is
+  // what puts every page under the same rule, rather than each of them remembering to.
+  const nonce = (await headers()).get('x-nonce') ?? undefined;
 
   return (
     /* The scheme attribute is written by the script below, after this markup was already
@@ -56,7 +61,7 @@ export default async function RootLayout({ children, params }: LayoutProps<'/[lo
       {/* In the head rather than the body: the browser runs it while parsing, so a
           remembered choice is in place before anything at all is painted. */}
       <head>
-        <InlineScript html={colorSchemeScript} />
+        <InlineScript html={colorSchemeScript} nonce={nonce} />
       </head>
 
       <body>
