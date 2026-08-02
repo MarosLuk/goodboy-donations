@@ -50,8 +50,15 @@ describe('donationSchema', () => {
     expect(messagesFor({ ...form, donors: [{ ...donor, firstName: 'A' }] })).toEqual([
       'donation.errors.nameLength',
     ]);
-    expect(messagesFor({ ...form, donors: [{ ...donor, lastName: 'a'.repeat(21) }] })).toEqual([
+    expect(messagesFor({ ...form, donors: [{ ...donor, firstName: 'a'.repeat(21) }] })).toEqual([
       'donation.errors.nameLength',
+    ]);
+  });
+
+  it("gives the surname the assignment's thirty characters, ten more than the name", () => {
+    expect(donorSchema.safeParse({ ...donor, lastName: 'a'.repeat(30) }).success).toBe(true);
+    expect(messagesFor({ ...form, donors: [{ ...donor, lastName: 'a'.repeat(31) }] })).toEqual([
+      'donation.errors.surnameLength',
     ]);
   });
 

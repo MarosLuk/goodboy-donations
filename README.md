@@ -95,9 +95,10 @@ The brief allows any amount and the API accepts `value: 0` with a 200 and writes
 A donation of nothing is not a donation, so the minimum is one euro, and amounts are whole
 euros — the design shows a whole number and every preset is one.
 
-The 2–20 character limits on names and the phone format are enforced on the client only,
-because the server enforces neither: `firstName: "A"` and `phone: "abc"` both come back 200.
-The phone is validated as nine digits and sent in E.164 form.
+The brief's length limits — 2–20 for the name, 2–30 for the surname — and the phone format
+are enforced on the client only, because the server enforces none of them: `firstName: "A"`
+and `phone: "abc"` both come back 200. The phone is validated as nine digits and sent in
+E.164 form.
 
 When you choose to give to one specific shelter, picking the shelter is required. The API
 would happily take `shelterID: null` alongside that choice, and the money would quietly go
@@ -134,8 +135,8 @@ to give again.
 
 On the about page the two figures are exact — size, weight, centring and the rules above and
 below all come from the design file. What surrounds them is mine: it borrows the contact
-page's rhythm, which is specified, and gives the prose a reading measure rather than letting
-it run the full width of the column.
+page's rhythm, which is specified, and the paragraphs run the full width the frame draws
+them at.
 
 The og image is set in a system sans rather than Inter, because Satori needs the font as a
 buffer and no font file came with the design.

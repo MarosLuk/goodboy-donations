@@ -8,6 +8,8 @@ export const AMOUNT_PRESETS = [5, 10, 20, 30, 50, 100] as const;
 export const MIN_AMOUNT = 1;
 export const NAME_MIN_LENGTH = 2;
 export const NAME_MAX_LENGTH = 20;
+// The assignment gives the surname ten characters more than the name.
+export const SURNAME_MAX_LENGTH = 30;
 export const PHONE_DIGITS = 9;
 
 export type HelpType = (typeof HELP_TYPES)[number];
@@ -27,6 +29,12 @@ const nameSchema = z
   .min(NAME_MIN_LENGTH, 'donation.errors.nameLength')
   .max(NAME_MAX_LENGTH, 'donation.errors.nameLength');
 
+const surnameSchema = z
+  .string()
+  .trim()
+  .min(NAME_MIN_LENGTH, 'donation.errors.surnameLength')
+  .max(SURNAME_MAX_LENGTH, 'donation.errors.surnameLength');
+
 const phoneSchema = z
   .string()
   .trim()
@@ -40,7 +48,7 @@ export const donorSchema = z.object({
   // Required, although the assignment calls the name optional: the api answers 400
   // for a missing or empty firstName, so an optional field could never be submitted.
   firstName: nameSchema,
-  lastName: nameSchema,
+  lastName: surnameSchema,
   email: z.email({ error: 'donation.errors.email' }),
   phonePrefix: z.enum(PHONE_PREFIXES, { error: 'donation.errors.phonePrefix' }),
   phone: phoneSchema,

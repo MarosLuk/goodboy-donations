@@ -67,6 +67,7 @@
     },
     "errors": {
       "nameLength": "Zadajte 2 až 20 znakov",
+      "surnameLength": "Zadajte 2 až 30 znakov",
       "email": "Zadajte platný e-mail",
       "phone": "Zadajte 9 číslic bez predvoľby",
       "phonePrefix": "Vyberte predvoľbu",

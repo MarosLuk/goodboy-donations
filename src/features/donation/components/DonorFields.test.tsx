@@ -40,7 +40,7 @@ describe('DonorFields', () => {
     await waitFor(() => expect(screen.getAllByRole('alert')).toHaveLength(3));
     expect(screen.getAllByRole('alert').map((alert) => alert.textContent)).toEqual([
       'Zadajte 2 až 20 znakov',
-      'Zadajte 2 až 20 znakov',
+      'Zadajte 2 až 30 znakov',
       'Zadajte platný e-mail',
     ]);
   });

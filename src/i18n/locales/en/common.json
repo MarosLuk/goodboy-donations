@@ -67,6 +67,7 @@
     },
     "errors": {
       "nameLength": "Use between 2 and 20 characters",
+      "surnameLength": "Use between 2 and 30 characters",
       "email": "Enter a valid email address",
       "phone": "Enter 9 digits without the prefix",
       "phonePrefix": "Pick a country code",
