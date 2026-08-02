@@ -85,6 +85,29 @@ figure for everybody else and simply arrive at it for anyone who asked for less.
 client one gets `initReactI18next`. They were one until the production build failed on
 `createContext is not a function`, which is React trying to run in a place it cannot.
 
+**The content security policy costs the prerender, and is worth it.** `next.config.ts` sets
+the headers that never change — HSTS, `nosniff`, a referrer policy, an empty permissions
+policy, `DENY` on framing — and turns off the header that announces the framework. The policy
+itself is in `src/proxy.ts`, because it carries a nonce minted per request: Next writes inline
+scripts of its own, so a policy naming no inline script would serve markup that never
+hydrates, and one allowing every inline script would protect nothing. `strict-dynamic` lets
+the scripts it trusts pull the chunks they import. The layout reads that nonce off the request
+and hands it to the one inline script this app contributes, the line that applies a remembered
+colour scheme before the first paint.
+
+Reading the request is also what holds every page to rendering on demand, and that is the
+price: a nonce baked in at build time would not match the header a visitor arrives with, so
+the about and contact pages gave up their prerender. Two pages that fetch nothing on the
+server, against a policy that stops an injected script from running — I would make that trade
+again.
+
+`style-src` is the one place inline is still allowed, and a nonce there would have been
+theatre: motion animates through the style attribute and `next/image` sizes itself the same
+way, and a policy that names a nonce stops honouring `unsafe-inline` at all. The directives
+that would separate an element from an attribute, `style-src-elem` and `style-src-attr`, are
+Chromium's alone. With `img-src` and `connect-src` closed, injected css has nowhere to send
+what it reads.
+
 ## Where it differs from the assignment
 
 The brief says the donor's name is optional. The API disagrees: a missing **or empty**
@@ -167,6 +190,17 @@ donates rather than only when you do.
 Server-side validation is thin, as the differences above describe, which means the client is
 the only thing standing between a typo and the database. In a real product that would be a
 conversation with whoever owns the API rather than more zod.
+
+The donation is posted to the api from the page itself, which is what the assignment asks for
+and not what a real one would do. There is nowhere to put a rate limit, a bot check or an
+idempotency key, so a double submit is held off by a disabled button and nothing behind it.
+That work belongs in a route handler of my own, which would also be where a credential could
+live without being handed to the browser.
+
+The consent is a checkbox and nothing more. Informed consent needs a privacy notice to point
+at, a named controller, a purpose and a retention period, and none of those exist to be
+written down. The form also collects the details of further donors, and the person filling it
+in cannot consent on their behalf. Both are answers a foundation gives, not a frontend.
 
 The copy in the design is Slovak only, so the English strings are my translations.
 
