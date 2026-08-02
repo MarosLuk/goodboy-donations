@@ -106,9 +106,12 @@ export function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     {
-      // Everything except Next internals and anything with a file extension, so
-      // favicon.ico and static assets are served as they are.
-      source: '/((?!_next|.*\\.).*)',
+      // Everything except the framework's internals and the two static things this app
+      // actually serves. Naming them beats excluding every path that carries a dot: that
+      // exclusion let `/anything.php` past the locale redirect, and an address with no locale
+      // and no route of its own is answered with the framework's own english page and a 200 —
+      // a not-found that says it was found. Anything added to `public/` belongs on this list.
+      source: '/((?!_next|images/|favicon.ico).*)',
       // A prefetch asks for a payload rather than a document, so there is no markup for a
       // policy to govern and no nonce for it to carry.
       missing: [

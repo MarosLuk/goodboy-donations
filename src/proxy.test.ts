@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { NextRequest } from 'next/server';
-import { proxy } from './proxy';
+import { config, proxy } from './proxy';
 
 function visit(path: string, headers: Record<string, string> = {}) {
   return proxy(new NextRequest(new URL(path, 'https://goodboy.test'), { headers }));
@@ -26,6 +26,25 @@ function nonceIn(policy: string) {
 
   return found[1];
 }
+
+// Which paths reach the proxy at all is declared rather than executed, so the pattern is what
+// there is to hold on to. It earned a test: while it excluded every path carrying a dot,
+// `/anything.php` slipped past the locale redirect, and an address with no locale and no route
+// is answered by the framework with its own english page and a 200 — a 404 claiming it was found.
+describe('what the proxy runs on', () => {
+  const runsOn = (path: string) => new RegExp(`^${config.matcher[0].source}$`).test(path);
+
+  it('runs on a bogus path that only looks like a file', () => {
+    expect(runsOn('/anything.php')).toBe(true);
+    expect(runsOn('/robots.txt')).toBe(true);
+  });
+
+  it('keeps out of the way of the assets and the framework', () => {
+    expect(runsOn('/images/hero.webp')).toBe(false);
+    expect(runsOn('/favicon.ico')).toBe(false);
+    expect(runsOn('/_next/static/chunk.js')).toBe(false);
+  });
+});
 
 describe('locale negotiation', () => {
   it('sends a visitor without a locale to the language their browser asked for', () => {
