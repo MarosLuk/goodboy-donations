@@ -85,36 +85,93 @@ figure for everybody else and simply arrive at it for anyone who asked for less.
 client one gets `initReactI18next`. They were one until the production build failed on
 `createContext is not a function`, which is React trying to run in a place it cannot.
 
-**The content security policy costs the prerender, and is worth it.** `next.config.ts` sets
-the headers that never change — HSTS, `nosniff`, a referrer policy, an empty permissions
-policy, `DENY` on framing — and turns off the header that announces the framework. The policy
-itself is in `src/proxy.ts`, because it carries a nonce minted per request: Next writes inline
-scripts of its own, so a policy naming no inline script would serve markup that never
-hydrates, and one allowing every inline script would protect nothing. `strict-dynamic` lets
-the scripts it trusts pull the chunks they import. The layout reads that nonce off the request
-and hands it to the one inline script this app contributes, the line that applies a remembered
-colour scheme before the first paint.
+## Security
 
-Reading the request is also what holds every page to rendering on demand, and that is the
-price: a nonce baked in at build time would not match the header a visitor arrives with, so
-the about and contact pages gave up their prerender. Two pages that fetch nothing on the
-server, against a policy that stops an injected script from running — I would make that trade
-again.
+**The headers that never change with the request are in `next.config.ts`.** HSTS for two years
+with subdomains, `nosniff` so a response is the type it says it is, a referrer policy that hands
+a cross-origin destination the origin and never the step of the form, an empty permissions
+policy because nothing here asks for a camera or a location, and `DENY` on framing — a donation
+form is the kind of page clickjacking is aimed at. The header announcing the framework and its
+version is turned off.
 
-The 404 screen was the one page that could not simply give it up. A url matching no route is
-answered above the routing tree, where `[locale]` has nothing to fill it with, so the
-framework renders its own shell — prerendered, without a nonce, and with every script in it
-refused. That is the case `experimental.globalNotFound` exists for, and `app/global-not-found.tsx`
-is the answer to it: it owns its document, so the language, the font, the theme and the colour
-scheme script are set up there a second time, and reading the request keeps it dynamic like
-everything else.
+**The policy carries a nonce, which is why it lives in `src/proxy.ts`.** Next writes inline
+scripts of its own, the flight payload among them, so a policy naming no inline script would
+serve markup that never hydrates, and one allowing every inline script would protect nothing. A
+nonce minted per request names exactly those and nothing an injection could add, and
+`strict-dynamic` lets them pull the chunks they import without every bundle being listed by
+hand. The layout reads the nonce back off the request and hands it to the one inline script this
+app contributes, the line applying a remembered colour scheme before the first paint.
+`connect-src` names the assignment api and nothing else; `object-src`, `base-uri` and
+`frame-ancestors` are closed.
 
-`style-src` is the one place inline is still allowed, and a nonce there would have been
-theatre: motion animates through the style attribute and `next/image` sizes itself the same
-way, and a policy that names a nonce stops honouring `unsafe-inline` at all. The directives
-that would separate an element from an attribute, `style-src-elem` and `style-src-attr`, are
-Chromium's alone. With `img-src` and `connect-src` closed, injected css has nowhere to send
-what it reads.
+**It cost the prerender.** A nonce baked in at build time would not match the header a visitor
+arrives with, so reading the request is what holds every page to rendering on demand, and the
+about and contact pages gave up being prerendered. Two pages that fetch nothing on the server,
+against a policy that stops an injected script from running — I would make that trade again.
+
+The 404 screen could not simply give it up, and that took longer to work out. A url matching no
+route is answered above the routing tree, where `[locale]` has nothing to fill it with, so the
+framework renders a shell of its own: prerendered, without a nonce, every script in it refused.
+`experimental.globalNotFound` exists for that exact case, and `app/global-not-found.tsx` is the
+answer — it owns its whole document, so the language, the font, the theme and the colour scheme
+script are all set up there a second time.
+
+**`style-src` is the one place inline is still allowed**, and a nonce there would have been
+theatre. Motion animates through the style attribute and `next/image` sizes itself the same way,
+and a policy that names a nonce stops honouring `unsafe-inline` at all, so the two cannot be had
+together. The directives that would separate an element from an attribute, `style-src-elem` and
+`style-src-attr`, are Chromium's alone, and reaching for them would have cost Firefox its
+animations. With `img-src` and `connect-src` closed, injected css has nowhere to send what it
+reads, and `script-src` is where a policy earns its keep.
+
+**What the browser is left holding is almost nothing.** The wizard store is not persisted, so a
+donor's name, e-mail and phone never leave memory; `localStorage` holds the colour scheme and
+that alone, validated on the way back in. Only the step is in the url, so no personal data
+reaches browser history, a `Referer` or a server log. There are no cookies at all, which is also
+why there is no banner to argue about. Nothing loads from a third party — no analytics, no cdn,
+the fonts are self-hosted — which is what makes a policy this narrow possible in the first
+place. One place in the app writes html directly and what it writes is a constant, so nothing an
+api returns is ever rendered as markup.
+
+### What a production version would still need
+
+**The schema does not say everything it should.** The api accepts `firstName: "A"`,
+`phone: "abc"` and `value: 0` with a 200, so the rules in `schema/donation.ts` are the only ones
+there are, and three that belong there are not. The e-mail has no upper bound at all, where the
+address itself stops at 254 characters. The amount has a floor of one but nothing marking it a
+whole number, so the rule this project claims for itself lives in the input handler stripping
+non-digits rather than in the schema. The donor array has a floor and no ceiling. None of the
+three can be reached through the ui as it stands, which is the reason to write them down rather
+than a reason not to: they are guarded by a component instead of by the thing meant to guard
+them. The inputs carry no `maxLength` either, so a pasted megabyte is caught at validation
+instead of at the keystroke.
+
+**The donation is posted straight from the page**, which is what the assignment asks for and not
+what a real one would do. There is nowhere to put a rate limit, a bot check or an idempotency
+key: a double submit is stopped by a synchronous ref and a disabled button, and both of those
+live in the browser, where anyone can decline them. That work belongs in a route handler of my
+own, which is also the only place a credential could live — anything named `NEXT_PUBLIC_*` is
+inlined into the bundle by definition.
+
+**Nothing reports a violation.** The policy has no `report-to` and no collector behind it, so
+the next tightening that breaks a page breaks it quietly. A real version runs a second, stricter
+policy in report-only beside the live one and watches what comes back. That is also the only
+honest way to try `require-trusted-types-for 'script'`, the strongest control still on the table
+here — one html sink in the whole app, and a constant going into it.
+
+**The consent is a checkbox and nothing more.** Informed consent needs a privacy notice to point
+at, a named controller, a purpose and a retention period, and none of those exist to be written
+down. The form also collects the details of further donors, and whoever fills it in cannot
+consent on their behalf. Both are answers a foundation gives, not a frontend.
+
+**The rest is operational.** `npm audit` reports three high advisories, all transitive through
+Next and none of them reachable — `next/image` only optimises the images that ship with the
+build, and postcss never runs outside the build, over this repo's own source — but nothing
+watches for the fix, so a Renovate or Dependabot config belongs here. The workflow pins its
+actions to tags rather than commit hashes and asks for no explicit `permissions`. `main` accepts
+a force push.
+And a form this full of personal data means whatever error tracking gets added has to scrub
+request bodies first, or the incident tooling becomes a second copy of the donor list.
 
 ## Where it differs from the assignment
 
@@ -202,19 +259,8 @@ the two figures on the about page are real but small, and they move when somebod
 donates rather than only when you do.
 
 Server-side validation is thin, as the differences above describe, which means the client is
-the only thing standing between a typo and the database. In a real product that would be a
-conversation with whoever owns the API rather than more zod.
-
-The donation is posted to the api from the page itself, which is what the assignment asks for
-and not what a real one would do. There is nowhere to put a rate limit, a bot check or an
-idempotency key, so a double submit is held off by a disabled button and nothing behind it.
-That work belongs in a route handler of my own, which would also be where a credential could
-live without being handed to the browser.
-
-The consent is a checkbox and nothing more. Informed consent needs a privacy notice to point
-at, a named controller, a purpose and a retention period, and none of those exist to be
-written down. The form also collects the details of further donors, and the person filling it
-in cannot consent on their behalf. Both are answers a foundation gives, not a frontend.
+the only thing standing between a typo and the database. What that leaves open, and what is
+still missing on this side of it, is under Security.
 
 The copy in the design is Slovak only, so the English strings are my translations.
 
